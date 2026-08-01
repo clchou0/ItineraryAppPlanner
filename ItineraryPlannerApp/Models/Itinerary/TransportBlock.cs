@@ -12,8 +12,9 @@ namespace ItineraryPlannerApp.Models.Itinerary
     }
     public class TransportNote
     {
+        public int Id { get; set; }
         public TransportType Method {  get; set; }
-        public string route {  get; set; }
+        public string Route {  get; set; }
         public string FromStation {  get; set; }
         public string ToStation {  get; set; }
 

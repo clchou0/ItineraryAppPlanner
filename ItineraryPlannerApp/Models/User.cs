@@ -13,5 +13,8 @@ namespace ItineraryPlannerApp.Models
         public UserRole Role { get; set; }
     }
     
-    public enum UserRole { Admin, User };
+    public enum UserRole 
+    { 
+        Admin, User 
+    }
 }
