@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ItineraryPlannerApp.Models
+{
+    public class City
+    {
+        public int CityId {  get; set; }
+        public string CityName { get; set; }
+        public string Description {  get; set; }
+        public string ImagePath { get; set; }
+        public string FlagPath { get; set; }
+
+    }
+}

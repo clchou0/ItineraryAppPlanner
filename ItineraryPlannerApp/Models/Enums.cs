@@ -1,0 +1,10 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ItineraryPlannerApp.Models
+{
+    public enum UserRole { Admin, User };
+    public enum AttractionCategory { ThemePark, Landmark };
+    public enum TransportType { Metro, Train, Car, Cab, Ferry }
+}
