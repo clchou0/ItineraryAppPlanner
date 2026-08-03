@@ -5,7 +5,7 @@ using System.Text;
 namespace ItineraryPlannerApp.Models
 {
     // Station that is close to said attraction
-    public class Accessibility
+    public class TransitAccess
     {
         public int Id { get; set; }
         public TransportType Type { get; set; }
