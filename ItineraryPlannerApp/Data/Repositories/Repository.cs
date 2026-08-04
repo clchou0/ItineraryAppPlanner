@@ -7,12 +7,12 @@ namespace ItineraryPlannerApp.Data.Repositories
     // Generic repository interface
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly ItineraryPlannerContext _context;
-        public Repository(ItineraryPlannerContext context)
+        protected readonly ItineraryDbContext _context;
+        public Repository(ItineraryDbContext context)
         {
             _context = context;
         }
-        public ItineraryPlannerContext Context { get { return _context; } }
+        public ItineraryDbContext Context { get { return _context; } }
         public T? GetById(int id)
         {
             return _context.Set<T>().Find(id);
