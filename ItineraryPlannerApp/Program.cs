@@ -1,4 +1,5 @@
-// susing ItineraryPlannerApp.Forms;
+using ItineraryPlannerApp.Data;
+using ItineraryPlannerApp.Forms;
 namespace ItineraryPlannerApp
 {
     public static class Program
@@ -12,7 +13,13 @@ namespace ItineraryPlannerApp
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            // Application.Run(new LoginForm());
+
+            using var context = new ItineraryDbContext();
+
+            context.Database.EnsureCreated();
+            SeedData.Seed(context);
+
+            Application.Run(new MainForm());
         }
     }
 }

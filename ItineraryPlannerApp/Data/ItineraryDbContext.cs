@@ -18,5 +18,16 @@ namespace ItineraryPlannerApp.Data
         public DbSet<VisitBlock> VisitBlocks => Set<VisitBlock>();
         public DbSet<TransportBlock> TransportBlocks => Set<TransportBlock>();
         public DbSet<TransportNote> TransportNotes => Set<TransportNote>();
+
+        //public ItineraryDbContext() : base(CreateOptions()) { }
+        //protected static DbContextOptions<ItineraryDbContext> CreateOptions() 
+        //{ 
+        //    return new DbContextOptionsBuilder<ItineraryDbContext>().UseSqlite("Data Source=itinerary.db").Options;
+        //}
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=itinerary.db");
+        }
     }
 }
