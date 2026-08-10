@@ -15,27 +15,48 @@ namespace ItineraryPlannerApp.Data
             {
                 var passwordService = new PasswordService();
 
-                var user = new User
-                {
-                    Email = "jihye.lee-2@student.uts.edu.au",
-                    DisplayName = "Jihye",
-                    PasswordHash = passwordService.HashPassword("1234"),
-                    Role = UserRole.User
+                var users = new List<User>
+                    {
+                    new User
+                    {
+                        Email = "jihye.lee-2@student.uts.edu.au",
+                        DisplayName = "Jihye",
+                        PasswordHash = passwordService.HashPassword("1234"),
+                        Role = UserRole.User
+                    }
                 };
-                context.Users.AddRange(user);
+                context.Users.AddRange(users);
             }
 
             if (!context.Cities.Any())
             {
-                var sydney = new City
+                var cities = new List<City>
                 {
-                    CityName = "Sydney",
-                    Description = "sydney, Aus",
-                    ImagePath = "Data/Images/syd-img1.jpg",
-                    FlagPath = ""
+                    new City
+                    {
+                        CityName = "Sydney",
+                        Description = "Sydney, NSW, Australia",
+                        ImagePath = "Data/Images/syd-img1.jpg",
+                        FlagPath = ""
+                    },
+
+                    new City
+                    {
+                        CityName = "Seoul",
+                        Description = "Seoul, South Korea",
+                        ImagePath = "Data/Images/seo-img1.jpg",
+                        FlagPath = ""
+                    },
+                    new City
+                    {
+                        CityName = "Shanghai",
+                        Description = "Shanghai, China",
+                        ImagePath = "Data/Images/sha-img1.jpg",
+                        FlagPath = ""
+                    }
                 };
 
-                context.Cities.Add(sydney);
+                context.Cities.AddRange(cities);
             }
 
 
