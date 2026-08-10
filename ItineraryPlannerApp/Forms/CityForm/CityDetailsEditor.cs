@@ -1,22 +1,18 @@
-﻿using ItineraryPlannerApp.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
+﻿using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Models;
+using Topten.RichTextKit.Utils;
 
 namespace ItineraryPlannerApp.Forms.CityForm
 {
     public partial class CityDetailsEditor : Form
     {
+        private readonly ItineraryPlannerService _service;
         private City? City;
-        private string name, description, country;
+        private string name, description, country, imgPath = "";
         private MapSlider mapSlider = new MapSlider();
-        public CityDetailsEditor(City? city)
+        public CityDetailsEditor(ItineraryPlannerService service, City? city)
         {
+            _service = service;
             City = city;
             InitializeComponent();
         }
@@ -68,7 +64,32 @@ namespace ItineraryPlannerApp.Forms.CityForm
 
             if (error == "")
             {
-                // Valid save
+                bool result;
+                if (City is null)
+                {
+                    var newCity = new City
+                    {
+                        CityName = name,
+                        Description = description,
+                        Country = country,
+                        ImagePath = "",
+                        Slider = mapSlider
+                    };
+                    result = _service.AddCity(newCity);
+                }
+                else
+                {
+                    City.CityName = name;
+                    City.Description = description;
+                    City.Country = country;
+                    City.Slider = mapSlider;
+                    City.ImagePath = imgPath;
+                    result = _service.UpdateCity(City);
+                }
+                if (result)
+                {
+                    Application.Exit();
+                }
             }
             else
             {

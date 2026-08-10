@@ -3,6 +3,7 @@ using System;
 using ItineraryPlannerApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItineraryPlannerApp.Migrations
 {
     [DbContext(typeof(ItineraryDbContext))]
-    partial class ItineraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260810055644_AddedToProgram")]
+    partial class AddedToProgram
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
@@ -30,6 +33,9 @@ namespace ItineraryPlannerApp.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("CityId1")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -44,6 +50,8 @@ namespace ItineraryPlannerApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("CityId1");
 
                     b.ToTable("Attractions");
                 });
@@ -76,11 +84,11 @@ namespace ItineraryPlannerApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Country")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("FlagPath")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -272,6 +280,10 @@ namespace ItineraryPlannerApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ItineraryPlannerApp.Models.City", null)
+                        .WithMany("Attractions")
+                        .HasForeignKey("CityId1");
+
                     b.OwnsOne("ItineraryPlannerApp.Models.Location", "Location", b1 =>
                         {
                             b1.Property<int>("AttractionId")
@@ -414,6 +426,11 @@ namespace ItineraryPlannerApp.Migrations
                     b.Navigation("CloseStations");
 
                     b.Navigation("Labels");
+                });
+
+            modelBuilder.Entity("ItineraryPlannerApp.Models.City", b =>
+                {
+                    b.Navigation("Attractions");
                 });
 
             modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.Itinerary", b =>
