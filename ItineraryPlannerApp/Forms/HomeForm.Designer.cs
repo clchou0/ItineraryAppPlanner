@@ -32,13 +32,9 @@
             logoutButton = new Button();
             welcomeLabel = new Label();
             titleLabel = new Label();
-            contentPanel = new Panel();
-            cityLabel = new Label();
-            cityImage = new PictureBox();
+            panel1 = new FlowLayoutPanel();
             label1 = new Label();
             headerPanel.SuspendLayout();
-            contentPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)cityImage).BeginInit();
             SuspendLayout();
             // 
             // headerPanel
@@ -86,43 +82,22 @@
             titleLabel.TabIndex = 1;
             titleLabel.Text = "Travel Planner";
             // 
-            // contentPanel
+            // panel1
             // 
-            contentPanel.AutoScroll = true;
-            contentPanel.Controls.Add(cityLabel);
-            contentPanel.Controls.Add(cityImage);
-            contentPanel.Controls.Add(label1);
-            contentPanel.Dock = DockStyle.Fill;
-            contentPanel.Location = new Point(0, 70);
-            contentPanel.Name = "contentPanel";
-            contentPanel.Size = new Size(1474, 759);
-            contentPanel.TabIndex = 1;
-            // 
-            // cityLabel
-            // 
-            cityLabel.AutoSize = true;
-            cityLabel.BackColor = Color.Transparent;
-            cityLabel.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            cityLabel.ForeColor = SystemColors.ControlLightLight;
-            cityLabel.Location = new Point(610, 443);
-            cityLabel.Name = "cityLabel";
-            cityLabel.Size = new Size(252, 86);
-            cityLabel.TabIndex = 2;
-            cityLabel.Text = "Sydney";
-            // 
-            // cityImage
-            // 
-            cityImage.Location = new Point(90, 154);
-            cityImage.Name = "cityImage";
-            cityImage.Size = new Size(1280, 388);
-            cityImage.TabIndex = 1;
-            cityImage.TabStop = false;
+            panel1.AutoScroll = true;
+            panel1.FlowDirection = FlowDirection.TopDown;
+            panel1.Location = new Point(0, 213);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1474, 759);
+            panel1.TabIndex = 3;
+            panel1.WrapContents = false;
+            panel1.Paint += panel1_Paint;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label1.Location = new Point(413, 67);
+            label1.Location = new Point(431, 99);
             label1.Name = "label1";
             label1.Size = new Size(589, 51);
             label1.TabIndex = 0;
@@ -133,17 +108,17 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             ClientSize = new Size(1474, 829);
-            Controls.Add(contentPanel);
+            Controls.Add(panel1);
+            Controls.Add(label1);
             Controls.Add(headerPanel);
             Name = "HomeForm";
             Text = "HomeForm";
             headerPanel.ResumeLayout(false);
             headerPanel.PerformLayout();
-            contentPanel.ResumeLayout(false);
-            contentPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)cityImage).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -152,9 +127,7 @@
         private Label titleLabel;
         private Button logoutButton;
         private Label welcomeLabel;
-        private Panel contentPanel;
+        private FlowLayoutPanel panel1;
         private Label label1;
-        private PictureBox cityImage;
-        private Label cityLabel;
     }
 }

@@ -31,32 +31,83 @@ namespace ItineraryPlannerApp.Forms
             welcomeLabel.Text = $"Welcome, {user.DisplayName}";
         }
 
-        private async void HomeFormLoad(object sender, EventArgs e)
+        private void HomeFormLoad(object sender, EventArgs e)
         {
             using var context = new ItineraryDbContext();
 
-            City? sydney = await context.Cities.FirstOrDefaultAsync(
-                c => c.CityName == "Sydney");
+            var cityRepository = new CityRepository(context);
 
-            if (sydney != null)
+            IEnumerable<City> cities = cityRepository.GetAll();
+
+            foreach (City city in cities)
             {
-                DisplayCity(sydney);
+                Panel cityCard = DisplayCity(city);
+                panel1.Controls.Add(cityCard);
+
+                int margin = Math.Max(0, (panel1.ClientSize.Width - cityCard.Width) / 2);
+
+                cityCard.Margin = new Padding(margin, 10, 0, 20);
             }
         }
 
-        private void DisplayCity(City city)
+        private Panel DisplayCity(City city)
         {
-            cityLabel.Text = city.CityName;
+            Panel card = new Panel
+            {
+                Width = 1280, Height = 400, Margin = new Padding(10, 10, 10, 20), Cursor = Cursors.Hand, Tag = city
+            };
 
-            cityImage.Image?.Dispose();
-            cityImage.Image = ImageHelper.LoadImage(city.ImagePath);
+            PictureBox pic = new PictureBox
+            {
+                Dock = DockStyle.Fill,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Image = ImageHelper.LoadImage(city.ImagePath),
+                Cursor = Cursors.Hand,
+                Tag = city
+            };
 
-            cityImage.SizeMode = PictureBoxSizeMode.StretchImage;
+            Label cityName = new Label
+            {
+                Text = city.CityName,
+                AutoSize = false,
+                ForeColor = Color.White,
+                BackColor = Color.Transparent,
+                Font = new Font("Segoe UI", 28, FontStyle.Bold),
+                Dock = DockStyle.Bottom,
+                Height = 100,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Cursor = Cursors.Hand,
+                Tag = city
+            };
+
+            card.Controls.Add(pic);
+            pic.Controls.Add(cityName);
+
+            cityName.BringToFront();
+
+            card.Click += CityCard_Click;
+            pic.Click += CityCard_Click;
+            cityName.Click += CityCard_Click;
+
+            return card;
+        }
+
+        private void CityCard_Click(object? sender, EventArgs e)
+        {
+            if (sender is Control control && control.Tag is City city)
+            {
+                MessageBox.Show($"Selected city: {city.CityName}");
+            }
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
         {
             _mainForm.ShowPage(new LoginForm(_mainForm));
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
