@@ -11,6 +11,7 @@ namespace ItineraryPlannerApp.Models
         public string Description {  get; set; }
         public string ImagePath { get; set; }
         public string FlagPath { get; set; }
+        public MapSlider Slider { get; set; }
 
         public List<Attraction> Attractions { get; set; } = new();
 

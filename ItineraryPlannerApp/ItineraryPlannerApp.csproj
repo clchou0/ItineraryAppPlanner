@@ -11,26 +11,18 @@
   <ItemGroup>
     <Folder Include="Forms\Login\" />
     <Folder Include="Forms\Home\" />
-    <Folder Include="Forms\Attraction\" />
     <Folder Include="Forms\Itinerary\" />
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+	<PackageReference Include="Mapsui" Version="5.1.0" />
+	<PackageReference Include="Mapsui.WindowsForms" Version="5.1.0" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
-=======
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.32" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.32">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.32" />
->>>>>>> main
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ namespace ItineraryPlannerApp.Data.Repositories
 {
     public class ItineraryRepository : Repository<Itinerary>
     {
-        public ItineraryRepository(ItineraryPlannerContext context) : base(context) { }
+        public ItineraryRepository(ItineraryDbContext context) : base(context) { }
         public IEnumerable<Itinerary> GetAll() { return _context.Itineraries.ToList(); }
         public Itinerary? GetById(int id)
         {
