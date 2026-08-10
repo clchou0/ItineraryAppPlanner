@@ -154,7 +154,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1202, 684);
+            ClientSize = new Size(1482, 853);
             Controls.Add(LABEL);
             Controls.Add(PreviewImageButton);
             Controls.Add(PickImageButton);

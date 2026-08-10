@@ -101,7 +101,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
             var layer = new TileLayer(KnownTileSources.Create(KnownTileSource.OpenStreetMap));
             mapControl1.Map.Layers.Add(layer);
 
-            // Make it furthest zoom
+            // Cap out at furthest zoom
             mapControl1.Map.Navigator.OverrideZoomBounds = new MMinMax(10, 200);
 
             MPoint center = NewSlider.ZoomPoint() ?? new MPoint(-118.2437, 34.0522);
