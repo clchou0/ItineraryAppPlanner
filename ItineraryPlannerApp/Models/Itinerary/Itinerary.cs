@@ -10,7 +10,7 @@ namespace ItineraryPlannerApp.Models.Itinerary
         public DateTime ArriveDate { get; set; }
         public DateTime LeaveDate { get; set; }
         public List<ItineraryBlock> ItineraryBlocks {  get; set; } = new List<ItineraryBlock>();
-        public double TotalPrice { get; set; } = 0;
+        public double TotalEntryPrice { get; set; } = 0;
 
         public City City {  get; set; }
         public int CityId {  get; set; }
