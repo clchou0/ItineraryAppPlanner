@@ -10,15 +10,4 @@ namespace ItineraryPlannerApp.Models.Itinerary
         public List<TransportNote> Notes { get; set; } = new List<TransportNote> ();
         public int TotalDuration {  get; set; }
     }
-    public class TransportNote
-    {
-        public int Id { get; set; }
-        public TransportType Method {  get; set; }
-        public string Route {  get; set; }
-        public string FromStation {  get; set; }
-        public string ToStation {  get; set; }
-
-        public TransportBlock Block {  get; set; }
-        public int BlockId { get; set; }
-    }
 }
