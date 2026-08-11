@@ -13,5 +13,6 @@ namespace ItineraryPlannerApp.Data.Repositories
         void Add(T entity); // Add entity
         void SaveChanges(); // Save changes to database
         void Remove(T entity);
+        void Update(T entity);
     }
 }

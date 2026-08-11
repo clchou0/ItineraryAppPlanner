@@ -39,14 +39,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+	<PackageReference Include="Mapsui" Version="5.1.0" />
+	<PackageReference Include="Mapsui.WindowsForms" Version="5.1.0" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-	<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.10" />
-	<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.11" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
   </ItemGroup>
 
 </Project>

@@ -10,9 +10,10 @@ namespace ItineraryPlannerApp.Models
         public string CityName { get; set; }
         public string Description {  get; set; }
         public string ImagePath { get; set; }
-        public string FlagPath { get; set; }
+        public string Country { get; set; }
+        public MapSlider Slider { get; set; }
 
-        public List<Attraction> Attractions { get; set; } = new();
+        // public List<Attraction> Attractions { get; set; } = new List<Attraction>();
 
     }
 }

@@ -1,5 +1,10 @@
 using ItineraryPlannerApp.Data;
-using ItineraryPlannerApp.Forms;
+using ItineraryPlannerApp.Data.Repositories;
+using ItineraryPlannerApp.Forms.CityForm;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using ItineraryPlannerApp.Data.Services;
+
 namespace ItineraryPlannerApp
 {
     public static class Program
@@ -10,16 +15,22 @@ namespace ItineraryPlannerApp
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            using var context = new ItineraryDbContext();
+            var services = new ServiceCollection()
+                .AddDbContext<ItineraryDbContext>(options => options.UseSqlite("Data Source=itinerary.db")) // or your provider
+                .AddScoped<CityRepository>()
+                .AddScoped<AttractionRepository>()
+                .AddScoped<ItineraryPlannerService>();
 
-            context.Database.EnsureCreated();
-            SeedData.Seed(context);
-
-            Application.Run(new MainForm());
+            var provider = services.BuildServiceProvider();
+            var itineraryService = provider.GetRequiredService<ItineraryPlannerService>();
+            using (var scope = provider.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ItineraryDbContext>();
+                context.Database.Migrate();
+            }
+            Application.Run(new CityDetailsEditor(itineraryService, null));
         }
     }
 }
