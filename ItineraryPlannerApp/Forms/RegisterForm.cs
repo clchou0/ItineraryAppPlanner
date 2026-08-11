@@ -34,9 +34,7 @@ namespace ItineraryPlannerApp.Forms
                 errorLabel.Text = "Fields cannot be empty.";
                 return;
             }
-
-
-
+            
             if (pass.Length < 6)
             {
                 errorLabel.Text = "Password must be at least 6 characters.";

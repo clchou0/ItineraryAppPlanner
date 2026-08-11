@@ -4,6 +4,7 @@ using ItineraryPlannerApp.Forms.CityForm;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Forms;
 
 namespace ItineraryPlannerApp
 {
@@ -19,6 +20,7 @@ namespace ItineraryPlannerApp
 
             var services = new ServiceCollection()
                 .AddDbContext<ItineraryDbContext>(options => options.UseSqlite("Data Source=itinerary.db")) // or your provider
+                .AddScoped<UserRepository>()
                 .AddScoped<CityRepository>()
                 .AddScoped<AttractionRepository>()
                 .AddScoped<ItineraryPlannerService>();
@@ -29,8 +31,9 @@ namespace ItineraryPlannerApp
             {
                 var context = scope.ServiceProvider.GetRequiredService<ItineraryDbContext>();
                 context.Database.Migrate();
+                SeedData.Seed(context);
             }
-            Application.Run(new CityDetailsEditor(itineraryService, null));
+            Application.Run(new MainForm(itineraryService));
         }
     }
 }

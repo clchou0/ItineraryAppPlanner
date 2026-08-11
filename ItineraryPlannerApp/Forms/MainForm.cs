@@ -14,7 +14,7 @@ namespace ItineraryPlannerApp.Forms
     public partial class MainForm : Form
     {
         private readonly ItineraryPlannerService _service;
-        public MainForm(ItineraryDbContext context, ItineraryPlannerService service)
+        public MainForm(ItineraryPlannerService service)
         {
             _service = service;
             InitializeComponent();

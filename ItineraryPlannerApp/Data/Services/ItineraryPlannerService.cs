@@ -12,8 +12,9 @@ namespace ItineraryPlannerApp.Data.Services
         private readonly CityRepository _cityRepository;
         private readonly AttractionRepository _attractionRepository;
 
-        public ItineraryPlannerService(CityRepository cityRepository, AttractionRepository attractionRepository)
+        public ItineraryPlannerService(UserRepository userRepository, CityRepository cityRepository, AttractionRepository attractionRepository)
         {
+            _userRepository = userRepository;
             _cityRepository = cityRepository;
             _attractionRepository = attractionRepository;
         }

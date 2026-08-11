@@ -10,8 +10,11 @@
 
   <ItemGroup>
     <Compile Remove="Forms\Attraction\**" />
+    <Compile Remove="Services\**" />
     <EmbeddedResource Remove="Forms\Attraction\**" />
+    <EmbeddedResource Remove="Services\**" />
     <None Remove="Forms\Attraction\**" />
+    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +39,6 @@
     <Folder Include="Forms\Login\" />
     <Folder Include="Forms\Home\" />
     <Folder Include="Forms\Itinerary\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
