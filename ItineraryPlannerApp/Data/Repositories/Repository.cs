@@ -1,47 +1,39 @@
-﻿using System;
+﻿using ItineraryPlannerApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace ItineraryPlannerApp.Data.Repositories
 {
     // Generic repository interface
-    public class Repository<T> : IRepository<T> where T : class
+    // Base — written ONCE, has the generic CRUD
+    public class Repository<T> where T : class
     {
         protected readonly ItineraryDbContext _context;
-        public Repository(ItineraryDbContext context)
+        public Repository(ItineraryDbContext context) => _context = context;
+
+        public IEnumerable<T> GetAll()
         {
-            _context = context;
+            return _context.Set<T>().ToList();
         }
-        public ItineraryDbContext Context { get { return _context; } }
         public T? GetById(int id)
         {
             return _context.Set<T>().Find(id);
         }
-        public IEnumerable<T> GetAll()
-        {
-            return _context.Set<T>().ToList(); // Retrieve all entities
-        }
-
-        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
-        {
-            return _context.Set<T>().Where(predicate).ToList(); // Find entities by predicate
-        }
-
         public void Add(T entity)
         {
-            _context.Set<T>().Add(entity); // Add entity to DbSet
+            _context.Set<T>().Add(entity);
+            _context.SaveChanges();
         }
-
+        public void Update(T entity)
+        {
+            _context.Set<T>().Update(entity);
+            _context.SaveChanges();
+        }
         public void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
-        }
-
-        public void SaveChanges()
-        {
-            _context.SaveChanges(); // Save changes to the database
+            _context.SaveChanges();
         }
     }
-
-
 }

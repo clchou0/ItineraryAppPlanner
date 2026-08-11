@@ -1,13 +1,6 @@
 ﻿using ItineraryPlannerApp.Data;
-using ItineraryPlannerApp.Services;
+using ItineraryPlannerApp.Data.Services;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
 namespace ItineraryPlannerApp.Forms
 {
@@ -47,37 +40,23 @@ namespace ItineraryPlannerApp.Forms
                 errorLabel.Text = "Please enter email and password to login.";
                 return;
             }
+            
+            var user = _mainForm.Service.GetUserByEmail(email);
+            if (user is null) 
+            {
+                errorLabel.Text = "No user registered with this email";
+                return;
+            }
 
-            await using var context = new ItineraryDbContext();
-
-            var user = await context.Users.FirstOrDefaultAsync(user => user.Email == email);
-
-            if (user == null) 
+            if (!PasswordService.VerifyPassword(password, user.PasswordHash))
             {
                 errorLabel.Text = "Incorrect email or password.";
                 return;
             }
 
-            var passwordService = new PasswordService();
-
-            bool passwordCorrect = passwordService.VerifyPassword(password, user.PasswordHash);
-
-            if (!passwordCorrect)
-            {
-                errorLabel.Text = "Incorrect email or password.";
-                return;
-            }
             Hide();
 
-            //if (user.Role == Models.UserRole.Admin)
-            //{
-            //    //using var adminForm = new AdminForm(user);
-            //    //adminForm.ShowDialog();
-            //}
-            //else
-            //{
             _mainForm.ShowPage(new HomeForm(_mainForm, user));
-            //}
 
             Show();
             passwordTxt.Clear();

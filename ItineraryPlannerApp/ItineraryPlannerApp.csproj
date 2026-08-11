@@ -9,6 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Forms\Attraction\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Forms\Attraction\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Forms\Attraction\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Data\Images\seo-img1.jpg" />
     <None Remove="Data\Images\sha-img1.jpg" />
     <None Remove="Data\Images\syd-img1.jpg" />
@@ -29,19 +38,18 @@
   <ItemGroup>
     <Folder Include="Forms\Login\" />
     <Folder Include="Forms\Home\" />
-    <Folder Include="Forms\Attraction\" />
     <Folder Include="Forms\Itinerary\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+	<PackageReference Include="Mapsui" Version="5.1.0" />
+	<PackageReference Include="Mapsui.WindowsForms" Version="5.1.0" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
-    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.2" />
   </ItemGroup>
 
 </Project>

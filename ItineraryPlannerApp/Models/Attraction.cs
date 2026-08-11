@@ -13,7 +13,7 @@ namespace ItineraryPlannerApp.Models
         public string Description {  get; set; }
         public double EntryPrice {  get; set; }
         public AttractionCategory Labels { get; set; } 
-        public List<Accessibility> CloseStations { get; set; } = new List<Accessibility>();
+        public List<TransitAccess> CloseStations { get; set; } = new List<TransitAccess>();
 
         public City City { get; set; }
         public int CityId { get; set; }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ItineraryPlannerApp.Data;
 using ItineraryPlannerApp.Data.Repositories;
+using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Helpers;
 using ItineraryPlannerApp.Models;
 using Microsoft.EntityFrameworkCore;
@@ -27,17 +28,12 @@ namespace ItineraryPlannerApp.Forms
             _mainForm = mainForm;
             _user = user;
 
-
             welcomeLabel.Text = $"Welcome, {user.DisplayName}";
         }
 
         private void HomeFormLoad(object sender, EventArgs e)
         {
-            using var context = new ItineraryDbContext();
-
-            var cityRepository = new CityRepository(context);
-
-            IEnumerable<City> cities = cityRepository.GetAll();
+            var cities = _mainForm.Service.GetAllCities();
 
             foreach (City city in cities)
             {
@@ -54,7 +50,9 @@ namespace ItineraryPlannerApp.Forms
         {
             Panel card = new Panel
             {
-                Width = 1280, Height = 400, Margin = new Padding(10, 10, 10, 20), Cursor = Cursors.Hand, Tag = city
+                Width = 1280,
+                Height = 400,
+                Margin = new Padding(10, 10, 10, 20), Cursor = Cursors.Hand, Tag = city
             };
 
             PictureBox pic = new PictureBox

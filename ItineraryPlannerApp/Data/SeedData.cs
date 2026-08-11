@@ -1,5 +1,5 @@
 ﻿using ItineraryPlannerApp.Models;
-using ItineraryPlannerApp.Services;
+using ItineraryPlannerApp.Data.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,15 +13,13 @@ namespace ItineraryPlannerApp.Data
             
             if (!context.Users.Any())
             {
-                var passwordService = new PasswordService();
-
-                var users = new List<User>
+               var users = new List<User>
                     {
                     new User
                     {
                         Email = "jihye.lee-2@student.uts.edu.au",
                         DisplayName = "Jihye",
-                        PasswordHash = passwordService.HashPassword("1234"),
+                        PasswordHash = PasswordService.HashPassword("1234"),
                         Role = UserRole.User
                     }
                 };
@@ -37,7 +35,7 @@ namespace ItineraryPlannerApp.Data
                         CityName = "Sydney",
                         Description = "Sydney, NSW, Australia",
                         ImagePath = "Data/Images/syd-img1.jpg",
-                        FlagPath = ""
+                        Country = "Australia"
                     },
 
                     new City
@@ -45,14 +43,14 @@ namespace ItineraryPlannerApp.Data
                         CityName = "Seoul",
                         Description = "Seoul, South Korea",
                         ImagePath = "Data/Images/seo-img1.jpg",
-                        FlagPath = ""
+                        Country = "Korea"
                     },
                     new City
                     {
                         CityName = "Shanghai",
                         Description = "Shanghai, China",
                         ImagePath = "Data/Images/sha-img1.jpg",
-                        FlagPath = ""
+                        Country = "China"
                     }
                 };
 
