@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Forms\Attraction\**" />
+    <EmbeddedResource Remove="Forms\Attraction\**" />
+    <None Remove="Forms\Attraction\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Data\Images\seo-img1.jpg" />
     <None Remove="Data\Images\sha-img1.jpg" />
     <None Remove="Data\Images\syd-img1.jpg" />
@@ -29,7 +35,6 @@
   <ItemGroup>
     <Folder Include="Forms\Login\" />
     <Folder Include="Forms\Home\" />
-    <Folder Include="Forms\Attraction\" />
     <Folder Include="Forms\Itinerary\" />
   </ItemGroup>
 
@@ -39,9 +44,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
-    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.2" />
+	<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.10" />
+	<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.11" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
   </ItemGroup>
 
 </Project>

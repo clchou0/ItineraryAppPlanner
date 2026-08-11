@@ -10,7 +10,7 @@ namespace ItineraryPlannerApp.Data.Repositories
     {
         public CityRepository(ItineraryDbContext context) : base(context) { }
         public IEnumerable<City> GetAll() { return _context.Cities.ToList(); }
-        public City? GetById(int id) { return _context.Cities.SingleOrDefault(c => c.CityId == id); }
+        public City? GetById(int id) { return _context.Cities.SingleOrDefault(c => c.Id == id); }
         public void Delete(int id)
         {
             City? city = this.GetById(id);
