@@ -1,6 +1,6 @@
 ﻿using ItineraryPlannerApp.Data;
+using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Models;
-using ItineraryPlannerApp.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,25 +29,24 @@ namespace ItineraryPlannerApp.Forms
             string pass = passText.Text.Trim();
             string pass2 = pass2Text.Text.Trim();
 
-            if  (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(pass))
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(pass))
             {
                 errorLabel.Text = "Fields cannot be empty.";
                 return;
             }
 
-            if (pass != pass2)
-            {
-                errorLabel.Text = "Passwords should be matched.";
-                return;
-            }
 
-            if (pass == pass2 && pass.Length < 6)
+
+            if (pass.Length < 6)
             {
                 errorLabel.Text = "Password must be at least 6 characters.";
                 return;
             }
-
-            using var context = new ItineraryDbContext();
+            else if (pass != pass2)
+            {
+                errorLabel.Text = "Passwords should be matched.";
+                return;
+            }
 
             bool validEmail(string email)
             {
@@ -68,26 +67,21 @@ namespace ItineraryPlannerApp.Forms
                 return;
             }
 
-            bool uniqueEmail = await context.Users.AnyAsync(u => u.Email == email);
-
-            if (uniqueEmail) 
+            if (_mainForm.Service.GetUserByEmail(email) is not null)
             {
                 errorLabel.Text = "This email is already registered.";
                 return;
             }
 
-            var passwordService = new PasswordService();
-
             var user = new User
             {
                 DisplayName = name,
                 Email = email,
-                PasswordHash = passwordService.HashPassword(pass),
+                PasswordHash = PasswordService.HashPassword(pass),
                 Role = UserRole.User
             };
 
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
+            _mainForm.Service.AddUser(user);
 
             MessageBox.Show("Account created successfully.");
 

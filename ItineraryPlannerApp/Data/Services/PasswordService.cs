@@ -4,11 +4,11 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ItineraryPlannerApp.Services
+namespace ItineraryPlannerApp.Data.Services
 {
-    public class PasswordService
+    public static class PasswordService
     {
-        public string HashPassword(string password)
+        public static string HashPassword(string password)
         {
             byte[] salt = RandomNumberGenerator.GetBytes(16);
 
@@ -18,7 +18,7 @@ namespace ItineraryPlannerApp.Services
             return $"{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
         }
 
-        public bool VerifyPassword(string password, string storedValue)
+        public static bool VerifyPassword(string password, string storedValue)
         {
             string[] parts = storedValue.Split('.');
 

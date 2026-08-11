@@ -36,6 +36,7 @@
     <Folder Include="Forms\Login\" />
     <Folder Include="Forms\Home\" />
     <Folder Include="Forms\Itinerary\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

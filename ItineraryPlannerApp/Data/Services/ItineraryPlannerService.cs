@@ -8,6 +8,7 @@ namespace ItineraryPlannerApp.Data.Services
 {
     public class ItineraryPlannerService
     {
+        private readonly UserRepository _userRepository;
         private readonly CityRepository _cityRepository;
         private readonly AttractionRepository _attractionRepository;
 
@@ -18,12 +19,26 @@ namespace ItineraryPlannerApp.Data.Services
         }
 
         // USER
-
-
+        public User? GetUserByEmail(string email)
+        {
+            return _userRepository.GetAll().Where(u => u.Email == email).FirstOrDefault();
+        }
+        public User GetUserById(int id)
+        {
+            return _userRepository.GetById(id);
+        }
+        public void AddUser(User user)
+        {
+            _userRepository.Add(user);
+        }
         // CITY
         public City? GetCityById(int id)
         {
             return _cityRepository.GetById(id);
+        }
+        public List<City> GetAllCities()
+        {
+            return _cityRepository.GetAll().ToList();
         }
         public bool AddCity(City city)
         {
