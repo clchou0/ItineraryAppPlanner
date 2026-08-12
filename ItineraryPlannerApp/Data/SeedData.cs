@@ -14,15 +14,22 @@ namespace ItineraryPlannerApp.Data
             if (!context.Users.Any())
             {
                var users = new List<User>
-                    {
+               {
                     new User
                     {
                         Email = "jihye.lee-2@student.uts.edu.au",
                         DisplayName = "Jihye",
                         PasswordHash = PasswordService.HashPassword("1234"),
                         Role = UserRole.User
+                    },
+                    new User
+                    {
+                        Email = "a@b.",
+                        DisplayName = "ADMIN",
+                        PasswordHash = PasswordService.HashPassword("111111"),
+                        Role = UserRole.Admin
                     }
-                };
+               };
                 context.Users.AddRange(users);
             }
 
