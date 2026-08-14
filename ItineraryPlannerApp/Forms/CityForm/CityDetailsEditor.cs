@@ -6,13 +6,13 @@ namespace ItineraryPlannerApp.Forms.CityForm
 {
     public partial class CityDetailsEditor : Form
     {
-        private readonly ItineraryPlannerService _service;
+        private readonly MainForm _mainForm;
         private City? City;
         private string name, description, country, imgPath = "";
         private MapSlider mapSlider = new MapSlider();
-        public CityDetailsEditor(ItineraryPlannerService service, City? city)
+        public CityDetailsEditor(MainForm mainForm, City? city)
         {
-            _service = service;
+            _mainForm = mainForm;
             City = city;
             InitializeComponent();
         }
@@ -75,7 +75,8 @@ namespace ItineraryPlannerApp.Forms.CityForm
                         ImagePath = "",
                         Slider = mapSlider
                     };
-                    result = _service.AddCity(newCity);
+                    result = _mainForm.Service.AddCity(newCity);
+                    MessageBox.Show($"{name} has been created!");
                 }
                 else
                 {
@@ -84,7 +85,8 @@ namespace ItineraryPlannerApp.Forms.CityForm
                     City.Country = country;
                     City.Slider = mapSlider;
                     City.ImagePath = imgPath;
-                    result = _service.UpdateCity(City);
+                    result = _mainForm.Service.UpdateCity(City);
+                    MessageBox.Show($"{name} has been edited!");
                 }
                 if (result)
                 {

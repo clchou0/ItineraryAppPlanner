@@ -19,7 +19,7 @@ namespace ItineraryPlannerApp
             ApplicationConfiguration.Initialize();
 
             var services = new ServiceCollection()
-                .AddDbContext<ItineraryDbContext>(options => options.UseSqlite("Data Source=itinerary.db")) // or your provider
+                .AddDbContext<ItineraryDbContext>()
                 .AddScoped<UserRepository>()
                 .AddScoped<CityRepository>()
                 .AddScoped<AttractionRepository>()

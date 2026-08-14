@@ -18,7 +18,7 @@ namespace ItineraryPlannerApp.Forms
         {
             _service = service;
             InitializeComponent();
-
+            content.Padding = new Padding(10);
             ShowPage(new LoginForm(this));
         }
         public ItineraryPlannerService Service { get { return _service; } }
@@ -36,6 +36,11 @@ namespace ItineraryPlannerApp.Forms
         }
 
         private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void content_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -34,16 +34,19 @@
             // content
             // 
             content.Location = new Point(0, 0);
+            content.Margin = new Padding(2);
             content.Name = "content";
-            content.Size = new Size(1481, 835);
+            content.Size = new Size(946, 585);
             content.TabIndex = 0;
+            content.Paint += content_Paint;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1474, 829);
+            ClientSize = new Size(947, 538);
             Controls.Add(content);
+            Margin = new Padding(2);
             Name = "MainForm";
             Text = "MainForm";
             Load += MainForm_Load;
