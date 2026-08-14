@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ItineraryPlannerApp.Models;
+using ItineraryPlannerApp.Models.Itinerary;
 
 namespace ItineraryPlannerApp.Data.Services
 {
@@ -11,12 +12,16 @@ namespace ItineraryPlannerApp.Data.Services
         private readonly UserRepository _userRepository;
         private readonly CityRepository _cityRepository;
         private readonly AttractionRepository _attractionRepository;
+        private readonly ItineraryRepository _itineraryRepository;
+        private readonly TransitRouteRepository _transitRouteRepository;
 
-        public ItineraryPlannerService(UserRepository userRepository, CityRepository cityRepository, AttractionRepository attractionRepository)
+        public ItineraryPlannerService(UserRepository userRepository, CityRepository cityRepository, AttractionRepository attractionRepository, ItineraryRepository itineraryRepository, TransitRouteRepository transitRouteRepository)
         {
             _userRepository = userRepository;
             _cityRepository = cityRepository;
             _attractionRepository = attractionRepository;
+            _itineraryRepository = itineraryRepository;
+            _transitRouteRepository = transitRouteRepository;
         }
 
         // USER
@@ -40,6 +45,10 @@ namespace ItineraryPlannerApp.Data.Services
         public List<City> GetAllCities()
         {
             return _cityRepository.GetAll().ToList();
+        }
+        public City? GetCityByName(string cityName)
+        {
+            return _cityRepository.GetAll().FirstOrDefault(c => c.CityName == cityName);
         }
         public bool AddCity(City city)
         {
@@ -67,5 +76,51 @@ namespace ItineraryPlannerApp.Data.Services
         }
 
         // ATTRACTION
+
+        // ITINERARY
+        public void AddItinerary(Itinerary itinerary)
+        {
+            _itineraryRepository.Add(itinerary);
+        }
+
+        public void UpdateItinerary(Itinerary itinerary)
+        {
+            _itineraryRepository.Update(itinerary);
+        }
+
+        public List<Itinerary> GetItinerariesByUserId(int userId)
+        {
+            return _itineraryRepository.GetAll().Where(i => i.UserId == userId).ToList();
+        }
+
+        public Itinerary? GetItineraryById(int id,  int userId)
+        {
+            return _itineraryRepository.GetAll().FirstOrDefault(i => i.Id == id && i.UserId == userId);
+        }
+
+        public void DeleteItinerary(int itineraryId, int userId)
+        {
+            var itinerary = _itineraryRepository.GetAll().FirstOrDefault(i => i.Id == itineraryId && i.User.Id == userId);
+
+            if (itinerary == null) return;
+
+            _itineraryRepository.Remove(itinerary);  
+        }
+
+        // TRANSPORT
+        public List<TransitRoute> GetTransitRoutes(string cityName)
+        {
+            return _transitRouteRepository.GetByCity(cityName);
+        }
+
+        public TransitRoute? GetTransitRouteById(int routeId)
+        {
+            return _transitRouteRepository.GetByIdWithStops(routeId);
+        }
+
+        public List<TransitRoute> GetAllTransitRoutes()
+        {
+            return _transitRouteRepository.GetAllWithStops();
+        }
     }
 }

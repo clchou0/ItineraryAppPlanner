@@ -11,6 +11,7 @@ namespace ItineraryPlannerApp.Models.Itinerary
         public DateTime LeaveDate { get; set; }
         public List<ItineraryBlock> ItineraryBlocks {  get; set; } = new List<ItineraryBlock>();
         public double TotalEntryPrice { get; set; } = 0;
+        public ItineraryStatus Status { get; set; } = ItineraryStatus.Draft;
 
         public City City {  get; set; }
         public int CityId {  get; set; }

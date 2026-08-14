@@ -9,15 +9,19 @@ namespace ItineraryPlannerApp.Data
 {
     public class ItineraryDbContext : DbContext
     {
+
         public DbSet<User> Users => Set<User>();
         public DbSet<City> Cities => Set<City>();
         public DbSet<Attraction> Attractions => Set<Attraction>();
 
         public DbSet<Itinerary> Itineraries => Set<Itinerary>();
-        // public DbSet<ItineraryBlock> ItineraryBlocks => Set<ItineraryBlock>();
+        
+        public DbSet<ItineraryBlock> ItineraryBlocks => Set<ItineraryBlock>();
         public DbSet<VisitBlock> VisitBlocks => Set<VisitBlock>();
         public DbSet<TransportBlock> TransportBlocks => Set<TransportBlock>();
         public DbSet<TransportNote> TransportNotes => Set<TransportNote>();
+        public DbSet<TransitRoute> TransitRoutes => Set<TransitRoute>();
+        public DbSet<TransitStop> TransitStops => Set<TransitStop>();
         public string DbPath { get; }
 
         public ItineraryDbContext(DbContextOptions<ItineraryDbContext> options) : base(options)
@@ -86,7 +90,7 @@ namespace ItineraryPlannerApp.Data
             modelBuilder.Entity<TransportNote>().ToTable("TransportNotes");
             modelBuilder.Entity<TransportNote>()
                 .HasOne(n => n.Block)
-                .WithMany()
+                .WithMany(b => b.Notes)
                 .HasForeignKey(n => n.BlockId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

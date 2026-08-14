@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="ItineraryPlannerApp/ItineraryPlannerApp.csproj" />
+  <Project Path="Planner.WPF/Planner.WPF.csproj" Id="ace4690c-911d-4c13-8992-855b4b11ba34" />
 </Solution>

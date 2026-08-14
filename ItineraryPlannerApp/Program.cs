@@ -23,7 +23,9 @@ namespace ItineraryPlannerApp
                 .AddScoped<UserRepository>()
                 .AddScoped<CityRepository>()
                 .AddScoped<AttractionRepository>()
-                .AddScoped<ItineraryPlannerService>();
+                .AddScoped<ItineraryRepository>()
+                .AddScoped<ItineraryPlannerService>()
+                .AddScoped<TransitRouteRepository>();
 
             var provider = services.BuildServiceProvider();
             var itineraryService = provider.GetRequiredService<ItineraryPlannerService>();

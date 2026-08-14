@@ -3,6 +3,7 @@ using System;
 using ItineraryPlannerApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItineraryPlannerApp.Migrations
 {
     [DbContext(typeof(ItineraryDbContext))]
-    partial class ItineraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260814094627_AddTransitRoutes")]
+    partial class AddTransitRoutes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
@@ -215,9 +218,14 @@ namespace ItineraryPlannerApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TransportBlockId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BlockId");
+
+                    b.HasIndex("TransportBlockId");
 
                     b.ToTable("TransportNotes", (string)null);
                 });
@@ -407,10 +415,14 @@ namespace ItineraryPlannerApp.Migrations
             modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransportNote", b =>
                 {
                     b.HasOne("ItineraryPlannerApp.Models.Itinerary.TransportBlock", "Block")
-                        .WithMany("Notes")
+                        .WithMany()
                         .HasForeignKey("BlockId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ItineraryPlannerApp.Models.Itinerary.TransportBlock", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("TransportBlockId");
 
                     b.Navigation("Block");
                 });
