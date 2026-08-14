@@ -1,6 +1,8 @@
 ﻿using ItineraryPlannerApp.Data;
 using ItineraryPlannerApp.Data.Services;
 using Microsoft.EntityFrameworkCore;
+using ItineraryPlannerApp.Forms.CityForm;
+using ItineraryPlannerApp.CityForms;
 
 namespace ItineraryPlannerApp.Forms
 {
@@ -12,23 +14,7 @@ namespace ItineraryPlannerApp.Forms
             InitializeComponent();
             _mainForm = mainForm;
         }
-
-        private void emailLabel_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void passwordTxt_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void loginButton_Click(object sender, EventArgs e)
+        private void loginButton_Click(object sender, EventArgs e)
         {
             errorLabel.Text = string.Empty;
 
@@ -55,9 +41,7 @@ namespace ItineraryPlannerApp.Forms
             }
 
             Hide();
-
             _mainForm.ShowPage(new HomeForm(_mainForm, user));
-
             Show();
             passwordTxt.Clear();
         }

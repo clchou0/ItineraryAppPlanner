@@ -46,9 +46,10 @@
             // 
             titleLabel.AutoSize = true;
             titleLabel.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            titleLabel.Location = new Point(552, 122);
+            titleLabel.Location = new Point(340, 76);
+            titleLabel.Margin = new Padding(2, 0, 2, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(310, 59);
+            titleLabel.Size = new Size(200, 37);
             titleLabel.TabIndex = 0;
             titleLabel.Text = "Travel Planner";
             // 
@@ -56,52 +57,56 @@
             // 
             subtitleLabel.AutoSize = true;
             subtitleLabel.Font = new Font("Segoe UI", 10F);
-            subtitleLabel.Location = new Point(526, 204);
+            subtitleLabel.Location = new Point(324, 128);
+            subtitleLabel.Margin = new Padding(2, 0, 2, 0);
             subtitleLabel.Name = "subtitleLabel";
-            subtitleLabel.Size = new Size(351, 37);
+            subtitleLabel.Size = new Size(226, 23);
             subtitleLabel.TabIndex = 1;
             subtitleLabel.Text = "Plan your upcoming journey";
             // 
             // emailTxt
             // 
-            emailTxt.Location = new Point(592, 289);
+            emailTxt.Location = new Point(364, 181);
+            emailTxt.Margin = new Padding(2);
             emailTxt.Name = "emailTxt";
-            emailTxt.Size = new Size(384, 39);
+            emailTxt.Size = new Size(238, 27);
             emailTxt.TabIndex = 2;
-            emailTxt.TextChanged += emailLabel_TextChanged;
             // 
             // passwordTxt
             // 
-            passwordTxt.Location = new Point(592, 339);
+            passwordTxt.Location = new Point(364, 212);
+            passwordTxt.Margin = new Padding(2);
             passwordTxt.Name = "passwordTxt";
-            passwordTxt.Size = new Size(384, 39);
+            passwordTxt.Size = new Size(238, 27);
             passwordTxt.TabIndex = 3;
             passwordTxt.UseSystemPasswordChar = true;
-            passwordTxt.TextChanged += passwordTxt_TextChanged;
             // 
             // emailLabel
             // 
             emailLabel.AutoSize = true;
-            emailLabel.Location = new Point(500, 292);
+            emailLabel.Location = new Point(308, 182);
+            emailLabel.Margin = new Padding(2, 0, 2, 0);
             emailLabel.Name = "emailLabel";
-            emailLabel.Size = new Size(77, 32);
+            emailLabel.Size = new Size(49, 20);
             emailLabel.TabIndex = 4;
             emailLabel.Text = "email:";
             // 
             // passwordLabel
             // 
             passwordLabel.AutoSize = true;
-            passwordLabel.Location = new Point(460, 343);
+            passwordLabel.Location = new Point(283, 214);
+            passwordLabel.Margin = new Padding(2, 0, 2, 0);
             passwordLabel.Name = "passwordLabel";
-            passwordLabel.Size = new Size(118, 32);
+            passwordLabel.Size = new Size(75, 20);
             passwordLabel.TabIndex = 5;
             passwordLabel.Text = "password:";
             // 
             // loginButton
             // 
-            loginButton.Location = new Point(826, 412);
+            loginButton.Location = new Point(508, 258);
+            loginButton.Margin = new Padding(2);
             loginButton.Name = "loginButton";
-            loginButton.Size = new Size(150, 46);
+            loginButton.Size = new Size(92, 29);
             loginButton.TabIndex = 6;
             loginButton.Text = "Login";
             loginButton.UseVisualStyleBackColor = true;
@@ -110,17 +115,19 @@
             // createLabel
             // 
             createLabel.AutoSize = true;
-            createLabel.Location = new Point(460, 628);
+            createLabel.Location = new Point(283, 392);
+            createLabel.Margin = new Padding(2, 0, 2, 0);
             createLabel.Name = "createLabel";
-            createLabel.Size = new Size(266, 32);
+            createLabel.Size = new Size(163, 20);
             createLabel.TabIndex = 7;
             createLabel.Text = "Don't have an account?";
             // 
             // createButton
             // 
-            createButton.Location = new Point(744, 622);
+            createButton.Location = new Point(458, 389);
+            createButton.Margin = new Padding(2);
             createButton.Name = "createButton";
-            createButton.Size = new Size(231, 46);
+            createButton.Size = new Size(142, 29);
             createButton.TabIndex = 8;
             createButton.Text = "Create Account";
             createButton.UseVisualStyleBackColor = true;
@@ -131,34 +138,37 @@
             errorLabel.AutoSize = true;
             errorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             errorLabel.ForeColor = Color.Crimson;
-            errorLabel.Location = new Point(460, 469);
+            errorLabel.Location = new Point(283, 293);
+            errorLabel.Margin = new Padding(2, 0, 2, 0);
             errorLabel.Name = "errorLabel";
-            errorLabel.Size = new Size(0, 32);
+            errorLabel.Size = new Size(0, 20);
             errorLabel.TabIndex = 9;
             // 
             // resetLabel
             // 
             resetLabel.AutoSize = true;
-            resetLabel.Location = new Point(460, 566);
+            resetLabel.Location = new Point(283, 354);
+            resetLabel.Margin = new Padding(2, 0, 2, 0);
             resetLabel.Name = "resetLabel";
-            resetLabel.Size = new Size(201, 32);
+            resetLabel.Size = new Size(127, 20);
             resetLabel.TabIndex = 10;
             resetLabel.Text = "Forgot password?";
             // 
             // resetButton
             // 
-            resetButton.Location = new Point(744, 559);
+            resetButton.Location = new Point(458, 349);
+            resetButton.Margin = new Padding(2);
             resetButton.Name = "resetButton";
-            resetButton.Size = new Size(231, 46);
+            resetButton.Size = new Size(142, 29);
             resetButton.TabIndex = 11;
             resetButton.Text = "Reset Password";
             resetButton.UseVisualStyleBackColor = true;
             // 
             // LoginForm
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1474, 829);
+            ClientSize = new Size(907, 518);
             Controls.Add(resetButton);
             Controls.Add(resetLabel);
             Controls.Add(errorLabel);
@@ -172,11 +182,11 @@
             Controls.Add(subtitleLabel);
             Controls.Add(titleLabel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(2);
             MinimizeBox = false;
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "LoginForm";
-            Load += LoginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -1,10 +1,9 @@
 ﻿using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Models;
-using Topten.RichTextKit.Utils;
 
 namespace ItineraryPlannerApp.Forms.CityForm
 {
-    public partial class CityDetailsEditor : Form
+    public partial class CityDetailsEditor : UserControl
     {
         private readonly MainForm _mainForm;
         private City? City;

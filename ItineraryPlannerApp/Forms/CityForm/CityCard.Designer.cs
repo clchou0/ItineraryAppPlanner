@@ -32,7 +32,6 @@
             pictureBox1 = new PictureBox();
             NameLabel = new Label();
             CountryLabel = new Label();
-            DeleteButton = new Button();
             button2 = new Button();
             EditButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -78,18 +77,6 @@
             CountryLabel.Text = "Australia";
             CountryLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // DeleteButton
-            // 
-            DeleteButton.BackColor = Color.Red;
-            DeleteButton.Font = new Font("Segoe UI", 20F);
-            DeleteButton.ForeColor = SystemColors.ButtonFace;
-            DeleteButton.Location = new Point(427, 0);
-            DeleteButton.Name = "DeleteButton";
-            DeleteButton.Size = new Size(53, 53);
-            DeleteButton.TabIndex = 9;
-            DeleteButton.Text = "D";
-            DeleteButton.UseVisualStyleBackColor = false;
-            // 
             // button2
             // 
             button2.Location = new Point(818, 211);
@@ -102,14 +89,15 @@
             // EditButton
             // 
             EditButton.BackColor = SystemColors.HotTrack;
-            EditButton.Font = new Font("Segoe UI", 20F);
+            EditButton.Font = new Font("Segoe UI", 10F);
             EditButton.ForeColor = SystemColors.ButtonFace;
-            EditButton.Location = new Point(375, 0);
+            EditButton.Location = new Point(445, 0);
             EditButton.Name = "EditButton";
-            EditButton.Size = new Size(53, 53);
+            EditButton.Size = new Size(35, 35);
             EditButton.TabIndex = 11;
             EditButton.Text = "E";
             EditButton.UseVisualStyleBackColor = false;
+            EditButton.Click += EditButton_Click;
             // 
             // CityCard
             // 
@@ -118,7 +106,6 @@
             Controls.Add(ProceedButton);
             Controls.Add(EditButton);
             Controls.Add(button2);
-            Controls.Add(DeleteButton);
             Controls.Add(CountryLabel);
             Controls.Add(NameLabel);
             Controls.Add(pictureBox1);
@@ -135,7 +122,6 @@
         private PictureBox pictureBox1;
         private Label NameLabel;
         private Label CountryLabel;
-        private Button DeleteButton;
         private Button button2;
         private Button EditButton;
     }

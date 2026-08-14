@@ -25,7 +25,7 @@ namespace ItineraryPlannerApp.Data
                     new User
                     {
                         Email = "a@b.",
-                        DisplayName = "ADMIN",
+                        DisplayName = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdmin",
                         PasswordHash = PasswordService.HashPassword("111111"),
                         Role = UserRole.Admin
                     }

@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using ItineraryPlannerApp.Data;
-using ItineraryPlannerApp.Data.Repositories;
-using ItineraryPlannerApp.Data.Services;
-using ItineraryPlannerApp.Forms.CityForm;
-using ItineraryPlannerApp.Helpers;
+﻿using ItineraryPlannerApp.Forms.CityForm;
 using ItineraryPlannerApp.Models;
-using Microsoft.EntityFrameworkCore;
+using ItineraryPlannerApp.Forms;
+using ItineraryPlannerApp.Data.Services;
 
-namespace ItineraryPlannerApp.Forms
+namespace ItineraryPlannerApp.CityForms
 {
+    /// <summary>
+    /// Where the app flow is located at: controls get in and out based on what is supposed to appear
+    /// </summary>
     public partial class HomeForm : Form
     {
         private readonly MainForm _mainForm;
@@ -23,27 +16,21 @@ namespace ItineraryPlannerApp.Forms
         public HomeForm(MainForm mainForm, User user)
         {
             InitializeComponent();
-
+            _mainForm = mainForm;
             this.Load += HomeFormLoad;
             this.AutoScroll = false;
 
-            _mainForm = mainForm;
             _user = user;
-
             welcomeLabel.Text = $"Welcome, {user.DisplayName}";
+            welcomeLabel.Location = new Point(1148 - welcomeLabel.Width, welcomeLabel.Location.Y);
         }
 
+        // default load: 
         private void HomeFormLoad(object sender, EventArgs e)
         {
-            var cities = _mainForm.Service.GetAllCities();
-
-            foreach (City city in cities)
-            {
-                var card = new CityCard(city, _user.Role == UserRole.Admin);
-                int margin = Math.Max(0, (panel1.ClientSize.Width - card.Width) / 2);
-                card.Margin = new Padding(margin, 10, margin, 10);
-                panel1.Controls.Add(card);
-            }
+            var cityShowcase = new CityShowcase(_mainForm.Service, _user.Role == UserRole.Admin);
+            panel1.Controls.Clear(); // clear out anything previously shown
+            panel1.Controls.Add(cityShowcase);
         }
         private void CityCard_Click(object? sender, EventArgs e)
         {
@@ -56,16 +43,6 @@ namespace ItineraryPlannerApp.Forms
         private void logoutButton_Click(object sender, EventArgs e)
         {
             _mainForm.ShowPage(new LoginForm(_mainForm));
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void HomeForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

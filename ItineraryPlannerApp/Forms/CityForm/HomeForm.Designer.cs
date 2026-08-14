@@ -1,4 +1,4 @@
-﻿namespace ItineraryPlannerApp.Forms
+﻿namespace ItineraryPlannerApp.CityForms
 {
     partial class HomeForm
     {
@@ -47,12 +47,12 @@
             headerPanel.Location = new Point(0, 0);
             headerPanel.Margin = new Padding(2);
             headerPanel.Name = "headerPanel";
-            headerPanel.Size = new Size(907, 44);
+            headerPanel.Size = new Size(1262, 44);
             headerPanel.TabIndex = 0;
             // 
             // logoutButton
             // 
-            logoutButton.Location = new Point(808, 8);
+            logoutButton.Location = new Point(1159, 7);
             logoutButton.Margin = new Padding(2);
             logoutButton.Name = "logoutButton";
             logoutButton.Size = new Size(92, 29);
@@ -66,7 +66,7 @@
             welcomeLabel.AutoSize = true;
             welcomeLabel.Font = new Font("Segoe UI", 10F);
             welcomeLabel.ForeColor = Color.DimGray;
-            welcomeLabel.Location = new Point(606, 11);
+            welcomeLabel.Location = new Point(1071, 8);
             welcomeLabel.Margin = new Padding(2, 0, 2, 0);
             welcomeLabel.Name = "welcomeLabel";
             welcomeLabel.Size = new Size(84, 23);
@@ -94,10 +94,9 @@
             panel1.Location = new Point(0, 44);
             panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(907, 474);
+            panel1.Size = new Size(1262, 709);
             panel1.TabIndex = 3;
             panel1.WrapContents = false;
-            panel1.Paint += panel1_Paint;
             // 
             // label1
             // 
@@ -116,14 +115,13 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(907, 518);
+            ClientSize = new Size(1262, 753);
             Controls.Add(panel1);
             Controls.Add(label1);
             Controls.Add(headerPanel);
             Margin = new Padding(2);
             Name = "HomeForm";
             Text = "HomeForm";
-            Load += HomeForm_Load;
             headerPanel.ResumeLayout(false);
             headerPanel.PerformLayout();
             ResumeLayout(false);

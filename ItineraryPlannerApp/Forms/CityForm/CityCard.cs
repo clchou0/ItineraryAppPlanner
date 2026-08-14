@@ -7,38 +7,47 @@ using System.Text;
 using System.Windows.Forms;
 using ItineraryPlannerApp.Helpers;
 using ItineraryPlannerApp.Models;
+using ItineraryPlannerApp.Forms.CityForm;
+using ItineraryPlannerApp.CityForms;
 
 namespace ItineraryPlannerApp.Forms.CityForm
 {
     public partial class CityCard : UserControl
     {
-        public City City { get; }
-        public bool IsAdmin { get; }
+        public City City;
+        public bool IsAdmin;
+        private readonly CityShowcase _showcase;
 
-        public event EventHandler<City>? EditRequested;
-        public event EventHandler<City>? DeleteRequested;
-        public event EventHandler<City>? ViewRequested;
-
-        public CityCard(City city, bool isAdmin)
+        public CityCard(City city, bool isAdmin, CityShowcase showcase)
         {
             InitializeComponent();
 
             City = city;
             IsAdmin = isAdmin;
+            _showcase = showcase;
 
             pictureBox1.Image = ImageHelper.LoadImage(city.ImagePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             NameLabel.Text = city.CityName;
             CountryLabel.Text = city.Country;
 
+            // Editing function enabling
             EditButton.Visible = isAdmin;
-            DeleteButton.Visible = isAdmin;
         }
-
         public void CityCard_Load(Object sender, EventArgs e)
         {
-          
+
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
-    
+
 }
