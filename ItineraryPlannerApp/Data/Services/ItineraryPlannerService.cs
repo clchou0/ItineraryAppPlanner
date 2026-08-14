@@ -37,6 +37,7 @@ namespace ItineraryPlannerApp.Data.Services
         {
             _userRepository.Add(user);
         }
+
         // CITY
         public City? GetCityById(int id)
         {
@@ -62,7 +63,7 @@ namespace ItineraryPlannerApp.Data.Services
         public bool UpdateCity(City city)
         {
             // Duplicate name
-            if (_cityRepository.GetAll().Any(c => c.CityName.ToLower() == city.CityName.ToLower() 
+            if (_cityRepository.GetAll().Any(c => c.CityName.ToLower() == city.CityName.ToLower()
                 && c.Id != city.Id))
             {
                 return false;
@@ -76,6 +77,10 @@ namespace ItineraryPlannerApp.Data.Services
         }
 
         // ATTRACTION
+        public List<Attraction> GetAttractionByCity(int cityId)
+        {
+            return _attractionRepository.GetAll().Where(a => a.CityId == cityId).ToList();
+        }
 
         // ITINERARY
         public void AddItinerary(Itinerary itinerary)

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ItineraryPlannerApp.Data;
 using ItineraryPlannerApp.Data.Repositories;
 using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Forms.CityForm;
 using ItineraryPlannerApp.Helpers;
 using ItineraryPlannerApp.Models;
 using ItineraryPlannerApp.Models.Itinerary;
@@ -36,6 +37,7 @@ namespace ItineraryPlannerApp.Forms
         {
 
             this.Load += HomeFormLoad;
+            this.AutoScroll = false;
 
             _mainForm = mainForm;
             _user = user;
@@ -49,12 +51,10 @@ namespace ItineraryPlannerApp.Forms
 
             foreach (City city in cities)
             {
-                Panel cityCard = DisplayCity(city);
-                panel1.Controls.Add(cityCard);
-
-                int margin = Math.Max(0, (panel1.ClientSize.Width - cityCard.Width) / 2);
-
-                cityCard.Margin = new Padding(margin, 10, 0, 20);
+                var card = new CityCard(city, _user.Role == UserRole.Admin);
+                int margin = Math.Max(0, (panel1.ClientSize.Width - card.Width) / 2);
+                card.Margin = new Padding(margin, 10, margin, 10);
+                panel1.Controls.Add(card);
             }
         }
 
@@ -64,9 +64,7 @@ namespace ItineraryPlannerApp.Forms
             {
                 Width = 1280,
                 Height = 400,
-                Margin = new Padding(10, 10, 10, 20),
-                Cursor = Cursors.Hand,
-                Tag = city
+                Margin = new Padding(10, 10, 10, 20), Cursor = Cursors.Hand, Tag = city
             };
 
             PictureBox pic = new PictureBox
@@ -349,6 +347,11 @@ namespace ItineraryPlannerApp.Forms
         {
             var window = new ItineraryHistory();
             window.Show();
+        }
+
+        private void HomeForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
