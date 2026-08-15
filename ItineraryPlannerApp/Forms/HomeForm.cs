@@ -12,6 +12,7 @@ namespace ItineraryPlannerApp.CityForms
     {
         private readonly MainForm _mainForm;
         private readonly User _user;
+        private CityShowcase _cityShowcase;
 
         public HomeForm(MainForm mainForm, User user)
         {
@@ -28,9 +29,9 @@ namespace ItineraryPlannerApp.CityForms
         // default load: 
         private void HomeFormLoad(object sender, EventArgs e)
         {
-            var cityShowcase = new CityShowcase(_mainForm.Service, _user.Role == UserRole.Admin);
+            _cityShowcase = new CityShowcase(this, _mainForm.Service, _user.Role == UserRole.Admin);
             panel1.Controls.Clear(); // clear out anything previously shown
-            panel1.Controls.Add(cityShowcase);
+            panel1.Controls.Add(_cityShowcase);
         }
         private void CityCard_Click(object? sender, EventArgs e)
         {
@@ -43,6 +44,19 @@ namespace ItineraryPlannerApp.CityForms
         private void logoutButton_Click(object sender, EventArgs e)
         {
             _mainForm.ShowPage(new LoginForm(_mainForm));
+        }
+
+        public void SpawnCityEditor(City? city)
+        {
+            var cityEditor = new CityDetailsEditor(_mainForm.Service, this,  city);
+            panel1.Controls.Clear();
+            panel1.Controls.Add(cityEditor);
+        }
+
+        public void SpawnCityShowcase()
+        {
+            panel1.Controls.Clear();
+            panel1.Controls.Add(_cityShowcase);
         }
     }
 }

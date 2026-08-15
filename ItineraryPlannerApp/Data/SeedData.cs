@@ -42,7 +42,8 @@ namespace ItineraryPlannerApp.Data
                         CityName = "Sydney",
                         Description = "Sydney, NSW, Australia",
                         ImagePath = "Data/Images/syd-img1.jpg",
-                        Country = "Australia"
+                        Country = "Australia",
+                        Slider = new MapSlider()
                     },
 
                     new City
@@ -50,14 +51,16 @@ namespace ItineraryPlannerApp.Data
                         CityName = "Seoul",
                         Description = "Seoul, South Korea",
                         ImagePath = "Data/Images/seo-img1.jpg",
-                        Country = "Korea"
+                        Country = "Korea",
+                        Slider = new MapSlider()
                     },
                     new City
                     {
                         CityName = "Shanghai",
                         Description = "Shanghai, China",
                         ImagePath = "Data/Images/sha-img1.jpg",
-                        Country = "China"
+                        Country = "China",
+                        Slider = new MapSlider()
                     }
                 };
 

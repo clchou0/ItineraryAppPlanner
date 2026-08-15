@@ -16,15 +16,15 @@ namespace ItineraryPlannerApp.Forms.CityForm
     {
         public City City;
         public bool IsAdmin;
-        private readonly CityShowcase _showcase;
+        private readonly HomeForm _homeForm;
 
-        public CityCard(City city, bool isAdmin, CityShowcase showcase)
+        public CityCard(City city, bool isAdmin, HomeForm homeForm)
         {
             InitializeComponent();
 
             City = city;
             IsAdmin = isAdmin;
-            _showcase = showcase;
+            _homeForm = homeForm;
 
             pictureBox1.Image = ImageHelper.LoadImage(city.ImagePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -41,7 +41,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
 
         private void EditButton_Click(object sender, EventArgs e)
         {
-
+            _homeForm.SpawnCityEditor(City);
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)

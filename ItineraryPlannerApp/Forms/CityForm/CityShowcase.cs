@@ -17,23 +17,30 @@ namespace ItineraryPlannerApp.Forms.CityForm
     /// </summary>
     public partial class CityShowcase : UserControl
     {
+        private readonly HomeForm _homeForm;
         private readonly ItineraryPlannerService _service;
         private readonly bool _isAdmin;
-        public CityShowcase(ItineraryPlannerService service, bool isAdmin)
+        private readonly IEnumerable<City> _cities;
+        public CityShowcase(HomeForm homeForm, ItineraryPlannerService service, bool isAdmin)
         {
+            _homeForm = homeForm;
             _service = service;
             _isAdmin = isAdmin;
             InitializeComponent();
+            _cities = _service.GetAllCities();
             loadCities("");
+            // if (!isAdmin) AddOrItButton.Text = "Past Itinerari
+
         }
 
         private void loadCities(string filter)
         {
-            var cities = _service.GetAllCities();
-            filter = filter.Trim();
+            var cities = _cities;
+            filter = filter.Trim().ToLower();
+            // Check filter content
             if (!string.IsNullOrWhiteSpace(filter))
             {
-                cities = cities.Where(c => c.Country.Contains(filter) || c.CityName.Contains(filter));
+                cities = cities.Where(c => c.Country.ToLower().Contains(filter) || c.CityName.ToLower().Contains(filter));
             }
 
             cardContainer.Controls.Clear();
@@ -48,7 +55,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
             int row = 0, col = 0;
             foreach (City city in cities)
             {
-                var card = new CityCard(city, _isAdmin, this)
+                var card = new CityCard(city, _isAdmin, _homeForm)
                 {
                     Anchor = AnchorStyles.None, // centers within its cell
                     Margin = new Padding(10)
@@ -59,9 +66,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
                     cardContainer.RowCount = row + 1;
                     cardContainer.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                 }
-
                 cardContainer.Controls.Add(card, col, row);
-
                 col++;
                 if (col == 2) { col = 0; row++; }
             }
@@ -69,10 +74,16 @@ namespace ItineraryPlannerApp.Forms.CityForm
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-
+            loadCities(SearchTextBox.Text);
         }
 
+        // Maybe would be "past itineraries" text
         private void AddOrItButton_Click(object sender, EventArgs e)
+        {
+
+        }
+        // City proceed button tapped, goes to the 3-split page
+        public void HandleProceed(City city)
         {
 
         }

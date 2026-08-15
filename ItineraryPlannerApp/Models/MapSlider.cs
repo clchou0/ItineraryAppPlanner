@@ -6,45 +6,66 @@ using Mapsui.Projections;
 
 namespace ItineraryPlannerApp.Models
 {
-    // Defining the max bounds and 
+    // Defining the Max bounds and 
     public class MapSlider
     {
-        // minX, minY: BOTTOM-LEFT
-        // maxX, maxY: TOP-RIGHT
-        private double? minX, minY, maxX, maxY, defX, defY;
-
+        public double? MaxX { get; private set; }
+        public double? MaxY { get; private set; }
+        public double? MinX { get; private set; }
+        public double? MinY { get; private set; }
+        public double? DefX { get; private set; }
+        public double? DefY { get; private set; }
+        private bool MaxSet => MaxX != null && MaxY != null;
+        private bool MinSet => MinX != null && MinY != null;
         public bool IsValid =>
-            minX != null && minY != null &&
-            maxX != null && maxY != null &&
-            defX != null && defY != null;
-        public void SetBottomLeft(double? x, double? y)
+            MaxSet && MinSet &&
+            DefX != null && DefY != null &&
+            MaxX >= DefX && DefX >= MinX &&
+            MaxY >= DefY && DefY >= MinY;
+
+        // Check if target zoom point is valid within the bounds of the map
+        public bool InRange(double x, double y)
         {
-            minX = x;
-            minY = y;
+            return ((!MaxSet || (MaxX >= x && MaxY >= y)) && (!MinSet || (x >= MinX && y >= MinY)));
         }
-        public void SetTopRight(double? x, double? y)
+        public bool SetBottomLeft(double? x, double? y)
         {
-            maxX = x;
-            maxY = y;
+            if (!MaxSet || (x < MaxX && y < MaxY))
+            {
+                MinX = x;
+                MinY = y;
+                return true;
+            }
+            return false;
+        }
+        public bool SetTopRight(double? x, double? y)
+        {
+            if (!MinSet || (x > MinX && y > MinY))
+            {
+                MaxX = x;
+                MaxY = y;
+                return true;
+            }
+            return false;
         }
         public void SetDefault(double x, double y)
         {
-            defX = x;
-            defY = y;
+            DefX = x;
+            DefY = y;
         }
         public MRect PanBoundCreator()
         {
-            var (_minX, _minY) = SphericalMercator.FromLonLat(minX ?? -180, minY ?? -90);
-            var (_maxX, _maxY) = SphericalMercator.FromLonLat(maxX ?? 180, maxY ?? 90);
+            var (_minX, _minY) = SphericalMercator.FromLonLat(MinX ?? -180, MinY ?? -90);
+            var (_maxX, _maxY) = SphericalMercator.FromLonLat(MaxX ?? 180, MaxY ?? 90);
             return new MRect(_minX, _minY, _maxX, _maxY);
         }
         public MPoint? ZoomPoint()
         {
-            return IsValid ? new MPoint(defX!.Value, defY!.Value) : null;
+            return IsValid ? new MPoint(DefX!.Value, DefY!.Value) : null;
         }
         public override string ToString()
         {
-            return $"Bottom Left: ({minX}, {minY})\nTop Right: ({maxX}, {maxY})\nDefault: ({defX}, {defY})";
+            return $"Bottom Left: ({MinX}, {MinY})\nTop Right: ({MaxX}, {MaxY})\nDefault: ({DefX}, {DefY})";
         }
     }
 }
