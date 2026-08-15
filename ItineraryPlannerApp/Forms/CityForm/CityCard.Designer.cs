@@ -39,12 +39,13 @@
             // 
             // ProceedButton
             // 
-            ProceedButton.Location = new Point(375, 296);
+            ProceedButton.Location = new Point(347, 296);
             ProceedButton.Name = "ProceedButton";
-            ProceedButton.Size = new Size(94, 29);
+            ProceedButton.Size = new Size(119, 29);
             ProceedButton.TabIndex = 12;
-            ProceedButton.Text = "Proceed";
+            ProceedButton.Text = "Plan next trip..";
             ProceedButton.UseVisualStyleBackColor = true;
+            ProceedButton.Click += ProceedButton_Click;
             // 
             // pictureBox1
             // 

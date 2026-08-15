@@ -48,6 +48,11 @@ namespace ItineraryPlannerApp.Forms.CityForm
         {
 
         }
+
+        private void ProceedButton_Click(object sender, EventArgs e)
+        {
+            _homeForm.OpenItineraryCreator(City, null);
+        }
     }
 
 }

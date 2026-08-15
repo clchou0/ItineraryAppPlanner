@@ -2,6 +2,7 @@
 using ItineraryPlannerApp.Models;
 using ItineraryPlannerApp.Forms;
 using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Models.Itinerary;
 
 namespace ItineraryPlannerApp.CityForms
 {
@@ -52,11 +53,15 @@ namespace ItineraryPlannerApp.CityForms
             panel1.Controls.Clear();
             panel1.Controls.Add(cityEditor);
         }
-
         public void SpawnCityShowcase()
         {
             panel1.Controls.Clear();
             panel1.Controls.Add(_cityShowcase);
+        }
+        public void OpenItineraryCreator(City city, Itinerary? itinerary)
+        {
+            panel1.Controls.Clear();
+            panel1.Controls.Add(new UserToggleComponent(city, itinerary));
         }
     }
 }
