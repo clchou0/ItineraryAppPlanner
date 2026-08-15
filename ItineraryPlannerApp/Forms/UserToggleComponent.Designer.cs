@@ -42,9 +42,9 @@
             panel1.AutoSize = true;
             panel1.Controls.Add(button1);
             panel1.Controls.Add(label4);
-            panel1.Location = new Point(-1, 64);
+            panel1.Location = new Point(10, 64);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1260, 645);
+            panel1.Size = new Size(1242, 628);
             panel1.TabIndex = 3;
             // 
             // button1
@@ -84,9 +84,9 @@
             ItineraryPlannerTag.BackColor = SystemColors.ButtonFace;
             ItineraryPlannerTag.BorderStyle = BorderStyle.FixedSingle;
             ItineraryPlannerTag.Font = new Font("Segoe UI", 10F);
-            ItineraryPlannerTag.Location = new Point(430, 32);
+            ItineraryPlannerTag.Location = new Point(426, 32);
             ItineraryPlannerTag.Name = "ItineraryPlannerTag";
-            ItineraryPlannerTag.Size = new Size(200, 46);
+            ItineraryPlannerTag.Size = new Size(200, 40);
             ItineraryPlannerTag.TabIndex = 5;
             ItineraryPlannerTag.Text = "Itinerary Planner";
             ItineraryPlannerTag.TextAlign = ContentAlignment.MiddleCenter;

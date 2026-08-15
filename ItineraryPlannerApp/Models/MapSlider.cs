@@ -17,6 +17,17 @@ namespace ItineraryPlannerApp.Models
         public double? DefY { get; private set; }
         private bool MaxSet => MaxX != null && MaxY != null;
         private bool MinSet => MinX != null && MinY != null;
+        public MapSlider(double maxX, double maxY, double minX, double minY, double defX, double defY)
+        {
+            MaxX = maxX;
+            MaxY = maxY;
+            MinX = minX;
+            MinY = minY;
+            DefX = defX;
+            DefY = defY;
+        }
+        public MapSlider() { }
+
         public bool IsValid =>
             MaxSet && MinSet &&
             DefX != null && DefY != null &&

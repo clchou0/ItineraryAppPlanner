@@ -43,7 +43,11 @@ namespace ItineraryPlannerApp.Data
                         Description = "Sydney, NSW, Australia",
                         ImagePath = "Data/Images/syd-img1.jpg",
                         Country = "Australia",
-                        Slider = new MapSlider()
+                        Slider = new MapSlider(
+                            151.877940271153, -32.8606138422146,
+                            149.813655361048, -34.7385257910314,
+                            150.785905011104, -33.7946395144834
+                        )
                     },
 
                     new City
