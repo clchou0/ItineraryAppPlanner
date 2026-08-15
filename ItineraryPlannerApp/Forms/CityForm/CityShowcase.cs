@@ -29,8 +29,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
             InitializeComponent();
             _cities = _service.GetAllCities();
             loadCities("");
-            // if (!isAdmin) AddOrItButton.Text = "Past Itinerari
-
+            // if (!isAdmin) AddOrItButton.Text = "Past Itineraries"
         }
 
         private void loadCities(string filter)
@@ -80,7 +79,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
         // Maybe would be "past itineraries" text
         private void AddOrItButton_Click(object sender, EventArgs e)
         {
-
+            _homeForm.SpawnCityEditor(null);
         }
         // City proceed button tapped, goes to the 3-split page
         public void HandleProceed(City city)

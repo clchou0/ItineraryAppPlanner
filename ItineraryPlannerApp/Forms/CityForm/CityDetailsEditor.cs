@@ -27,7 +27,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
                 mapSlider = City.Slider;
                 imgPath = City.ImagePath;
             }
-            if (City.Slider is null) mapSlider = new MapSlider();
+            if (City is null || City.Slider is null) mapSlider = new MapSlider();
         }
 
         private void CityDetailsEditor_Load(object sender, EventArgs e)
@@ -94,6 +94,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
                     if (result)
                     {
                         MessageBox.Show($"{name} has been created!");
+                        _homeForm.SpawnCityShowcase();
                     }
                     else
                     {
@@ -132,7 +133,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
         private void CancelButton_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
-                $"Your changes to {City.CityName} will not be saved..",
+                $"Your changes to {name} will not be saved..",
                 "Confirm",
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Question
@@ -142,10 +143,6 @@ namespace ItineraryPlannerApp.Forms.CityForm
             {
                 // proceed
                 _homeForm.SpawnCityShowcase();
-            }
-            else
-            {
-                // cancelled — do nothing / return
             }
         }
     }
