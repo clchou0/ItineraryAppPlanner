@@ -23,6 +23,7 @@ namespace ItineraryPlannerApp.Forms
         {
             InitializeComponent();
             City = city;
+            _homeForm = homeForm;
 
             // TODO: Change this to a blank itinerary
             Itinerary = itinerary ?? new Itinerary();
@@ -32,7 +33,6 @@ namespace ItineraryPlannerApp.Forms
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
 
             TogglePage(AppPage.CityMap);
-            _homeForm = homeForm;
         }
 
         private void setupMap()
@@ -81,14 +81,16 @@ namespace ItineraryPlannerApp.Forms
 
         private void ReturnButton_Click(object sender, EventArgs e)
         {
-            _homeForm.SpawnCityShowcase();
-
             DialogResult result = MessageBox.Show(
                 $"Your changes to the itinerary will not be saved..",
                 "Confirm",
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Question
             );
+            if (result == DialogResult.OK)
+            {
+                _homeForm.SpawnCityShowcase();
+            }
         }
     }
     enum AppPage { CityMap, AttractionList, ItineraryPlanner };
