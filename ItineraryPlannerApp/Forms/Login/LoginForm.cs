@@ -1,5 +1,6 @@
 ﻿using ItineraryPlannerApp.Data;
 using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Forms.Login;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItineraryPlannerApp.Forms
@@ -40,9 +41,9 @@ namespace ItineraryPlannerApp.Forms
                 errorLabel.Text = "Please enter email and password to login.";
                 return;
             }
-            
+
             var user = _mainForm.Service.GetUserByEmail(email);
-            if (user is null) 
+            if (user is null)
             {
                 errorLabel.Text = "No user registered with this email";
                 return;
@@ -65,6 +66,11 @@ namespace ItineraryPlannerApp.Forms
         private void createButton_Click(object sender, EventArgs e)
         {
             _mainForm.ShowPage(new RegisterForm(_mainForm));
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            _mainForm.ShowPage(new PasswordForm(_mainForm));
         }
     }
 }

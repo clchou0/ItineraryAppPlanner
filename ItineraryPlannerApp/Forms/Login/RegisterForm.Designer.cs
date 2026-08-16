@@ -100,6 +100,7 @@
             passText.Name = "passText";
             passText.Size = new Size(384, 39);
             passText.TabIndex = 9;
+            passText.UseSystemPasswordChar = true;
             // 
             // pass2Label
             // 
@@ -116,6 +117,7 @@
             pass2Text.Name = "pass2Text";
             pass2Text.Size = new Size(384, 39);
             pass2Text.TabIndex = 11;
+            pass2Text.UseSystemPasswordChar = true;
             // 
             // createButton
             // 

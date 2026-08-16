@@ -38,6 +38,11 @@ namespace ItineraryPlannerApp.Data.Services
             _userRepository.Add(user);
         }
 
+        public void UpdateUser(User user)
+        {
+            _userRepository.Update(user);
+        }
+
         // CITY
         public City? GetCityById(int id)
         {
@@ -95,21 +100,32 @@ namespace ItineraryPlannerApp.Data.Services
 
         public List<Itinerary> GetItinerariesByUserId(int userId)
         {
-            return _itineraryRepository.GetAll().Where(i => i.UserId == userId).ToList();
+            return _itineraryRepository.GetByUserId(userId);
         }
 
         public Itinerary? GetItineraryById(int id,  int userId)
         {
-            return _itineraryRepository.GetAll().FirstOrDefault(i => i.Id == id && i.UserId == userId);
+            var itinerary = _itineraryRepository.GetById(id);
+
+            if (itinerary == null || itinerary.UserId != userId)
+            {
+                return null;
+            }
+            return itinerary;
+        }
+
+        public void RemoveItineraryBlocks(IEnumerable<ItineraryBlock> blocks)
+        {
+            _itineraryRepository.RemoveBlocks(blocks);
         }
 
         public void DeleteItinerary(int itineraryId, int userId)
         {
-            var itinerary = _itineraryRepository.GetAll().FirstOrDefault(i => i.Id == itineraryId && i.User.Id == userId);
+            var itinerary = _itineraryRepository.GetById(itineraryId);
 
-            if (itinerary == null) return;
+            if (itinerary == null || itinerary.UserId != userId) return;
 
-            _itineraryRepository.Remove(itinerary);  
+            _itineraryRepository.Delete(itineraryId);  
         }
 
         // TRANSPORT

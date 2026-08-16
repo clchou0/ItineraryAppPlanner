@@ -14,14 +14,19 @@ namespace ItineraryPlannerApp.Forms
     public partial class MainForm : Form
     {
         private readonly ItineraryPlannerService _service;
-        public MainForm(ItineraryPlannerService service)
+        private readonly EmailService _emailService;
+
+        public MainForm(ItineraryPlannerService service, EmailService emailService)
         {
             _service = service;
             InitializeComponent();
             content.Padding = new Padding(10);
             ShowPage(new LoginForm(this));
+            _emailService = emailService;
         }
         public ItineraryPlannerService Service { get { return _service; } }
+
+        public EmailService EmailService { get { return _emailService; } }
 
         public void ShowPage(Form page)
         {
@@ -44,5 +49,6 @@ namespace ItineraryPlannerApp.Forms
         {
 
         }
+
     }
 }
