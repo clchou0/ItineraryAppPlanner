@@ -11,23 +11,26 @@ using System.Globalization;
 
 namespace ItineraryPlannerApp.Forms.CityForm
 {
-    // World map that asks aadmin to clamp items into place. 
+    /// <summary>
+    /// Map view that allows admin to lock the map into place
+    /// </summary>
     public partial class CityMapEditor : Form
     {
         // Depends on if this is an EDIT or CREATE screen
-        private City? City;
-        public MapSlider NewSlider { get; }
+        public MapSlider NewSlider;
         public string CityName;
         public string NewDescription;
         private bool topRightLocked = false;
         private bool bottomLeftLocked = false;
 
-        public CityMapEditor(string name, MapSlider slider, City? city)
+        public CityMapEditor(string name, MapSlider slider)
         {
             CityName = name;
             NewSlider = slider;
-            City = city;
+
             InitializeComponent();
+            LatTextBox.Cap = 90;
+            LngTextBox.Cap = 180;
         }
 
         private void CityMapEditor_Load(object sender, EventArgs e)
@@ -53,9 +56,11 @@ namespace ItineraryPlannerApp.Forms.CityForm
                 double maxY = viewport.CenterY + halfHeightMap;
 
                 var (maxLon, maxLat) = SphericalMercator.ToLonLat(maxX, maxY);
-                NewSlider.SetTopRight(maxLon, maxLat);
-                mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
 
+                if (NewSlider.SetTopRight(maxLon, maxLat))
+                    mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
+                else
+                    MessageBox.Show("Top right setup failed");
                 LockTopRight.Text = "Unlock Top Right";
             }
             topRightLocked = !topRightLocked;
@@ -79,9 +84,10 @@ namespace ItineraryPlannerApp.Forms.CityForm
                 double minY = viewport.CenterY - halfHeightMap;
 
                 var (minLon, minLat) = SphericalMercator.ToLonLat(minX, minY);
-                NewSlider.SetBottomLeft(minLon, minLat);
-                mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
-
+                if (NewSlider.SetBottomLeft(minLon, minLat))
+                    mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
+                else
+                    MessageBox.Show("Bottom left setup failed");
                 LockBottomLeft.Text = "Unlock Bottom Left";
             }
             topRightLocked = !topRightLocked;
@@ -103,6 +109,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
 
             // Cap out at furthest zoom
             mapControl1.Map.Navigator.OverrideZoomBounds = new MMinMax(10, 200);
+            mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
 
             MPoint center = NewSlider.ZoomPoint() ?? new MPoint(-118.2437, 34.0522);
             mapControl1.Map.Navigator.CenterOnAndZoomTo(
@@ -111,14 +118,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
             );
             mapControl1.Map.Navigator.Limiter = new ViewportLimiter();
         }
-        private void LatTextBox_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-        private void LngTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         private void ZoomTo_Click(object sender, EventArgs e)
         {
             bool latOk = LatTextBox.IsValid();
@@ -140,12 +140,23 @@ namespace ItineraryPlannerApp.Forms.CityForm
         private void Confirm_Click(object sender, EventArgs e)
         {
             if (!NewSlider.IsValid)
-                MessageBox.Show("Set both corners before confirming");
-            else
+                MessageBox.Show("Set all necessary fields before confirming");
             {
                 DialogResult = DialogResult.OK;
                 Close();
             }
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Are you sure to reset map configuration?",
+                "confirm",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
+            if (result == DialogResult.OK) NewSlider = new MapSlider();
+
         }
     }
 }

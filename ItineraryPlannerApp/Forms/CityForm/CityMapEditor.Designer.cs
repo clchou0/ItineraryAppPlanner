@@ -40,6 +40,7 @@
             LatTextBox = new CoordinateTextBox();
             LngTextBox = new CoordinateTextBox();
             TitleLabel = new Label();
+            ResetButton = new Button();
             SuspendLayout();
             // 
             // DefaultZoom
@@ -135,8 +136,6 @@
             LatTextBox.Name = "LatTextBox";
             LatTextBox.Size = new Size(100, 27);
             LatTextBox.TabIndex = 8;
-            LatTextBox.TextChanged += LatTextBox_TextChanged;
-            LatTextBox.Cap = 90;
             // 
             // LngTextBox
             // 
@@ -144,8 +143,6 @@
             LngTextBox.Name = "LngTextBox";
             LngTextBox.Size = new Size(100, 27);
             LngTextBox.TabIndex = 11;
-            LngTextBox.TextChanged += LngTextBox_TextChanged;
-            LngTextBox.Cap = 180;
             // 
             // TitleLabel
             // 
@@ -153,14 +150,25 @@
             TitleLabel.Font = new Font("Segoe UI", 15F);
             TitleLabel.Location = new Point(14, 23);
             TitleLabel.Name = "TitleLabel";
-            TitleLabel.Size = new Size(116, 35);
+            TitleLabel.Size = new Size(0, 35);
             TitleLabel.TabIndex = 14;
+            // 
+            // ResetButton
+            // 
+            ResetButton.Location = new Point(1083, 210);
+            ResetButton.Name = "ResetButton";
+            ResetButton.Size = new Size(110, 29);
+            ResetButton.TabIndex = 15;
+            ResetButton.Text = "Reset";
+            ResetButton.UseVisualStyleBackColor = true;
+            ResetButton.Click += ResetButton_Click;
             // 
             // CityMapEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1206, 712);
+            Controls.Add(ResetButton);
             Controls.Add(TitleLabel);
             Controls.Add(LockBottomLeft);
             Controls.Add(LockTopRight);
@@ -191,5 +199,6 @@
         private Button ZoomTo;
         private Button Confirm;
         private Label TitleLabel;
+        private Button ResetButton;
     }
 }
