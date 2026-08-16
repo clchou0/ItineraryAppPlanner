@@ -118,7 +118,6 @@ namespace ItineraryPlannerApp.Forms
             panel1.Size = new Size(1474, 759);
             panel1.TabIndex = 3;
             panel1.WrapContents = false;
-            panel1.Paint += panel1_Paint;
             // 
             // label1
             // 
@@ -155,7 +154,7 @@ namespace ItineraryPlannerApp.Forms
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(1474, 829);
+            ClientSize = new Size(1262, 753);
             Controls.Add(panel1);
             Controls.Add(label1);
             Controls.Add(headerPanel);

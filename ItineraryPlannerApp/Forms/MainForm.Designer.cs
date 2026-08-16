@@ -33,10 +33,12 @@
             // 
             // content
             // 
+            content.AutoSize = true;
+            content.Dock = DockStyle.Fill;
             content.Location = new Point(0, 0);
             content.Margin = new Padding(2);
             content.Name = "content";
-            content.Size = new Size(946, 585);
+            content.Size = new Size(1262, 753);
             content.TabIndex = 0;
             content.Paint += content_Paint;
             // 
@@ -44,13 +46,14 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(947, 538);
+            ClientSize = new Size(1262, 753);
             Controls.Add(content);
             Margin = new Padding(2);
             Name = "MainForm";
             Text = "MainForm";
             Load += MainForm_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

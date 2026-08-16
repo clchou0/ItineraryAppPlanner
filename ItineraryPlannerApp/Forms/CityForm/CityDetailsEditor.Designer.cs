@@ -39,13 +39,13 @@
             ImageLabel = new Label();
             PickImageButton = new Button();
             PreviewImageButton = new Button();
-            LABEL = new Label();
+            CancelButton = new Button();
             SuspendLayout();
             // 
             // CityLabel
             // 
             CityLabel.AutoSize = true;
-            CityLabel.Location = new Point(40, 53);
+            CityLabel.Location = new Point(26, 24);
             CityLabel.Name = "CityLabel";
             CityLabel.Size = new Size(85, 20);
             CityLabel.TabIndex = 0;
@@ -53,7 +53,7 @@
             // 
             // CityNameBox
             // 
-            CityNameBox.Location = new Point(139, 53);
+            CityNameBox.Location = new Point(125, 24);
             CityNameBox.Name = "CityNameBox";
             CityNameBox.Size = new Size(192, 27);
             CityNameBox.TabIndex = 1;
@@ -61,17 +61,17 @@
             // 
             // DescriptionBox
             // 
-            DescriptionBox.Location = new Point(139, 188);
+            DescriptionBox.Location = new Point(125, 159);
             DescriptionBox.Multiline = true;
             DescriptionBox.Name = "DescriptionBox";
-            DescriptionBox.Size = new Size(908, 390);
+            DescriptionBox.Size = new Size(1047, 485);
             DescriptionBox.TabIndex = 3;
             DescriptionBox.TextChanged += DescriptionBox_TextChanged_1;
             // 
             // DescriptionLabel
             // 
             DescriptionLabel.AutoSize = true;
-            DescriptionLabel.Location = new Point(40, 191);
+            DescriptionLabel.Location = new Point(26, 162);
             DescriptionLabel.Name = "DescriptionLabel";
             DescriptionLabel.Size = new Size(89, 20);
             DescriptionLabel.TabIndex = 2;
@@ -79,7 +79,7 @@
             // 
             // CountryBox
             // 
-            CountryBox.Location = new Point(139, 98);
+            CountryBox.Location = new Point(125, 69);
             CountryBox.Name = "CountryBox";
             CountryBox.Size = new Size(192, 27);
             CountryBox.TabIndex = 5;
@@ -88,7 +88,7 @@
             // CountryLabel
             // 
             CountryLabel.AutoSize = true;
-            CountryLabel.Location = new Point(40, 101);
+            CountryLabel.Location = new Point(26, 72);
             CountryLabel.Name = "CountryLabel";
             CountryLabel.Size = new Size(67, 20);
             CountryLabel.TabIndex = 4;
@@ -96,7 +96,7 @@
             // 
             // ChangeMapButton
             // 
-            ChangeMapButton.Location = new Point(40, 595);
+            ChangeMapButton.Location = new Point(26, 650);
             ChangeMapButton.Name = "ChangeMapButton";
             ChangeMapButton.Size = new Size(174, 29);
             ChangeMapButton.TabIndex = 6;
@@ -106,7 +106,7 @@
             // 
             // SaveButton
             // 
-            SaveButton.Location = new Point(1066, 595);
+            SaveButton.Location = new Point(1003, 650);
             SaveButton.Name = "SaveButton";
             SaveButton.Size = new Size(94, 29);
             SaveButton.TabIndex = 7;
@@ -117,7 +117,7 @@
             // ImageLabel
             // 
             ImageLabel.AutoSize = true;
-            ImageLabel.Location = new Point(40, 144);
+            ImageLabel.Location = new Point(26, 115);
             ImageLabel.Name = "ImageLabel";
             ImageLabel.Size = new Size(58, 20);
             ImageLabel.TabIndex = 8;
@@ -125,7 +125,7 @@
             // 
             // PickImageButton
             // 
-            PickImageButton.Location = new Point(139, 140);
+            PickImageButton.Location = new Point(125, 111);
             PickImageButton.Name = "PickImageButton";
             PickImageButton.Size = new Size(94, 29);
             PickImageButton.TabIndex = 9;
@@ -134,28 +134,28 @@
             // 
             // PreviewImageButton
             // 
-            PreviewImageButton.Location = new Point(254, 140);
+            PreviewImageButton.Location = new Point(240, 111);
             PreviewImageButton.Name = "PreviewImageButton";
             PreviewImageButton.Size = new Size(77, 29);
             PreviewImageButton.TabIndex = 10;
             PreviewImageButton.Text = "Preview";
             PreviewImageButton.UseVisualStyleBackColor = true;
             // 
-            // LABEL
+            // CancelButton
             // 
-            LABEL.AutoSize = true;
-            LABEL.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            LABEL.Location = new Point(451, 96);
-            LABEL.Name = "LABEL";
-            LABEL.Size = new Size(0, 25);
-            LABEL.TabIndex = 11;
+            CancelButton.Location = new Point(1103, 650);
+            CancelButton.Name = "CancelButton";
+            CancelButton.Size = new Size(94, 29);
+            CancelButton.TabIndex = 12;
+            CancelButton.Text = "Cancel";
+            CancelButton.UseVisualStyleBackColor = true;
+            CancelButton.Click += CancelButton_Click;
             // 
             // CityDetailsEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1482, 853);
-            Controls.Add(LABEL);
+            Controls.Add(CancelButton);
             Controls.Add(PreviewImageButton);
             Controls.Add(PickImageButton);
             Controls.Add(ImageLabel);
@@ -168,6 +168,7 @@
             Controls.Add(CityNameBox);
             Controls.Add(CityLabel);
             Name = "CityDetailsEditor";
+            Size = new Size(1262, 709);
             Load += CityDetailsEditor_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -176,9 +177,9 @@
         #endregion
 
         private Label CityLabel;
+        private Label DescriptionLabel;
         private TextBox CityNameBox;
         private TextBox DescriptionBox;
-        private Label DescriptionLabel;
         private TextBox CountryBox;
         private Label CountryLabel;
         private Button ChangeMapButton;
@@ -186,6 +187,6 @@
         private Label ImageLabel;
         private Button PickImageButton;
         private Button PreviewImageButton;
-        private Label LABEL;
+        private Button CancelButton;
     }
 }
