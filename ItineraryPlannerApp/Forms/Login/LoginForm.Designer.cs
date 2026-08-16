@@ -153,6 +153,7 @@
             resetButton.TabIndex = 11;
             resetButton.Text = "Reset Password";
             resetButton.UseVisualStyleBackColor = true;
+            resetButton.Click += resetButton_Click;
             // 
             // LoginForm
             // 

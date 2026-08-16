@@ -150,16 +150,15 @@
                                 <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="10" Padding="20" Margin="0,0,0,12">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
                                         <StackPanel>
-                                            <TextBlock Text="{Binding StartTime, StringFormat={}{0:dd MMM yyyy HH:mm}}"/>
+                                            <TextBlock Text="{Binding StartTime, StringFormat={}{0:dd MMM yyyy HH:mm}}" FontWeight="Bold"/>
                                             <TextBlock Text="{Binding Type}"/>
                                             <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
-                                            <TextBlock Text="{Binding Description}"/>
+                                            <TextBlock Text="{Binding Description}" TextWrapping="NoWrap"/>
                                             <TextBlock Text="{Binding Cost, StringFormat=Entry Cost: ${0:F2}}" Margin="0,5,0,0"/>
                                         </StackPanel>
 

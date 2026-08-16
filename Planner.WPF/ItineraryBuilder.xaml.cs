@@ -171,14 +171,10 @@ namespace Planner.WPF
 
         private void AddAttraction_Click(object sender, RoutedEventArgs e)
         {
+            // will be added.
             var block = new ItineraryBlockItem
             {
-                Type = "Attraction",
-                AttractionId = 1,
-                Title = "Sydney Opera House",
-                Description = "Night Visit",
-                StartTime = DateTime.Today.AddHours(20),
-                Cost = 45
+                
             };
             Blocks.Add(block);
 

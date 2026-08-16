@@ -42,6 +42,12 @@ namespace ItineraryPlannerApp.Data.Repositories
                 .OrderByDescending(i => i.ArriveDate).ToList();
         }
 
+        public void RemoveBlocks(IEnumerable<ItineraryBlock> blocks)
+        {
+            _context.ItineraryBlocks.RemoveRange(blocks);
+            _context.SaveChanges();
+        }
+
         public void Delete(int id)
         {
             Itinerary? itinerary = this.GetById(id);
