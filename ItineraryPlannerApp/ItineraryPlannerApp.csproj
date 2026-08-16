@@ -11,10 +11,13 @@
 
   <ItemGroup>
     <Compile Remove="Forms\Attraction\**" />
+    <Compile Remove="Forms\Home\**" />
     <Compile Remove="Services\**" />
     <EmbeddedResource Remove="Forms\Attraction\**" />
+    <EmbeddedResource Remove="Forms\Home\**" />
     <EmbeddedResource Remove="Services\**" />
     <None Remove="Forms\Attraction\**" />
+    <None Remove="Forms\Home\**" />
     <None Remove="Services\**" />
   </ItemGroup>
 
@@ -34,10 +37,6 @@
     <Content Include="Data\Images\syd-img1.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Forms\Home\" />
   </ItemGroup>
 
   <ItemGroup>
