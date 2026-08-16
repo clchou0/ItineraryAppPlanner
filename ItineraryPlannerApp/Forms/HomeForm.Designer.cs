@@ -54,8 +54,9 @@ namespace ItineraryPlannerApp.Forms
             headerPanel.Controls.Add(titleLabel);
             headerPanel.Dock = DockStyle.Top;
             headerPanel.Location = new Point(0, 0);
+            headerPanel.Margin = new Padding(2, 2, 2, 2);
             headerPanel.Name = "headerPanel";
-            headerPanel.Size = new Size(1474, 70);
+            headerPanel.Size = new Size(1262, 44);
             headerPanel.TabIndex = 0;
             // 
             // MenuButton
@@ -66,10 +67,9 @@ namespace ItineraryPlannerApp.Forms
             MenuButton.FlatStyle = FlatStyle.Flat;
             MenuButton.Font = new Font("Segoe UI", 10F);
             MenuButton.ForeColor = Color.DimGray;
-            MenuButton.Location = new Point(7, 1);
-            MenuButton.Margin = new Padding(5);
+            MenuButton.Location = new Point(4, 1);
             MenuButton.Name = "MenuButton";
-            MenuButton.Size = new Size(80, 74);
+            MenuButton.Size = new Size(49, 46);
             MenuButton.TabIndex = 4;
             MenuButton.Text = "☰";
             MenuButton.UseVisualStyleBackColor = true;
@@ -77,9 +77,10 @@ namespace ItineraryPlannerApp.Forms
             // 
             // logoutButton
             // 
-            logoutButton.Location = new Point(1313, 13);
+            logoutButton.Location = new Point(1159, 8);
+            logoutButton.Margin = new Padding(2, 2, 2, 2);
             logoutButton.Name = "logoutButton";
-            logoutButton.Size = new Size(150, 46);
+            logoutButton.Size = new Size(92, 29);
             logoutButton.TabIndex = 3;
             logoutButton.Text = "Logout";
             logoutButton.UseVisualStyleBackColor = true;
@@ -90,9 +91,10 @@ namespace ItineraryPlannerApp.Forms
             welcomeLabel.AutoSize = true;
             welcomeLabel.Font = new Font("Segoe UI", 10F);
             welcomeLabel.ForeColor = Color.DimGray;
-            welcomeLabel.Location = new Point(1011, 17);
+            welcomeLabel.Location = new Point(1071, 10);
+            welcomeLabel.Margin = new Padding(2, 0, 2, 0);
             welcomeLabel.Name = "welcomeLabel";
-            welcomeLabel.Size = new Size(133, 37);
+            welcomeLabel.Size = new Size(84, 23);
             welcomeLabel.TabIndex = 2;
             welcomeLabel.Text = "Welcome,";
             welcomeLabel.TextAlign = ContentAlignment.TopRight;
@@ -102,9 +104,10 @@ namespace ItineraryPlannerApp.Forms
             titleLabel.AutoSize = true;
             titleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             titleLabel.ForeColor = Color.Gray;
-            titleLabel.Location = new Point(82, 13);
+            titleLabel.Location = new Point(50, 8);
+            titleLabel.Margin = new Padding(2, 0, 2, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(233, 45);
+            titleLabel.Size = new Size(147, 28);
             titleLabel.TabIndex = 1;
             titleLabel.Text = "Travel Planner";
             // 
@@ -113,9 +116,10 @@ namespace ItineraryPlannerApp.Forms
             panel1.AutoScroll = true;
             panel1.Dock = DockStyle.Fill;
             panel1.FlowDirection = FlowDirection.TopDown;
-            panel1.Location = new Point(0, 70);
+            panel1.Location = new Point(0, 44);
+            panel1.Margin = new Padding(2, 2, 2, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1474, 759);
+            panel1.Size = new Size(1262, 709);
             panel1.TabIndex = 3;
             panel1.WrapContents = false;
             // 
@@ -123,9 +127,10 @@ namespace ItineraryPlannerApp.Forms
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label1.Location = new Point(431, 99);
+            label1.Location = new Point(265, 62);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(589, 51);
+            label1.Size = new Size(377, 32);
             label1.TabIndex = 0;
             label1.Text = "Where is your next destination?";
             label1.TextAlign = ContentAlignment.TopCenter;
@@ -135,29 +140,30 @@ namespace ItineraryPlannerApp.Forms
             contextMenuStrip1.ImageScalingSize = new Size(32, 32);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { buildItineraryToolStripMenuItem, itineraryHistoryToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(258, 80);
+            contextMenuStrip1.Size = new Size(184, 52);
             // 
             // buildItineraryToolStripMenuItem
             // 
             buildItineraryToolStripMenuItem.Name = "buildItineraryToolStripMenuItem";
-            buildItineraryToolStripMenuItem.Size = new Size(257, 38);
+            buildItineraryToolStripMenuItem.Size = new Size(183, 24);
             buildItineraryToolStripMenuItem.Text = "Build Itinerary";
             // 
             // itineraryHistoryToolStripMenuItem
             // 
             itineraryHistoryToolStripMenuItem.Name = "itineraryHistoryToolStripMenuItem";
-            itineraryHistoryToolStripMenuItem.Size = new Size(257, 38);
+            itineraryHistoryToolStripMenuItem.Size = new Size(183, 24);
             itineraryHistoryToolStripMenuItem.Text = "Itinerary History";
             // 
             // HomeForm
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(1262, 753);
             Controls.Add(panel1);
             Controls.Add(label1);
             Controls.Add(headerPanel);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "HomeForm";
             Text = "HomeForm";
             Load += HomeFormLoad;

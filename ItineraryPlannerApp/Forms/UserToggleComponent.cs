@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace ItineraryPlannerApp.Forms
 {
@@ -16,8 +17,9 @@ namespace ItineraryPlannerApp.Forms
         private Dictionary<AppPage, UserControl> _pages = new Dictionary<AppPage, UserControl>();
         public City City;
         public Itinerary Itinerary;
+        private readonly HomeForm _homeForm;
 
-        public UserToggleComponent(City city, Itinerary? itinerary)
+        public UserToggleComponent(City city, Itinerary? itinerary, HomeForm homeForm)
         {
             InitializeComponent();
             City = city;
@@ -29,6 +31,8 @@ namespace ItineraryPlannerApp.Forms
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
 
+            TogglePage(AppPage.CityMap);
+            _homeForm = homeForm;
         }
 
         private void setupMap()
@@ -43,7 +47,7 @@ namespace ItineraryPlannerApp.Forms
         {
             _pages[AppPage.ItineraryPlanner] = new UserControl();
         }
-        
+
 
 
         // MapPage, listPage and itineraryPage
@@ -68,11 +72,23 @@ namespace ItineraryPlannerApp.Forms
             CityMapTag.BackColor = Color.White;
             AttractionListTag.BackColor = Color.White;
             ItineraryPlannerTag.BackColor = Color.White;
-            
-            
+
+
             _labels[page].BackColor = Color.Gray;
             panel1.Controls.Add(new Label { Text = page.ToString() });
             // panel1.Controls.Add(_pages[page]);
+        }
+
+        private void ReturnButton_Click(object sender, EventArgs e)
+        {
+            _homeForm.SpawnCityShowcase();
+
+            DialogResult result = MessageBox.Show(
+                $"Your changes to the itinerary will not be saved..",
+                "Confirm",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
         }
     }
     enum AppPage { CityMap, AttractionList, ItineraryPlanner };

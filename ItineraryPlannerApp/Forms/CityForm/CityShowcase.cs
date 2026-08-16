@@ -80,10 +80,5 @@ namespace ItineraryPlannerApp.Forms.CityForm
         {
             _homeForm.SpawnCityEditor(null);
         }
-        // City proceed button tapped, goes to the 3-split page
-        public void HandleProceed(City city)
-        {
-
-        }
     }
 }

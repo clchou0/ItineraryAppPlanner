@@ -34,6 +34,7 @@
             CityMapTag = new Label();
             ItineraryPlannerTag = new Label();
             AttractionListTag = new Label();
+            ReturnButton = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -71,7 +72,7 @@
             CityMapTag.BackColor = SystemColors.ButtonFace;
             CityMapTag.BorderStyle = BorderStyle.FixedSingle;
             CityMapTag.Font = new Font("Segoe UI", 10F);
-            CityMapTag.Location = new Point(10, 32);
+            CityMapTag.Location = new Point(10, 28);
             CityMapTag.Name = "CityMapTag";
             CityMapTag.Size = new Size(200, 40);
             CityMapTag.TabIndex = 4;
@@ -84,7 +85,7 @@
             ItineraryPlannerTag.BackColor = SystemColors.ButtonFace;
             ItineraryPlannerTag.BorderStyle = BorderStyle.FixedSingle;
             ItineraryPlannerTag.Font = new Font("Segoe UI", 10F);
-            ItineraryPlannerTag.Location = new Point(426, 32);
+            ItineraryPlannerTag.Location = new Point(426, 28);
             ItineraryPlannerTag.Name = "ItineraryPlannerTag";
             ItineraryPlannerTag.Size = new Size(200, 40);
             ItineraryPlannerTag.TabIndex = 5;
@@ -97,7 +98,7 @@
             AttractionListTag.BackColor = SystemColors.ButtonFace;
             AttractionListTag.BorderStyle = BorderStyle.FixedSingle;
             AttractionListTag.Font = new Font("Segoe UI", 10F);
-            AttractionListTag.Location = new Point(220, 32);
+            AttractionListTag.Location = new Point(220, 28);
             AttractionListTag.Name = "AttractionListTag";
             AttractionListTag.Size = new Size(200, 40);
             AttractionListTag.TabIndex = 6;
@@ -105,10 +106,21 @@
             AttractionListTag.TextAlign = ContentAlignment.MiddleCenter;
             AttractionListTag.Click += AttractionListTag_Click;
             // 
+            // ReturnButton
+            // 
+            ReturnButton.Location = new Point(1158, 28);
+            ReturnButton.Name = "ReturnButton";
+            ReturnButton.Size = new Size(94, 29);
+            ReturnButton.TabIndex = 7;
+            ReturnButton.Text = "Return";
+            ReturnButton.UseVisualStyleBackColor = true;
+            ReturnButton.Click += ReturnButton_Click;
+            // 
             // UserToggleComponent
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(ReturnButton);
             Controls.Add(panel1);
             Controls.Add(AttractionListTag);
             Controls.Add(ItineraryPlannerTag);
@@ -129,5 +141,6 @@
         private Label ItineraryPlannerTag;
         private Label AttractionListTag;
         private Button button1;
+        private Button ReturnButton;
     }
 }
