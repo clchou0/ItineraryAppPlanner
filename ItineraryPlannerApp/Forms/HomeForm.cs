@@ -6,6 +6,7 @@ using ItineraryPlannerApp.Models.Itinerary;
 using ItineraryPlannerApp;
 using Planner.WPF;
 using ItineraryPlannerApp.Forms.ItineraryForm;
+using ItineraryPlannerApp.Forms.ItineraryPlanning;
 
 namespace ItineraryPlannerApp.Forms
 {

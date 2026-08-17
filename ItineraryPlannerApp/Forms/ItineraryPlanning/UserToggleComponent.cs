@@ -1,15 +1,8 @@
 ﻿using ItineraryPlannerApp.Models;
 using ItineraryPlannerApp.Models.Itinerary;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Xml.Linq;
+using ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions;
 
-namespace ItineraryPlannerApp.Forms
+namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 {
     public partial class UserToggleComponent : UserControl
     {
@@ -31,6 +24,7 @@ namespace ItineraryPlannerApp.Forms
             _labels[AppPage.CityMap] = CityMapTag;
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
+            _pages[AppPage.AttractionList] = new AttractionList(city);
 
             TogglePage(AppPage.CityMap);
         }

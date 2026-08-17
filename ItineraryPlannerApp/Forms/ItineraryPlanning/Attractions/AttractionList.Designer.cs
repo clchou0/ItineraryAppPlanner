@@ -1,6 +1,6 @@
-﻿namespace ItineraryPlannerApp.Forms.AttractionForm
+﻿namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 {
-    partial class CityMap
+    partial class AttractionList
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,17 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            flowLayoutPanel1 = new FlowLayoutPanel();
             SuspendLayout();
             // 
-            // CityMap
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Location = new Point(20, 20);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(1202, 608);
+            flowLayoutPanel1.TabIndex = 0;
+            // 
+            // AttractionList
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Name = "CityMap";
-            Size = new Size(1011, 528);
+            Controls.Add(flowLayoutPanel1);
+            Name = "AttractionList";
+            Size = new Size(1242, 628);
+            Load += AttractionList_Load;
             ResumeLayout(false);
         }
 
         #endregion
+
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
