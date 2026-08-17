@@ -143,5 +143,17 @@ namespace ItineraryPlannerApp.Data.Services
         {
             return _transitRouteRepository.GetAllWithStops();
         }
+        public void AddAttraction(Attraction attraction)
+        {
+            _attractionRepository.Add(attraction);
+        }
+        public void UpdateAttraction(Attraction attraction)
+        {
+            _attractionRepository.Update(attraction);
+        }
+        public List<Attraction> GetAttractionsByCity(City city)
+        {
+            return _attractionRepository.GetAll().Where(a => a.City == city).ToList();
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿using ItineraryPlannerApp.Models;
+﻿using BruTile.Wms;
+using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Models;
+using ItineraryPlannerApp.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,19 +9,21 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using ItineraryPlannerApp.Models;
 
 namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 {
     public partial class AttractionRow : UserControl
     {
         public Attraction Attraction;
+        private readonly ItineraryPlannerService _service;
         public bool IsAdmin;
-        public AttractionRow(Attraction attraction, bool isAdmin)
+        public AttractionRow(ItineraryPlannerService service, Attraction attraction, bool isAdmin)
         {
-            InitializeComponent();
+            _service = service;
             Attraction = attraction;
             IsAdmin = isAdmin;
+
+            InitializeComponent();
 
             NameLabel.Text = Attraction.AttractionName;
             AreaLabel.Text = $"Area: {Attraction.Area}";
@@ -42,11 +47,16 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
         private void EditButton_Click(object sender, EventArgs e)
         {
             if (!IsAdmin) return;
+            var editor = new AttractionDetailsEditor(_service, this.FindForm(), Attraction, true);
+            editor.BringToFront();
+            editor.Dock = DockStyle.Fill;
+
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             if (!IsAdmin) return;
+            
         }
 
         private void DetailsButton_Click(object sender, EventArgs e)

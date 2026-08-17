@@ -1,20 +1,23 @@
 ﻿using ItineraryPlannerApp.Models;
 using ItineraryPlannerApp.Models.Itinerary;
 using ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions;
+using ItineraryPlannerApp.Data.Services;
 
 namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 {
     public partial class UserToggleComponent : UserControl
     {
+        private readonly ItineraryPlannerService _service;
         private Dictionary<AppPage, Label> _labels = new Dictionary<AppPage, Label>();
         private Dictionary<AppPage, UserControl> _pages = new Dictionary<AppPage, UserControl>();
         public City City;
         public Itinerary Itinerary;
         private readonly HomeForm _homeForm;
 
-        public UserToggleComponent(City city, Itinerary? itinerary, HomeForm homeForm)
+        public UserToggleComponent(ItineraryPlannerService service, City city, Itinerary? itinerary, HomeForm homeForm)
         {
             InitializeComponent();
+            _service = service;
             City = city;
             _homeForm = homeForm;
 
@@ -24,7 +27,18 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
             _labels[AppPage.CityMap] = CityMapTag;
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
-            _pages[AppPage.AttractionList] = new AttractionList(city);
+            _pages[AppPage.AttractionList] = new AttractionList(_service, city);
+
+            _pages[AppPage.ItineraryPlanner] = new UserControl
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.LightGray
+            };
+            _pages[AppPage.CityMap] = new UserControl
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.LightGray
+            };
 
             TogglePage(AppPage.CityMap);
         }
@@ -69,8 +83,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 
 
             _labels[page].BackColor = Color.Gray;
-            panel1.Controls.Add(new Label { Text = page.ToString() });
-            // panel1.Controls.Add(_pages[page]);
+            // panel1.Controls.Add(new Label { Text = page.ToString() });
+            panel1.Controls.Add(_pages[page]);
         }
 
         private void ReturnButton_Click(object sender, EventArgs e)

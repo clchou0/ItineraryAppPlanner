@@ -1,4 +1,4 @@
-﻿using ItineraryPlannerApp.Migrations;
+﻿
 using ItineraryPlannerApp.Models;
 using ItineraryPlannerApp.Models.Itinerary;
 using Microsoft.EntityFrameworkCore;

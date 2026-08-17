@@ -40,10 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Forms\Itinerary\" />
-  </ItemGroup>
-
-  <ItemGroup>
 	<PackageReference Include="Mapsui" Version="5.1.0" />
 	<PackageReference Include="Mapsui.WindowsForms" Version="5.1.0" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />

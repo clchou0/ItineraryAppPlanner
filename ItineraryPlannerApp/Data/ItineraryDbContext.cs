@@ -68,7 +68,7 @@ namespace ItineraryPlannerApp.Data
 
             modelBuilder.Entity<TransitAccess>()
                 .HasOne(a => a.Attraction)
-                .WithMany()
+                .WithMany(a => a.CloseStations)
                 .HasForeignKey(a => a.AttractionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
