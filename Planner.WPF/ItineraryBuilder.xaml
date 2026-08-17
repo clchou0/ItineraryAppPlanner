@@ -173,10 +173,13 @@
 
                     <Grid Grid.Row="4" Margin="0,0,0,20">
                         <TextBlock x:Name="txtTotalCost" Text="Total Entry Cost: $0.00" VerticalAlignment="Center"/>
-                        <Button Content="Save Itinerary" Width="150" Height="40" HorizontalAlignment="Center" Click="SaveItinerary_Click"/>
-                    </Grid>
 
-                    
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Button Content="Save Itinerary" Width="150" Height="40" Click="SaveItinerary_Click"/>
+                            <Button Content="Complete Itinerary Plan" Width="150" Height="40" Margin="5" Click="CompleteButton_Click"/>
+                        </StackPanel>
+                    </Grid>            
                 </Grid>
             </ScrollViewer>
 

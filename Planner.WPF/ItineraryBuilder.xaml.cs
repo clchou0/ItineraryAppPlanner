@@ -22,12 +22,19 @@ namespace Planner.WPF
         private int _cityId;
         private int? _currentItineraryId;
         private readonly Func<ItineraryEditData, int> _saveItinerary;
+        private readonly Action<int> _completeItinerary;
         private readonly Action<int> _deleteItinerary;
         public ObservableCollection<ItineraryList> Itineraries { get; set; }
         public ObservableCollection<ItineraryBlockItem> Blocks { get; set; } = new();
         public List<string> Cities { get; set; }
         public List<TransitRouteItem> TransitRoutes { get; set; }
-        public ItineraryBuilder(int userId, List<ItineraryList> itineraries, List<string> cities, List<TransitRouteItem> routes, Func<ItineraryEditData, int> saveItinerary, Action<int> deleteItinerary)
+        public ItineraryBuilder(
+            int userId, List<ItineraryList> itineraries, 
+            List<string> cities, 
+            List<TransitRouteItem> routes, 
+            Func<ItineraryEditData, int> saveItinerary, 
+            Action<int> completeItinerary, 
+            Action<int> deleteItinerary)
         {
             InitializeComponent();
 
@@ -40,6 +47,7 @@ namespace Planner.WPF
             TransitRoutes = routes;
 
             _saveItinerary = saveItinerary;
+            _completeItinerary = completeItinerary;
             _deleteItinerary = deleteItinerary;
 
             DataContext = this;
@@ -437,5 +445,33 @@ namespace Planner.WPF
             ShowListView();
         }
 
+        private void CompleteButton_Click(object sender, EventArgs e)
+        {
+            if (_currentItineraryId == null)
+            {
+                MessageBox.Show("Please save the itinerary before completing it.");
+                return;
+            }
+
+            var result = MessageBox.Show("Complete this itinerary plan?", "Move to My Itineraries", MessageBoxButton.YesNo);
+
+            if (result != MessageBoxResult.Yes) return;
+
+            _completeItinerary(_currentItineraryId.Value);
+
+            var item = Itineraries.FirstOrDefault(i => i.Id == _currentItineraryId.Value);
+
+            if (item != null)
+            {
+                Itineraries.Remove(item);
+            }
+
+            MessageBox.Show("Now you can find this plan in My Itineraries.");
+
+            _currentItineraryId = null;
+
+            UpdateEmptyState();
+            ShowListView();
+        }
     }
 }

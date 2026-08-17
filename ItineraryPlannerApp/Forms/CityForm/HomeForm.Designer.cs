@@ -40,7 +40,7 @@ namespace ItineraryPlannerApp.Forms
             label1 = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             buildItineraryToolStripMenuItem = new ToolStripMenuItem();
-            itineraryHistoryToolStripMenuItem = new ToolStripMenuItem();
+            myItinerariesToolStripMenuItem = new ToolStripMenuItem();
             headerPanel.SuspendLayout();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
@@ -134,21 +134,21 @@ namespace ItineraryPlannerApp.Forms
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(32, 32);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { buildItineraryToolStripMenuItem, itineraryHistoryToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { buildItineraryToolStripMenuItem, myItinerariesToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(258, 80);
+            contextMenuStrip1.Size = new Size(237, 80);
             // 
             // buildItineraryToolStripMenuItem
             // 
             buildItineraryToolStripMenuItem.Name = "buildItineraryToolStripMenuItem";
-            buildItineraryToolStripMenuItem.Size = new Size(257, 38);
+            buildItineraryToolStripMenuItem.Size = new Size(300, 38);
             buildItineraryToolStripMenuItem.Text = "Build Itinerary";
             // 
-            // itineraryHistoryToolStripMenuItem
+            // myItinerariesToolStripMenuItem
             // 
-            itineraryHistoryToolStripMenuItem.Name = "itineraryHistoryToolStripMenuItem";
-            itineraryHistoryToolStripMenuItem.Size = new Size(257, 38);
-            itineraryHistoryToolStripMenuItem.Text = "Itinerary History";
+            myItinerariesToolStripMenuItem.Name = "myItinerariesToolStripMenuItem";
+            myItinerariesToolStripMenuItem.Size = new Size(300, 38);
+            myItinerariesToolStripMenuItem.Text = "My Itineraries";
             // 
             // HomeForm
             // 
@@ -180,6 +180,6 @@ namespace ItineraryPlannerApp.Forms
         private Button MenuButton;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem buildItineraryToolStripMenuItem;
-        private ToolStripMenuItem itineraryHistoryToolStripMenuItem;
+        private ToolStripMenuItem myItinerariesToolStripMenuItem;
     }
 }

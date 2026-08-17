@@ -32,7 +32,7 @@ namespace ItineraryPlannerApp.Forms
 
 
             buildItineraryToolStripMenuItem.Click += buildItineraryToolStripMenuItem_Click;
-            itineraryHistoryToolStripMenuItem.Click += itineraryHistoryToolStripMenuItem_Click;
+            myItinerariesToolStripMenuItem.Click += myItinerariesToolStripMenuItem_Click;
 
         }
         public HomeForm(MainForm mainForm, User user) : this()
@@ -135,10 +135,9 @@ namespace ItineraryPlannerApp.Forms
             _itineraryPlannerLauncher.SpawnItineraryPlanner(_user);
         }
 
-        private void itineraryHistoryToolStripMenuItem_Click(Object sender, EventArgs e)
+        private void myItinerariesToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            var window = new ItineraryHistory();
-            window.Show();
+            _itineraryPlannerLauncher.SpawnMyItineraries(_user); 
         }
 
         private void HomeForm_Load(object sender, EventArgs e)

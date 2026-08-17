@@ -1,10 +1,12 @@
 ﻿using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Models;
 using ItineraryPlannerApp.Models.Itinerary;
+using Microsoft.VisualBasic.ApplicationServices;
 using Planner.WPF;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using User = ItineraryPlannerApp.Models.User;
 
 namespace ItineraryPlannerApp.Forms.ItineraryForm
 {
@@ -19,21 +21,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
 
         public void SpawnItineraryPlanner(User user)
         {
-            var dbItineraries = _service.GetItinerariesByUserId(user.Id);
+            var dbItineraries = _service.GetItinerariesByUserId(user.Id).Where(i => i.Status == ItineraryStatus.Draft);
 
-            var itineraries = dbItineraries.Select(i => new ItineraryList
-            {
-                Id = i.Id,
-                UserId = i.UserId,
-                CityName = i.City.CityName,
-                ArriveDate = i.ArriveDate,
-                LeaveDate = i.LeaveDate,
-                TotalPrice = i.TotalEntryPrice,
-
-                Blocks = i.ItineraryBlocks.Select(b => ConvertBlock(i.Id, b))
-                .OrderBy(b => b.StartTime).ToList()
-
-            }).ToList();
+            var itineraries = ConvertItineraries(dbItineraries);
 
             var cities = _service.GetAllCities().Select(c => c.CityName).ToList();
 
@@ -53,7 +43,19 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                     }).ToList()
                 }).ToList();
 
-            var window = new ItineraryBuilder(user.Id, itineraries, cities, routes, SaveItinerary, id => DeleteItinerary(id, user.Id));
+            var window = new ItineraryBuilder(user.Id, itineraries, cities, routes, 
+                SaveItinerary, id => CompleteItinerary(id, user.Id), id => DeleteItinerary(id, user.Id));
+
+            window.ShowDialog();
+        }
+
+        public void SpawnMyItineraries(User user)
+        {
+            var completed = _service.GetCompletedItineraries(user.Id);
+
+            var completedItems = ConvertItineraries(completed);
+            
+            var window = new myItineraries(completedItems, id => DraftItinerary(id, user.Id), id => DeleteItinerary(id, user.Id));
 
             window.ShowDialog();
         }
@@ -107,6 +109,22 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                 ItineraryId = itineraryId,
                 StartTime = block.StartTime
             };
+        }
+
+        private List<ItineraryList> ConvertItineraries(IEnumerable<Itinerary> dbitineraries)
+        {
+            return dbitineraries.Select(i => new ItineraryList
+            {
+                Id = i.Id,
+                UserId = i.UserId,
+                CityName = i.City.CityName,
+                ArriveDate = i.ArriveDate,
+                LeaveDate = i.LeaveDate,
+                TotalPrice = i.TotalEntryPrice,
+
+                Blocks = i.ItineraryBlocks.Select(b => ConvertBlock(i.Id, b))
+                    .OrderBy(b => b.StartTime).ToList()
+            }).ToList();
         }
 
         private int SaveItinerary(ItineraryEditData data)
@@ -216,6 +234,16 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
         private void DeleteItinerary(int itineraryId, int userId)
         {
             _service.DeleteItinerary(itineraryId, userId);
+        }
+
+        private void CompleteItinerary(int itineraryId, int userId)
+        {
+            _service.CompleteItinerary(itineraryId, userId);
+        }
+
+        private bool DraftItinerary(int itineraryId, int userId)
+        {
+            return _service.DraftItinerary(itineraryId, userId);
         }
     }
 }

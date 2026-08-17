@@ -103,6 +103,12 @@ namespace ItineraryPlannerApp.Data.Services
             return _itineraryRepository.GetByUserId(userId);
         }
 
+        public List<Itinerary> GetCompletedItineraries(int userId)
+        {
+            return _itineraryRepository.GetByUserId(userId).Where(i => i.Status == ItineraryStatus.Completed)
+                .OrderByDescending(i => i.ArriveDate).ToList();
+        }
+
         public Itinerary? GetItineraryById(int id,  int userId)
         {
             var itinerary = _itineraryRepository.GetById(id);
@@ -126,6 +132,30 @@ namespace ItineraryPlannerApp.Data.Services
             if (itinerary == null || itinerary.UserId != userId) return;
 
             _itineraryRepository.Delete(itineraryId);  
+        }
+
+        public void CompleteItinerary(int itineraryId, int userId)
+        {
+            var itinerary = _itineraryRepository.GetById(itineraryId);
+
+            if (itinerary == null || itinerary.UserId != userId) return;
+
+            itinerary.Status = ItineraryStatus.Completed;
+            _itineraryRepository.Update(itinerary);
+        }
+
+        public bool DraftItinerary(int itineraryId, int userId)
+        {
+            var itinerary = _itineraryRepository.GetById(itineraryId);
+
+            if (itinerary == null || itinerary.UserId != userId)
+            {
+                return false;
+            }
+
+            itinerary.Status = ItineraryStatus.Draft;
+            _itineraryRepository.Update(itinerary);
+            return true;
         }
 
         // TRANSPORT

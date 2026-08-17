@@ -8,34 +8,48 @@ namespace ItineraryPlannerApp.Data.Services
 {
     public class EmailService
     {
-        private readonly string _senderEmail;
-        private readonly string _appPassword;
-
-        public EmailService(string senderEmail, string appPassword)
-        {
-            _senderEmail = senderEmail;
-            _appPassword = appPassword;
-        }
+        private readonly string smtpEmail = "leejihye2002@gmail.com";
+        private readonly string smtpPassword = "qxdnyodzajridspp";
 
         public async Task SendResetCodeAsync(string receiverEmail, string resetCode)
         {
             using var message = new MailMessage();
 
-            message.From = new MailAddress(_senderEmail);
+            message.From = new MailAddress(smtpEmail);
             message.To.Add(receiverEmail);
 
             message.Subject = "[Action Required] Verification Code - Travel Planner";
 
             message.Body = $"Your verification code is: {resetCode}.\n\nPlease enter to reset your password.";
 
-            using var client = new SmtpClient("smtp.gmail.com", 587);
+            using var smtp = CreateSmtpClient();
 
-            client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
+            await smtp.SendMailAsync(message);
+        }
 
-            client.Credentials = new NetworkCredential(_senderEmail, _appPassword);
+        public async Task SendPdfAsync(string receiverEmail, byte[] pdf, string fileName)
+        {
+            using var message = new MailMessage();
 
-            await client.SendMailAsync(message);
+            message.From = new MailAddress(smtpEmail);
+            message.To.Add(receiverEmail);
+
+            message.Subject = "[Travel Planner] Your Travel Itinerary";
+            message.Body = "";
+
+            message.Attachments.Add(attachment);
+
+            using var smtp = CreateSmtpClient();
+            await smtp.SendMailAsync(message);
+        }
+
+        private SmtpClient CreateSmtpClient()
+        {
+            return new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential(smtpEmail, smtpPassword),
+                EnableSsl = true
+            };
         }
     }
 }
