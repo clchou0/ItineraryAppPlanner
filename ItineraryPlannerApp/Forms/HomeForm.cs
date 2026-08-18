@@ -79,7 +79,7 @@ namespace ItineraryPlannerApp.Forms
         public void OpenItineraryCreator(City city, Itinerary? itinerary)
         {
             panel1.Controls.Clear();
-            panel1.Controls.Add(new UserToggleComponent(_mainForm.Service, city, itinerary, this));
+            panel1.Controls.Add(new UserToggleComponent(_mainForm.Service, city, itinerary, this, _user));
         }
     }
 }

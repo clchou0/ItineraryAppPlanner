@@ -12,14 +12,16 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
         private Dictionary<AppPage, UserControl> _pages = new Dictionary<AppPage, UserControl>();
         public City City;
         public Itinerary Itinerary;
+        private readonly User _user;
         private readonly HomeForm _homeForm;
 
-        public UserToggleComponent(ItineraryPlannerService service, City city, Itinerary? itinerary, HomeForm homeForm)
+        public UserToggleComponent(ItineraryPlannerService service, City city, Itinerary? itinerary, HomeForm homeForm, User user)
         {
             InitializeComponent();
             _service = service;
             City = city;
             _homeForm = homeForm;
+            _user = user;
 
             // TODO: Change this to a blank itinerary
             Itinerary = itinerary ?? new Itinerary();
@@ -28,7 +30,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
 
-            _pages[AppPage.AttractionList] = new AttractionList(_service, city, this);
+            _pages[AppPage.AttractionList] = new AttractionList(_service, city, user, this);
 
             _pages[AppPage.ItineraryPlanner] = new UserControl
             {

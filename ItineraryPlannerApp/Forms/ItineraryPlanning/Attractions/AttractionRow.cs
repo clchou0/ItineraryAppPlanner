@@ -18,6 +18,10 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
         private readonly ItineraryPlannerService _service;
         public bool IsAdmin;
         private readonly UserToggleComponent _component;
+
+        // private readonly Attraction _attraction;
+        public event Action<Attraction>? AddToItineraryRequested;
+
         public AttractionRow(ItineraryPlannerService service, Attraction attraction, bool isAdmin, UserToggleComponent component)
         {
             _service = service;
@@ -33,8 +37,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
             if (isAdmin)
             {
-                AddButton.Visible = false;
-                AddButton.Enabled = false;
+                //AddButton.Visible = false;
+                //AddButton.Enabled = false;
             }
             else
             {
@@ -42,6 +46,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
                 DeleteButton.Visible = false;
                 EditButton.Enabled = false;
                 DeleteButton.Enabled = false;
+                AddButton.Visible = false;
+                AddButton.Enabled = false;
             }
 
             _component = component;
@@ -69,7 +75,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-
+            AddToItineraryRequested?.Invoke(Attraction);
         }
 
         private void TransportLabel_Click(object sender, EventArgs e)
