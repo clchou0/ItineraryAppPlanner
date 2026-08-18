@@ -14,27 +14,38 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
     {
         public City City;
         private readonly ItineraryPlannerService _service;
-        public AttractionList(ItineraryPlannerService service, City city)
+        private List<Attraction> _allAttractions;
+        private readonly UserToggleComponent _component;
+        public AttractionList(ItineraryPlannerService service, City city, UserToggleComponent component)
         {
             _service = service;
             City = city;
+            _component = component;
+            
             InitializeComponent();
+            ReloadAttractionList();
         }
 
         private void AttractionList_Load(object sender, EventArgs e)
         {
-            var attractions = _service.GetAttractionsByCity(City);
-            foreach (var attraction in attractions) 
-            {
-                flowLayoutPanel1.Controls.Add(new AttractionRow(_service, attraction, true));
-            }
+            
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var editor = new AttractionDetailsEditor(_service, this.FindForm(), new Attraction { City = City }, true);
+            var editor = new AttractionDetailsEditor(_service, _component, new Attraction { City = City }, true);
             editor.BringToFront();
             editor.Dock = DockStyle.Fill;
+        }
+        public void ReloadAttractionList()
+        {
+            flowLayoutPanel2.Controls.Clear();
+            _allAttractions = _service.GetAttractionsByCity(City);
+
+            foreach (var attraction in _allAttractions)
+            {
+                flowLayoutPanel2.Controls.Add(new AttractionRow(_service, attraction, true, _component));
+            }
         }
     }
 }

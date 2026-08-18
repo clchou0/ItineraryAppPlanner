@@ -8,13 +8,13 @@ namespace ItineraryPlannerApp.Models
     {
         public int Id { get; set; }
         public string AttractionName { get; set; } = string.Empty;
-        public string ImagePath { get; set; } = string.Empty;
-        public Location Location { get; set; }
+        public string ImagePath { get; set; } = "string.Empty";
+        public Location Location { get; set; } = new Location();
         public string Description { get; set; } = string.Empty;
         public string ShortDesctiption { get; set; } = string.Empty;
         public string Area { get; set; } = string.Empty;
         public string EntryPrice { get; set; } = string.Empty;
-        public AttractionCategory Category { get; set; }
+        public AttractionCategory Category { get; set; } = AttractionCategory.ThemePark;
         public List<TransitAccess> CloseStations { get; set; } = new List<TransitAccess>();
 
         public City City { get; set; }

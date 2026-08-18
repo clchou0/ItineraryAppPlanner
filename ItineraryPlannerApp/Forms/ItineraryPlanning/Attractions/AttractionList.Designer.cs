@@ -31,13 +31,12 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             SlidersPanel = new Panel();
             AddButton = new Button();
-            flowLayoutPanel1.SuspendLayout();
+            flowLayoutPanel2 = new FlowLayoutPanel();
             SlidersPanel.SuspendLayout();
             SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.Controls.Add(SlidersPanel);
             flowLayoutPanel1.Location = new Point(20, 20);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(1202, 608);
@@ -46,7 +45,7 @@
             // SlidersPanel
             // 
             SlidersPanel.Controls.Add(AddButton);
-            SlidersPanel.Location = new Point(3, 3);
+            SlidersPanel.Location = new Point(20, 20);
             SlidersPanel.Name = "SlidersPanel";
             SlidersPanel.Size = new Size(1199, 88);
             SlidersPanel.TabIndex = 0;
@@ -61,15 +60,24 @@
             AddButton.UseVisualStyleBackColor = true;
             AddButton.Click += AddButton_Click;
             // 
+            // flowLayoutPanel2
+            // 
+            flowLayoutPanel2.AutoScroll = true;
+            flowLayoutPanel2.Location = new Point(20, 110);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(1199, 518);
+            flowLayoutPanel2.TabIndex = 0;
+            // 
             // AttractionList
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(flowLayoutPanel2);
+            Controls.Add(SlidersPanel);
             Controls.Add(flowLayoutPanel1);
             Name = "AttractionList";
             Size = new Size(1242, 628);
             Load += AttractionList_Load;
-            flowLayoutPanel1.ResumeLayout(false);
             SlidersPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -79,5 +87,6 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Panel SlidersPanel;
         private Button AddButton;
+        private FlowLayoutPanel flowLayoutPanel2;
     }
 }

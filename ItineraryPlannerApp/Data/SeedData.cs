@@ -1,9 +1,5 @@
 ﻿using ItineraryPlannerApp.Models;
 using ItineraryPlannerApp.Data.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace ItineraryPlannerApp.Data
 {
@@ -137,10 +133,159 @@ namespace ItineraryPlannerApp.Data
                                     MinuteWalk = 7
                                 }
                             },
-                            
+
                             City = sydney,
                             CityId = sydney.Id
-                        }
+                        },
+                        new Attraction
+                        {
+                            AttractionName = "St Mary's Cathedral",
+                            ImagePath = "images/attractions/st_marys_cathedral.jpg",
+
+                            Location = new Location
+                            {
+                                Latitude = -33.8722,
+                                Longitude = 151.2136
+                            },
+
+                            Description =
+                                "A soaring example of English-style Gothic Revival architecture, St " +
+                                "Mary's Cathedral has stood on this site since the earliest days of the " +
+                                "colony and serves as the spiritual home of the Catholic Archdiocese of " +
+                                "Sydney. Its twin spires and richly detailed stonework dominate the " +
+                                "eastern edge of Hyde Park, and the crypt beneath houses one of the " +
+                                "world's largest collections of terrazzo mosaic floors.",
+
+                            ShortDesctiption =
+                                "Gothic Revival cathedral overlooking Hyde Park.",
+
+                            Area = "Sydney CBD",
+
+                            EntryPrice =
+                                "Free entry; crypt tour donations welcome",
+
+                            Category = AttractionCategory.Landmark,
+
+                            CloseStations = new List<TransitAccess>
+                            {
+                                new TransitAccess
+                                {
+                                    Type = TransportType.Train,
+                                    StationName = "St James Station",
+                                    MinuteWalk = 5
+                                },
+                                new TransitAccess
+                                {
+                                    Type = TransportType.Train,
+                                    StationName = "Museum Station",
+                                    MinuteWalk = 6
+                                },
+                                new TransitAccess
+                                {
+                                    Type = TransportType.Bus,
+                                    StationName = "College Street Bus Stop",
+                                    MinuteWalk = 3
+                                }
+                            },
+
+                            City = sydney,
+                            CityId = sydney.Id
+                        },
+                        new Attraction
+                        {
+                            AttractionName = "Sydney Fish Market",
+                            ImagePath = "images/attractions/sydney_fish_market.jpg",
+
+                            Location = new Location
+                            {
+                                Latitude = -33.8688,
+                                Longitude = 151.1943
+                            },
+
+                            Description =
+                                "One of the largest seafood markets in the Southern Hemisphere, the " +
+                                "Sydney Fish Market is a working harbourside market where auctioneers, " +
+                                "fishmongers, and sushi bars operate side by side. Visitors can watch " +
+                                "the early-morning Dutch auction, pick up fresh seafood, or grab lunch " +
+                                "at one of the many casual eateries overlooking Blackwattle Bay.",
+
+                            ShortDesctiption =
+                                "Bustling harbourside seafood market and eatery hub.",
+
+                            Area = "Pyrmont",
+
+                            EntryPrice =
+                                "Free entry; seafood and meals priced individually",
+
+                            Category = AttractionCategory.Landmark,
+
+                            CloseStations = new List<TransitAccess>
+                            {
+                                new TransitAccess
+                                {
+                                    Type = TransportType.LightRail,
+                                    StationName = "Fish Market Station",
+                                    MinuteWalk = 2
+                                },
+                                new TransitAccess
+                                {
+                                    Type = TransportType.Bus,
+                                    StationName = "Pyrmont Bridge Road Bus Stop",
+                                    MinuteWalk = 5
+                                }
+                            },
+
+                            City = sydney,
+                            CityId = sydney.Id
+                        },
+                        new Attraction
+                        {
+                            AttractionName = "Three Sisters",
+                            ImagePath = "images/attractions/three_sisters.jpg",
+
+                            Location = new Location
+                            {
+                                Latitude = -33.7333,
+                                Longitude = 150.3117
+                            },
+
+                            Description =
+                                "Rising from the cliffs of the Jamison Valley, the Three Sisters are " +
+                                "an iconic rock formation shaped by millions of years of erosion and " +
+                                "steeped in Dreamtime significance for the local Gundungurra people. " +
+                                "The Echo Point lookout offers sweeping views across the Blue " +
+                                "Mountains, and nearby trails lead down into the valley via the " +
+                                "Giant Stairway for a closer look at the formation.",
+
+                            ShortDesctiption =
+                                "Iconic sandstone rock formation in the Blue Mountains.",
+
+                            Area = "Katoomba, Blue Mountains",
+
+                            EntryPrice =
+                                "Free entry to Echo Point lookout",
+
+                            Category = AttractionCategory.Landmark,
+
+                            CloseStations = new List<TransitAccess>
+                            {
+                                new TransitAccess
+                                {
+                                    Type = TransportType.Train,
+                                    StationName = "Katoomba Station",
+                                    MinuteWalk = 25
+                                },
+                                new TransitAccess
+                                {
+                                    Type = TransportType.Bus,
+                                    StationName = "Echo Point Bus Stop",
+                                    MinuteWalk = 2
+                                }
+                            },
+
+                            City = sydney,
+                            CityId = sydney.Id
+                        },
                     };
 
                     context.Attractions.AddRange(attractions);

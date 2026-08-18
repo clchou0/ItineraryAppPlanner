@@ -238,6 +238,7 @@
             // 
             AreaTextBox.Location = new Point(42, 66);
             AreaTextBox.Name = "AreaTextBox";
+            AreaTextBox.PlaceholderText = "Area Name";
             AreaTextBox.Size = new Size(125, 27);
             AreaTextBox.TabIndex = 4;
             // 
@@ -246,6 +247,7 @@
             NameTextBox.Font = new Font("Segoe UI", 15F);
             NameTextBox.Location = new Point(32, 19);
             NameTextBox.Name = "NameTextBox";
+            NameTextBox.PlaceholderText = "Attraction Name";
             NameTextBox.Size = new Size(342, 41);
             NameTextBox.TabIndex = 3;
             // 

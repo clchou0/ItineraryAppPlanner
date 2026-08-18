@@ -68,7 +68,7 @@
             // walkUpDown
             // 
             walkUpDown.Location = new Point(403, 14);
-            walkUpDown.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
+            walkUpDown.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
             walkUpDown.Name = "walkUpDown";
             walkUpDown.Size = new Size(56, 27);
             walkUpDown.TabIndex = 5;

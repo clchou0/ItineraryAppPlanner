@@ -17,7 +17,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
         public Attraction Attraction;
         private readonly ItineraryPlannerService _service;
         public bool IsAdmin;
-        public AttractionRow(ItineraryPlannerService service, Attraction attraction, bool isAdmin)
+        private readonly UserToggleComponent _component;
+        public AttractionRow(ItineraryPlannerService service, Attraction attraction, bool isAdmin, UserToggleComponent component)
         {
             _service = service;
             Attraction = attraction;
@@ -42,12 +43,14 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
                 EditButton.Enabled = false;
                 DeleteButton.Enabled = false;
             }
+
+            _component = component;
         }
 
         private void EditButton_Click(object sender, EventArgs e)
         {
             if (!IsAdmin) return;
-            var editor = new AttractionDetailsEditor(_service, this.FindForm(), Attraction, true);
+            var editor = new AttractionDetailsEditor(_service, _component, Attraction, false);
             editor.BringToFront();
             editor.Dock = DockStyle.Fill;
 

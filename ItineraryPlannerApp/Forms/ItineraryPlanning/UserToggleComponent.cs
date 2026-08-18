@@ -27,7 +27,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
             _labels[AppPage.CityMap] = CityMapTag;
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
-            _pages[AppPage.AttractionList] = new AttractionList(_service, city);
+
+            _pages[AppPage.AttractionList] = new AttractionList(_service, city, this);
 
             _pages[AppPage.ItineraryPlanner] = new UserControl
             {
@@ -99,6 +100,10 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
             {
                 _homeForm.SpawnCityShowcase();
             }
+        }
+        public void ReloadAttractions()
+        {
+            ((AttractionList)_pages[AppPage.AttractionList]).ReloadAttractionList();
         }
     }
     enum AppPage { CityMap, AttractionList, ItineraryPlanner };
