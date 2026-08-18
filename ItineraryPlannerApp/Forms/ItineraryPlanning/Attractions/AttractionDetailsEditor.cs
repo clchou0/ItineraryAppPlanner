@@ -15,7 +15,6 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             _isCreate = isCreate;
             _service = service;
             _owner = owner;
-            Attraction = attraction ?? new Attraction();
             _owner.FindForm().Controls.Add(this);
             this.BringToFront();
 

@@ -35,7 +35,6 @@
             DetailsButton = new Button();
             AddButton = new Button();
             EditButton = new Button();
-            DeleteButton = new Button();
             TransportLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -102,26 +101,13 @@
             EditButton.BackColor = SystemColors.HotTrack;
             EditButton.Font = new Font("Segoe UI", 10F);
             EditButton.ForeColor = SystemColors.ButtonFace;
-            EditButton.Location = new Point(1083, 3);
+            EditButton.Location = new Point(1124, 7);
             EditButton.Name = "EditButton";
             EditButton.Size = new Size(35, 35);
             EditButton.TabIndex = 12;
             EditButton.Text = "E";
             EditButton.UseVisualStyleBackColor = false;
             EditButton.Click += EditButton_Click;
-            // 
-            // DeleteButton
-            // 
-            DeleteButton.BackColor = Color.Red;
-            DeleteButton.Font = new Font("Segoe UI", 10F);
-            DeleteButton.ForeColor = SystemColors.ButtonFace;
-            DeleteButton.Location = new Point(1124, 3);
-            DeleteButton.Name = "DeleteButton";
-            DeleteButton.Size = new Size(35, 35);
-            DeleteButton.TabIndex = 13;
-            DeleteButton.Text = "D";
-            DeleteButton.UseVisualStyleBackColor = false;
-            DeleteButton.Click += DeleteButton_Click;
             // 
             // TransportLabel
             // 
@@ -132,7 +118,6 @@
             TransportLabel.Size = new Size(125, 28);
             TransportLabel.TabIndex = 14;
             TransportLabel.Text = "Lorem ipsum";
-            TransportLabel.Click += TransportLabel_Click;
             // 
             // AttractionRow
             // 
@@ -140,7 +125,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             Controls.Add(TransportLabel);
-            Controls.Add(DeleteButton);
             Controls.Add(EditButton);
             Controls.Add(AddButton);
             Controls.Add(DetailsButton);
@@ -164,7 +148,6 @@
         private Button DetailsButton;
         private Button AddButton;
         private Button EditButton;
-        private Button DeleteButton;
         private Label TransportLabel;
     }
 }
