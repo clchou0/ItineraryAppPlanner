@@ -3,6 +3,7 @@ using System;
 using ItineraryPlannerApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItineraryPlannerApp.Migrations
 {
     [DbContext(typeof(ItineraryDbContext))]
-    partial class ItineraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260815052324_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
@@ -358,24 +361,6 @@ namespace ItineraryPlannerApp.Migrations
                         {
                             b1.Property<int>("CityId")
                                 .HasColumnType("INTEGER");
-
-                            b1.Property<double?>("DefX")
-                                .HasColumnType("REAL");
-
-                            b1.Property<double?>("DefY")
-                                .HasColumnType("REAL");
-
-                            b1.Property<double?>("MaxX")
-                                .HasColumnType("REAL");
-
-                            b1.Property<double?>("MaxY")
-                                .HasColumnType("REAL");
-
-                            b1.Property<double?>("MinX")
-                                .HasColumnType("REAL");
-
-                            b1.Property<double?>("MinY")
-                                .HasColumnType("REAL");
 
                             b1.HasKey("CityId");
 

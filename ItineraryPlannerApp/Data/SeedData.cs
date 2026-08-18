@@ -26,7 +26,7 @@ namespace ItineraryPlannerApp.Data
                     new User
                     {
                         Email = "a@b.",
-                        DisplayName = "ADMIN",
+                        DisplayName = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdmin",
                         PasswordHash = PasswordService.HashPassword("111111"),
                         Role = UserRole.Admin
                     }
@@ -43,7 +43,12 @@ namespace ItineraryPlannerApp.Data
                         CityName = "Sydney",
                         Description = "Sydney, NSW, Australia",
                         ImagePath = "Data/Images/syd-img1.jpg",
-                        Country = "Australia"
+                        Country = "Australia",
+                        Slider = new MapSlider(
+                            151.877940271153, -32.8606138422146,
+                            149.813655361048, -34.7385257910314,
+                            150.785905011104, -33.7946395144834
+                        )
                     },
 
                     new City
@@ -51,14 +56,16 @@ namespace ItineraryPlannerApp.Data
                         CityName = "Seoul",
                         Description = "Seoul, South Korea",
                         ImagePath = "Data/Images/seo-img1.jpg",
-                        Country = "Korea"
+                        Country = "Korea",
+                        Slider = new MapSlider()
                     },
                     new City
                     {
                         CityName = "Shanghai",
                         Description = "Shanghai, China",
                         ImagePath = "Data/Images/sha-img1.jpg",
-                        Country = "China"
+                        Country = "China",
+                        Slider = new MapSlider()
                     }
                 };
 

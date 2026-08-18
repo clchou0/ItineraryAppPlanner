@@ -1,25 +1,38 @@
 ﻿using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Models;
-using Topten.RichTextKit.Utils;
+using ItineraryPlannerApp.Forms;
 
 namespace ItineraryPlannerApp.Forms.CityForm
 {
-    public partial class CityDetailsEditor : Form
+    public partial class CityDetailsEditor : UserControl
     {
-        private readonly MainForm _mainForm;
+        private readonly ItineraryPlannerService _service;
+        private readonly HomeForm _homeForm;
         private City? City;
         private string name, description, country, imgPath = "";
-        private MapSlider mapSlider = new MapSlider();
-        public CityDetailsEditor(MainForm mainForm, City? city)
+        private MapSlider mapSlider;
+
+        public CityDetailsEditor(ItineraryPlannerService service, HomeForm homeForm, City? city)
         {
-            _mainForm = mainForm;
+            _service = service;
+            _homeForm = homeForm;
             City = city;
             InitializeComponent();
+            if (City is not null)
+            {
+                CityNameBox.Text = City.CityName;
+                DescriptionBox.Text = City.Description;
+                CountryBox.Text = City.Country;
+                mapSlider = City.Slider;
+                imgPath = City.ImagePath;
+            }
+            if (City is null || City.Slider is null) mapSlider = new MapSlider();
         }
 
         private void CityDetailsEditor_Load(object sender, EventArgs e)
         {
-            SaveButton.Text = (City == null) ? "Create" : "Save";
+            // Is this creating a new city or saving the changes
+            SaveButton.Text = (City is null) ? "Create" : "Save";
         }
 
         private void CityNameBox_TextChanged(object sender, EventArgs e)
@@ -39,20 +52,19 @@ namespace ItineraryPlannerApp.Forms.CityForm
 
         private void ChangeMapButton_Click(object sender, EventArgs e)
         {
-            using var mapEditor = new CityMapEditor(name, mapSlider, City);
+            using var mapEditor = new CityMapEditor(name, mapSlider);
 
             if (mapEditor.ShowDialog() == DialogResult.OK)
             {
-                mapSlider = mapEditor.NewSlider; // <-- reading it here
-                LABEL.Text = mapSlider.ToString();
+                mapSlider = mapEditor.NewSlider;
             }
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
             string error = "";
-            if (string.IsNullOrWhiteSpace(country) 
-                || string.IsNullOrWhiteSpace(name) 
+            if (string.IsNullOrWhiteSpace(country)
+                || string.IsNullOrWhiteSpace(name)
                 || string.IsNullOrWhiteSpace(description))
             {
                 error = error + "Please fill in all fields\n";
@@ -75,27 +87,61 @@ namespace ItineraryPlannerApp.Forms.CityForm
                         ImagePath = "",
                         Slider = mapSlider
                     };
-                    result = _mainForm.Service.AddCity(newCity);
-                    MessageBox.Show($"{name} has been created!");
+
+                    result = _service.AddCity(newCity);
+                    // Create success!!
+                    if (result)
+                    {
+                        MessageBox.Show($"{name} has been created!");
+                        _homeForm.SpawnCityShowcase();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"There is already a city created with name {name}");
+                    }
+
                 }
                 else
                 {
-                    City.CityName = name;
-                    City.Description = description;
-                    City.Country = country;
-                    City.Slider = mapSlider;
-                    City.ImagePath = imgPath;
-                    result = _mainForm.Service.UpdateCity(City);
-                    MessageBox.Show($"{name} has been edited!");
-                }
-                if (result)
-                {
-                    Application.Exit();
+                    var updated = new City
+                    {
+                        Id = City.Id,
+                        CityName = name,
+                        Description = description,
+                        Country = country,
+                        Slider = mapSlider,
+                        ImagePath = imgPath
+                    };
+
+                    result = _service.UpdateCity(City);
+                    if (result)
+                    {
+                        MessageBox.Show($"{name} has been edited!");
+                        _homeForm.SpawnCityShowcase();
+                    }
+                    else
+                        MessageBox.Show($"There is already a city created with name {name}");
                 }
             }
             else
             {
                 MessageBox.Show(error);
+            }
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                $"Your changes to {name} will not be saved..",
+                "Confirm",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.OK)
+            {
+                // proceed
+                _homeForm.SpawnCityShowcase();
             }
         }
     }

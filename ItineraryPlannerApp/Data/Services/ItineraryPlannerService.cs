@@ -48,9 +48,9 @@ namespace ItineraryPlannerApp.Data.Services
         {
             return _cityRepository.GetById(id);
         }
-        public List<City> GetAllCities()
+        public IEnumerable<City> GetAllCities()
         {
-            return _cityRepository.GetAll().ToList();
+            return _cityRepository.GetAll();
         }
         public City? GetCityByName(string cityName)
         {

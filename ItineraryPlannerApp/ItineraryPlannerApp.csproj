@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -11,10 +11,13 @@
 
   <ItemGroup>
     <Compile Remove="Forms\Attraction\**" />
+    <Compile Remove="Forms\Home\**" />
     <Compile Remove="Services\**" />
     <EmbeddedResource Remove="Forms\Attraction\**" />
+    <EmbeddedResource Remove="Forms\Home\**" />
     <EmbeddedResource Remove="Services\**" />
     <None Remove="Forms\Attraction\**" />
+    <None Remove="Forms\Home\**" />
     <None Remove="Services\**" />
   </ItemGroup>
 
@@ -37,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Forms\Home\" />
+    <Folder Include="Forms\Itinerary\" />
   </ItemGroup>
 
   <ItemGroup>
