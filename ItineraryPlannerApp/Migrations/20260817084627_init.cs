@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ItineraryPlannerApp.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeName : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,11 +20,32 @@ namespace ItineraryPlannerApp.Migrations
                     CityName = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     ImagePath = table.Column<string>(type: "TEXT", nullable: false),
-                    Country = table.Column<string>(type: "TEXT", nullable: false)
+                    Country = table.Column<string>(type: "TEXT", nullable: false),
+                    Slider_MaxX = table.Column<double>(type: "REAL", nullable: true),
+                    Slider_MaxY = table.Column<double>(type: "REAL", nullable: true),
+                    Slider_MinX = table.Column<double>(type: "REAL", nullable: true),
+                    Slider_MinY = table.Column<double>(type: "REAL", nullable: true),
+                    Slider_DefX = table.Column<double>(type: "REAL", nullable: true),
+                    Slider_DefY = table.Column<double>(type: "REAL", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TransitRoutes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    RouteName = table.Column<string>(type: "TEXT", nullable: false),
+                    CityName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransitRoutes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,12 +72,13 @@ namespace ItineraryPlannerApp.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     AttractionName = table.Column<string>(type: "TEXT", nullable: false),
                     ImagePath = table.Column<string>(type: "TEXT", nullable: false),
-                    Location_Id = table.Column<int>(type: "INTEGER", nullable: false),
                     Location_Latitude = table.Column<double>(type: "REAL", nullable: false),
                     Location_Longitude = table.Column<double>(type: "REAL", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
-                    EntryPrice = table.Column<double>(type: "REAL", nullable: false),
-                    Labels = table.Column<int>(type: "INTEGER", nullable: false),
+                    ShortDesctiption = table.Column<string>(type: "TEXT", nullable: false),
+                    Area = table.Column<string>(type: "TEXT", nullable: false),
+                    EntryPrice = table.Column<string>(type: "TEXT", nullable: false),
+                    Category = table.Column<int>(type: "INTEGER", nullable: false),
                     CityId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -79,6 +101,7 @@ namespace ItineraryPlannerApp.Migrations
                     ArriveDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LeaveDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     TotalEntryPrice = table.Column<double>(type: "REAL", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
                     CityId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -89,6 +112,27 @@ namespace ItineraryPlannerApp.Migrations
                         name: "FK_Itineraries_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TransitStops",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    StopName = table.Column<string>(type: "TEXT", nullable: false),
+                    StopOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    TransitRouteId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransitStops", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TransitStops_TransitRoutes_TransitRouteId",
+                        column: x => x.TransitRouteId,
+                        principalTable: "TransitRoutes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -140,7 +184,7 @@ namespace ItineraryPlannerApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItineraryBlock",
+                name: "ItineraryBlocks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false),
@@ -150,9 +194,9 @@ namespace ItineraryPlannerApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItineraryBlock", x => x.Id);
+                    table.PrimaryKey("PK_ItineraryBlocks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItineraryBlock_Itineraries_ItineraryId",
+                        name: "FK_ItineraryBlocks_Itineraries_ItineraryId",
                         column: x => x.ItineraryId,
                         principalTable: "Itineraries",
                         principalColumn: "Id",
@@ -170,9 +214,9 @@ namespace ItineraryPlannerApp.Migrations
                 {
                     table.PrimaryKey("PK_TransportBlocks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TransportBlocks_ItineraryBlock_Id",
+                        name: "FK_TransportBlocks_ItineraryBlocks_Id",
                         column: x => x.Id,
-                        principalTable: "ItineraryBlock",
+                        principalTable: "ItineraryBlocks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -195,9 +239,9 @@ namespace ItineraryPlannerApp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VisitBlocks_ItineraryBlock_Id",
+                        name: "FK_VisitBlocks_ItineraryBlocks_Id",
                         column: x => x.Id,
-                        principalTable: "ItineraryBlock",
+                        principalTable: "ItineraryBlocks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -209,11 +253,10 @@ namespace ItineraryPlannerApp.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Method = table.Column<int>(type: "INTEGER", nullable: false),
-                    route = table.Column<string>(type: "TEXT", nullable: false),
+                    Route = table.Column<string>(type: "TEXT", nullable: false),
                     FromStation = table.Column<string>(type: "TEXT", nullable: false),
                     ToStation = table.Column<string>(type: "TEXT", nullable: false),
-                    BlockId = table.Column<int>(type: "INTEGER", nullable: false),
-                    TransportBlockId = table.Column<int>(type: "INTEGER", nullable: true)
+                    BlockId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,11 +267,6 @@ namespace ItineraryPlannerApp.Migrations
                         principalTable: "TransportBlocks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TransportNotes_TransportBlocks_TransportBlockId",
-                        column: x => x.TransportBlockId,
-                        principalTable: "TransportBlocks",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -242,8 +280,8 @@ namespace ItineraryPlannerApp.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItineraryBlock_ItineraryId",
-                table: "ItineraryBlock",
+                name: "IX_ItineraryBlocks_ItineraryId",
+                table: "ItineraryBlocks",
                 column: "ItineraryId");
 
             migrationBuilder.CreateIndex(
@@ -257,14 +295,14 @@ namespace ItineraryPlannerApp.Migrations
                 column: "AttractionId1");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TransitStops_TransitRouteId",
+                table: "TransitStops",
+                column: "TransitRouteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TransportNotes_BlockId",
                 table: "TransportNotes",
                 column: "BlockId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TransportNotes_TransportBlockId",
-                table: "TransportNotes",
-                column: "TransportBlockId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VisitBlocks_AttractionId",
@@ -282,6 +320,9 @@ namespace ItineraryPlannerApp.Migrations
                 name: "TransitAccess");
 
             migrationBuilder.DropTable(
+                name: "TransitStops");
+
+            migrationBuilder.DropTable(
                 name: "TransportNotes");
 
             migrationBuilder.DropTable(
@@ -291,13 +332,16 @@ namespace ItineraryPlannerApp.Migrations
                 name: "VisitBlocks");
 
             migrationBuilder.DropTable(
+                name: "TransitRoutes");
+
+            migrationBuilder.DropTable(
                 name: "TransportBlocks");
 
             migrationBuilder.DropTable(
                 name: "Attractions");
 
             migrationBuilder.DropTable(
-                name: "ItineraryBlock");
+                name: "ItineraryBlocks");
 
             migrationBuilder.DropTable(
                 name: "Itineraries");

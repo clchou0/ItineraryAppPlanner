@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Forms;
+using Microsoft.Extensions.Logging;
 
 namespace ItineraryPlannerApp
 {
@@ -19,7 +20,10 @@ namespace ItineraryPlannerApp
             ApplicationConfiguration.Initialize();
 
             var services = new ServiceCollection()
-                .AddDbContext<ItineraryDbContext>()
+                .AddDbContext<ItineraryDbContext>(options =>
+                    options.UseSqlite("Data Source=itinerary.db")
+                           .EnableSensitiveDataLogging()
+                           .LogTo(Console.WriteLine, LogLevel.Information))
                 .AddScoped<UserRepository>()
                 .AddScoped<CityRepository>()
                 .AddScoped<AttractionRepository>()

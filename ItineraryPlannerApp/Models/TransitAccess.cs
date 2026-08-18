@@ -14,5 +14,14 @@ namespace ItineraryPlannerApp.Models
 
         public int AttractionId { get; set; }
         public Attraction Attraction { get; set; }
+        public bool IsValid
+        {
+            get
+            {
+                return Type != TransportType.None
+                    && !string.IsNullOrEmpty(StationName)
+                    && MinuteWalk > 0 && MinuteWalk < 20;
+            }
+        }
     }
 }

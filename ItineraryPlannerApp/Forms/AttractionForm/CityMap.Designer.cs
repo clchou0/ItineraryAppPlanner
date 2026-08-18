@@ -1,4 +1,4 @@
-﻿namespace ItineraryPlannerApp.Forms.Attraction
+﻿namespace ItineraryPlannerApp.Forms.AttractionForm
 {
     partial class CityMap
     {

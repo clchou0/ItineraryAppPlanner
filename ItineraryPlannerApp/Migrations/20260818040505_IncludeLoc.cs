@@ -5,7 +5,7 @@
 namespace ItineraryPlannerApp.Migrations
 {
     /// <inheritdoc />
-    public partial class CheckSliderSync : Migration
+    public partial class IncludeLoc : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

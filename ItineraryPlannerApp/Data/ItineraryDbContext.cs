@@ -26,10 +26,8 @@ namespace ItineraryPlannerApp.Data
 
         public ItineraryDbContext(DbContextOptions<ItineraryDbContext> options) : base(options)
         {
-            var dir = new DirectoryInfo(AppContext.BaseDirectory);
-            while (dir != null && !dir.GetFiles("*.csproj").Any())
-                dir = dir.Parent;
-            DbPath = dir != null ? System.IO.Path.Join(dir.FullName, "Itinerary.db") : string.Empty;
+            DbPath = System.IO.Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Itinerary.db");
+            DbPath = System.IO.Path.GetFullPath(DbPath); // resolve the ../ segments to a clean absolute path
         }
         public ItineraryDbContext() : this(new DbContextOptionsBuilder<ItineraryDbContext>().Options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -68,7 +66,7 @@ namespace ItineraryPlannerApp.Data
 
             modelBuilder.Entity<TransitAccess>()
                 .HasOne(a => a.Attraction)
-                .WithMany()
+                .WithMany(a => a.CloseStations)
                 .HasForeignKey(a => a.AttractionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
