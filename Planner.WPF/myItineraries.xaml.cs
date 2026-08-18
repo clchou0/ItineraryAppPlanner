@@ -23,7 +23,9 @@ namespace Planner.WPF
         private readonly Func<int, bool> _moveToBuilder;
         private int? _selectedItineraryId;
         private readonly Action<int> _deleteItinerary;
-        public myItineraries(List<ItineraryList> itineraries, Func<int, bool> moveToBuilder, Action<int> deleteItinerary)
+        private readonly Func<int, Task> _exportPdf;
+        public myItineraries(List<ItineraryList> itineraries, Func<int, bool> moveToBuilder, 
+            Action<int> deleteItinerary, Func<int, Task> exportPdf)
         {
             InitializeComponent();
 
@@ -32,17 +34,48 @@ namespace Planner.WPF
             _moveToBuilder = moveToBuilder;
             _deleteItinerary = deleteItinerary;
 
+            _exportPdf = exportPdf;
+
             DataContext = this;
+            UpdateEmptyState();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void UpdateEmptyState()
+        {
+            if (Itineraries.Count == 0)
+            {
+                emptyPanel.Visibility = Visibility.Visible;
+                itineraryList.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                emptyPanel.Visibility = Visibility.Collapsed;
+                itineraryList.Visibility = Visibility.Visible;
+            }
         }
 
         private void ViewDetails_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("Direct to view details page");
             if (sender is not Button button) return;
-            if (button.Tag is not int itineraryId) return;
+            if (button.Tag is not int itineraryId)
+            {
+                MessageBox.Show($"Invalid Tag: {button.Tag}");
+                return;
+            }
 
             var selected = Itineraries.FirstOrDefault(i => i.Id == itineraryId);
 
-            if (selected == null) return;
+            if (selected == null)
+            {
+                MessageBox.Show("Itinerary not found.");
+                return;
+            }
 
             _selectedItineraryId = selected.Id;
 
@@ -116,6 +149,7 @@ namespace Planner.WPF
                     if (result != MessageBoxResult.Yes) return;
 
                     Itineraries.Remove(itinerary);
+                    UpdateEmptyState();
                 }
                 else { return; }
             }
@@ -124,9 +158,25 @@ namespace Planner.WPF
             _deleteItinerary(itineraryId);
 
         }
-        private void ExportPdf_Click(object sender, RoutedEventArgs e)
+        private async void ExportButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("PDF sent to your email.");
+            if (_selectedItineraryId == null)
+            {
+                MessageBox.Show("Unknown Activity.");
+                return;
+            }
+
+            try
+            {
+                await _exportPdf(_selectedItineraryId.Value);
+
+                MessageBox.Show("PDF has been sent to your email.");
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to send PDF.\n{ex.Message}");
+            }
         }
     }
 }

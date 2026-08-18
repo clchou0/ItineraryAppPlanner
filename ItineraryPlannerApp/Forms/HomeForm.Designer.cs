@@ -151,9 +151,9 @@ namespace ItineraryPlannerApp.Forms
             // 
             // myItinerariesToolStripMenuItem
             // 
-            itineraryHistoryToolStripMenuItem.Name = "itineraryHistoryToolStripMenuItem";
-            itineraryHistoryToolStripMenuItem.Size = new Size(183, 24);
-            itineraryHistoryToolStripMenuItem.Text = "Itinerary History";
+            myItinerariesToolStripMenuItem.Name = "myItinerariesToolStripMenuItem";
+            myItinerariesToolStripMenuItem.Size = new Size(183, 24);
+            myItinerariesToolStripMenuItem.Text = "My Itineraries";
             // 
             // HomeForm
             // 

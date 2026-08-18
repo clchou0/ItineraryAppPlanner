@@ -32,68 +32,75 @@
 
             <!-- 1. Itinerary List View -->
             <Grid x:Name="ItineraryListView">
-                
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
+
+                <StackPanel x:Name="emptyPanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed">
+                    <TextBlock Text="No completed itineraries yet." HorizontalAlignment="Center"/>
+                    <TextBlock Text="Go to Itinerary Builder to continue planning."
+                    Foreground="Gray" Margin="0,10,0,20"/>
+                </StackPanel>
+
+                <ScrollViewer x:Name="itineraryList" VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
-                        <ItemsControl x:Name="itineraryList" ItemsSource="{Binding Itineraries}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="LightGray" BorderThickness="1"
+                    <ItemsControl ItemsSource="{Binding Itineraries}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="LightGray" BorderThickness="1"
                                     CornerRadius="10" Padding="20" Margin="0,0,0,15">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
 
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding CityName}" FontSize="16" FontWeight="Bold"/>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding ArriveDate, StringFormat={}{0:dd MMM yyyy} -  }"/>
-                                                    <TextBlock Text="{Binding LeaveDate, StringFormat={}{0:dd MMM yyyy}}"/>
-                                                </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding CityName}" FontSize="16" FontWeight="Bold"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding ArriveDate, StringFormat={}{0:dd MMM yyyy} -  }"/>
+                                                <TextBlock Text="{Binding LeaveDate, StringFormat={}{0:dd MMM yyyy}}"/>
                                             </StackPanel>
+                                        </StackPanel>
 
-                                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                                <Button Content="View Details" Width="150" Height="40" Margin="5,0,0,0" Tag="{Binding Id}" Click="ViewDetails_Click"/>
-                                                <Button Content="Delete" Width="90" Height="40" Margin="5,0,0,0" Tag="{Binding Id}" Click="DeleteItinerary_Click"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </Grid>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Button Content="View Details" Width="150" Height="40" Margin="5,0,0,0" Tag="{Binding Id}" Click="ViewDetails_Click"/>
+                                            <Button Content="Delete" Width="90" Height="40" Margin="5,0,0,0" Tag="{Binding Id}" Click="DeleteItinerary_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
             </Grid>
 
-        <!-- 2. Itinerary Details View -->
-        <Grid x:Name="ItineraryDetailsView" Visibility="Collapsed" Margin="30">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            <!-- 2. Itinerary Details View -->
+            <Grid x:Name="ItineraryDetailsView" Visibility="Collapsed" Margin="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Button x:Name="BackButton" 
-                Grid.Row="0"
-                Content="Back"
-                Height="29" Width="205"
-                HorizontalAlignment="Left"
-                Margin="0,20,0,20"
-                Background="#FFFEFFF7" 
-                BorderThickness="0" 
-                Click="BackButton_Click"/>
+                <Button x:Name="BackButton" 
+                    Grid.Row="0"
+                    Content="Back"
+                    Height="29" Width="205"
+                    HorizontalAlignment="Left"
+                    Margin="0,20,0,20"
+                    Background="#FFFEFFF7" 
+                    BorderThickness="0" 
+                    Click="BackButton_Click"/>
 
-            <StackPanel Grid.Row="1" Margin="0,20,0,20">
-                <TextBlock x:Name="txtDetailTitle" Text="My Itinerary" FontWeight="Bold"/>
-                <TextBlock x:Name="txtDetailDates" Foreground="Gray" Margin="0,5,0,0"/>
-            </StackPanel>
+                <StackPanel Grid.Row="1" Margin="0,20,0,20">
+                    <TextBlock x:Name="txtDetailTitle" Text="My Itinerary" FontWeight="Bold"/>
+                    <TextBlock x:Name="txtDetailDates" Foreground="Gray" Margin="0,5,0,0"/>
+                </StackPanel>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 
-                <StackPanel>
                     <ItemsControl x:Name="detailBlocks">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -109,15 +116,17 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
+                </ScrollViewer>
+                <StackPanel Grid.Row="3">
                     <TextBlock x:Name="txtTotalCost" Text="Total Entry Cost: $0.00" VerticalAlignment="Center"/>
 
-                    <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="Move to Builder" Width="150" Height="40" Click="MoveButton_Click"/>
                         <Button Content="Export PDF" Width="150" Height="40" Margin="5" Click="ExportButton_Click"/>
                     </StackPanel>
                 </StackPanel>
-            </ScrollViewer>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

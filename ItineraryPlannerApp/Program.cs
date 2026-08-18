@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Forms;
+using ItineraryPlannerApp.Forms.ItineraryForm;
 
 namespace ItineraryPlannerApp
 {
@@ -24,20 +25,24 @@ namespace ItineraryPlannerApp
                 .AddScoped<CityRepository>()
                 .AddScoped<AttractionRepository>()
                 .AddScoped<ItineraryRepository>()
-                .AddScoped<ItineraryPlannerService>()
                 .AddScoped<TransitRouteRepository>()
-                .AddSingleton(new EmailService("leejihye2002@gmail.com", "qxdnyodzajridspp"));
+                .AddScoped<ItineraryPlannerService>()
+                .AddScoped<ItineraryPlannerLauncher>()
+                .AddScoped<EmailService>()
+                .AddScoped<PdfService>();
 
             var provider = services.BuildServiceProvider();
             var itineraryService = provider.GetRequiredService<ItineraryPlannerService>();
             var emailService = provider.GetRequiredService<EmailService>();
+            var pdfService = provider.GetRequiredService<PdfService>();
             using (var scope = provider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<ItineraryDbContext>();
                 context.Database.Migrate();
                 SeedData.Seed(context);
             }
-            Application.Run(new MainForm(itineraryService, emailService));
+
+            Application.Run(new MainForm(itineraryService, emailService, pdfService));
         }
     }
 }
