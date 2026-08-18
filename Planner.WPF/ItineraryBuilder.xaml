@@ -271,12 +271,16 @@
                                 <DataTemplate>
                                     <Border BorderBrush="LightGray" BorderThickness="1" Margin="0.5" Padding="10">
                                         <Grid Margin="0,0,0,15">
-                                            
-                                            <TextBlock Text="{Binding Method}" FontWeight="Bold"/>
-                                            <TextBlock Text=" "/>
-                                            <TextBlock Text="{Binding Route}" Foreground="Gray"/>
 
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
                                             <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                <TextBlock Text="{Binding Method}" FontWeight="Bold"/>
+                                                <TextBlock Text=" "/>
+                                                <TextBlock Text="{Binding Route}" Foreground="Gray"/>
                                                 <TextBlock>
                                                     <Run Text="{Binding FromStation}"/>
                                                     <Run Text=" -> " />

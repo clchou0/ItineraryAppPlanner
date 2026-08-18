@@ -9,6 +9,7 @@ using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Models.Itinerary;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Documents;
+using NetTopologySuite.Algorithm;
 
 
 namespace ItineraryPlannerApp.Data.Services
@@ -37,9 +38,7 @@ namespace ItineraryPlannerApp.Data.Services
                         column.Item().Text($"Arrival: {itinerary.ArriveDate:dd/MM/yyyy}");
                         column.Item().Text($"Departure: {itinerary.LeaveDate:dd/MM/yyyy}");
 
-                        
-
-                        
+                        column.Item().Element(container => ContentDaily(container, itinerary));
                     });
 
                     page.Footer().AlignCenter().Text("Travel Planner - PDF");
@@ -68,7 +67,7 @@ namespace ItineraryPlannerApp.Data.Services
                 // daily
                 foreach (var dayGroup in groupBlocks)
                 {
-                    column.Item().PaddingTop(10).Background("#F4C542").Padding(10)
+                    column.Item().PaddingTop(10).Background("#f4c542").Padding(10)
                     .Text(dayGroup.Key.ToString("dddd, dd MMMM yyyy")).FontSize(12).Bold();
 
                     foreach (var block in dayGroup.OrderBy(b => b.StartTime))
@@ -77,10 +76,8 @@ namespace ItineraryPlannerApp.Data.Services
                     }
                 }
 
-                decimal total = CalculateTotal(itinerary);
 
-                column.Item().PaddingTop(10).BorderTop(1).BorderColor(Colors.Yellow.Lighten1)
-                .PaddingTop(15).AlignRight().Text($"Total Cost: ${total:F2}").SemiBold();
+                column.Item().PaddingTop(10).BorderTop(1).BorderColor(Colors.Yellow.Lighten3);
                                
             });
         }
@@ -93,7 +90,7 @@ namespace ItineraryPlannerApp.Data.Services
 
                 // hourly
                 column.Item().Text(block.StartTime.ToString("HH:mm")).FontSize(12).Bold()
-                .FontColor(Colors.Grey.Lighten3);
+                .FontColor(Colors.Grey.Lighten2);
 
                 if (block is TransportBlock transport) 
                 {
@@ -108,12 +105,14 @@ namespace ItineraryPlannerApp.Data.Services
 
         private void ComposeTransportBlock(ColumnDescriptor column, TransportBlock transport)
         {
-            var note = transport.Notes.FirstOrDefault();
+            column.Item().Text("Transport").FontSize(12).Bold();
 
-            column.Item().Text($"{note?.Route ?? "Transport"} {note?.Method.ToString() ?? ""}").Bold();
-
-            if (note != null)
+            foreach (var note in transport.Notes)
             {
+                string routeText = string.IsNullOrWhiteSpace(note.Route) ? note.Method.ToString()
+                    : $"{note.Method} -> {note.Route}";
+
+                column.Item().PaddingTop(4).Text(routeText).SemiBold();
                 column.Item().Text($"{note.FromStation} -> {note.ToStation}");
             }
 
@@ -121,7 +120,6 @@ namespace ItineraryPlannerApp.Data.Services
             {
                 column.Item().Text($"Duration: {transport.TotalDuration} min.").FontColor(Colors.Grey.Darken2);
             }
-
         }
 
         private void ComposeVisitBlock(ColumnDescriptor column, VisitBlock visit)
@@ -136,18 +134,18 @@ namespace ItineraryPlannerApp.Data.Services
             }
         }
 
-        private decimal CalculateTotal(Itinerary itinerary)
-        {
-            decimal total = 0;
+        //private decimal CalculateTotal(Itinerary itinerary)
+        //{
+        //    decimal total = 0;
 
-            foreach (var block in itinerary.ItineraryBlocks)
-            {
-                if (block is TransportBlock)
-                {
-                    total += 3.00m;
-                }
-            }
-            return total;
-        }
+        //    foreach (var block in itinerary.ItineraryBlocks)
+        //    {
+        //        if (block is TransportBlock)
+        //        {
+        //            total += 3.00m;
+        //        }
+        //    }
+        //    return total;
+        //}
     }
 }

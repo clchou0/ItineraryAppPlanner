@@ -18,7 +18,7 @@ namespace ItineraryPlannerApp.Data
                         {
                             Email = "jihye.lee-2@student.uts.edu.au",
                             DisplayName = "Jihye",
-                            PasswordHash = PasswordService.HashPassword("1234"),
+                            PasswordHash = PasswordService.HashPassword("123456"),
                             Role = UserRole.User
                         },
                         new User
