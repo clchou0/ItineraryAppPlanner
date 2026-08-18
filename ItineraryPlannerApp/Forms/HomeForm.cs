@@ -6,6 +6,7 @@ using ItineraryPlannerApp.Models.Itinerary;
 using ItineraryPlannerApp;
 using Planner.WPF;
 using ItineraryPlannerApp.Forms.ItineraryForm;
+using ItineraryPlannerApp.Forms.ItineraryPlanning;
 
 namespace ItineraryPlannerApp.Forms
 {
@@ -78,7 +79,7 @@ namespace ItineraryPlannerApp.Forms
         public void OpenItineraryCreator(City city, Itinerary? itinerary)
         {
             panel1.Controls.Clear();
-            panel1.Controls.Add(new UserToggleComponent(city, itinerary, this));
+            panel1.Controls.Add(new UserToggleComponent(_mainForm.Service, city, itinerary, this));
         }
     }
 }

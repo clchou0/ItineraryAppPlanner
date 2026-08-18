@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItineraryPlannerApp.Migrations
 {
     [DbContext(typeof(ItineraryDbContext))]
-    [Migration("20260812143245_AddItineraryStatus")]
-    partial class AddItineraryStatus
+    [Migration("20260817090212_change")]
+    partial class change
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,9 +26,16 @@ namespace ItineraryPlannerApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Area")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("AttractionName")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CityId")
                         .HasColumnType("INTEGER");
@@ -37,15 +44,17 @@ namespace ItineraryPlannerApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("EntryPrice")
-                        .HasColumnType("REAL");
+                    b.Property<string>("EntryPrice")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Labels")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ShortDesctiption")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -144,9 +153,54 @@ namespace ItineraryPlannerApp.Migrations
 
                     b.HasIndex("ItineraryId");
 
-                    b.ToTable("ItineraryBlock");
+                    b.ToTable("ItineraryBlocks");
 
                     b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransitRoute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RouteName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransitRoutes");
+                });
+
+            modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransitStop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("StopName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("StopOrder")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TransitRouteId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransitRouteId");
+
+                    b.ToTable("TransitStops");
                 });
 
             modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransportNote", b =>
@@ -165,22 +219,17 @@ namespace ItineraryPlannerApp.Migrations
                     b.Property<int>("Method")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ToStation")
+                    b.Property<string>("Route")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("TransportBlockId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("route")
+                    b.Property<string>("ToStation")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BlockId");
-
-                    b.HasIndex("TransportBlockId");
 
                     b.ToTable("TransportNotes", (string)null);
                 });
@@ -192,9 +241,6 @@ namespace ItineraryPlannerApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("AttractionId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("AttractionId1")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("MinuteWalk")
@@ -210,8 +256,6 @@ namespace ItineraryPlannerApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AttractionId");
-
-                    b.HasIndex("AttractionId1");
 
                     b.ToTable("TransitAccess");
                 });
@@ -281,9 +325,6 @@ namespace ItineraryPlannerApp.Migrations
                             b1.Property<int>("AttractionId")
                                 .HasColumnType("INTEGER");
 
-                            b1.Property<int>("Id")
-                                .HasColumnType("INTEGER");
-
                             b1.Property<double>("Latitude")
                                 .HasColumnType("REAL");
 
@@ -322,6 +363,24 @@ namespace ItineraryPlannerApp.Migrations
                             b1.Property<int>("CityId")
                                 .HasColumnType("INTEGER");
 
+                            b1.Property<double?>("DefX")
+                                .HasColumnType("REAL");
+
+                            b1.Property<double?>("DefY")
+                                .HasColumnType("REAL");
+
+                            b1.Property<double?>("MaxX")
+                                .HasColumnType("REAL");
+
+                            b1.Property<double?>("MaxY")
+                                .HasColumnType("REAL");
+
+                            b1.Property<double?>("MinX")
+                                .HasColumnType("REAL");
+
+                            b1.Property<double?>("MinY")
+                                .HasColumnType("REAL");
+
                             b1.HasKey("CityId");
 
                             b1.ToTable("Cities");
@@ -356,17 +415,24 @@ namespace ItineraryPlannerApp.Migrations
                     b.Navigation("Itinerary");
                 });
 
-            modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransportNote", b =>
+            modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransitStop", b =>
                 {
-                    b.HasOne("ItineraryPlannerApp.Models.Itinerary.TransportBlock", "Block")
-                        .WithMany()
-                        .HasForeignKey("BlockId")
+                    b.HasOne("ItineraryPlannerApp.Models.Itinerary.TransitRoute", "TransitRoute")
+                        .WithMany("Stops")
+                        .HasForeignKey("TransitRouteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ItineraryPlannerApp.Models.Itinerary.TransportBlock", null)
+                    b.Navigation("TransitRoute");
+                });
+
+            modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransportNote", b =>
+                {
+                    b.HasOne("ItineraryPlannerApp.Models.Itinerary.TransportBlock", "Block")
                         .WithMany("Notes")
-                        .HasForeignKey("TransportBlockId");
+                        .HasForeignKey("BlockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Block");
                 });
@@ -374,14 +440,10 @@ namespace ItineraryPlannerApp.Migrations
             modelBuilder.Entity("ItineraryPlannerApp.Models.TransitAccess", b =>
                 {
                     b.HasOne("ItineraryPlannerApp.Models.Attraction", "Attraction")
-                        .WithMany()
+                        .WithMany("CloseStations")
                         .HasForeignKey("AttractionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ItineraryPlannerApp.Models.Attraction", null)
-                        .WithMany("CloseStations")
-                        .HasForeignKey("AttractionId1");
 
                     b.Navigation("Attraction");
                 });
@@ -420,6 +482,11 @@ namespace ItineraryPlannerApp.Migrations
             modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.Itinerary", b =>
                 {
                     b.Navigation("ItineraryBlocks");
+                });
+
+            modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransitRoute", b =>
+                {
+                    b.Navigation("Stops");
                 });
 
             modelBuilder.Entity("ItineraryPlannerApp.Models.Itinerary.TransportBlock", b =>

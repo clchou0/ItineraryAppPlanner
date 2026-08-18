@@ -1,4 +1,4 @@
-﻿namespace ItineraryPlannerApp.Forms
+﻿namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 {
     partial class UserToggleComponent
     {

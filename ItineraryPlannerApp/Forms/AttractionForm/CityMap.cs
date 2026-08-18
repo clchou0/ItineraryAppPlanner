@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ItineraryPlannerApp.Models;
 
-namespace ItineraryPlannerApp.Forms.Attraction
+namespace ItineraryPlannerApp.Forms.AttractionForm
 {
     // Customer / Staff side city visualizer, with attractions rendered
     public partial class CityMap : UserControl

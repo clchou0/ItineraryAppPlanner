@@ -23,9 +23,16 @@ namespace ItineraryPlannerApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Area")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("AttractionName")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CityId")
                         .HasColumnType("INTEGER");
@@ -34,15 +41,17 @@ namespace ItineraryPlannerApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("EntryPrice")
-                        .HasColumnType("REAL");
+                    b.Property<string>("EntryPrice")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Labels")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ShortDesctiption")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -231,9 +240,6 @@ namespace ItineraryPlannerApp.Migrations
                     b.Property<int>("AttractionId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AttractionId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("MinuteWalk")
                         .HasColumnType("INTEGER");
 
@@ -247,8 +253,6 @@ namespace ItineraryPlannerApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AttractionId");
-
-                    b.HasIndex("AttractionId1");
 
                     b.ToTable("TransitAccess");
                 });
@@ -316,9 +320,6 @@ namespace ItineraryPlannerApp.Migrations
                     b.OwnsOne("ItineraryPlannerApp.Models.Location", "Location", b1 =>
                         {
                             b1.Property<int>("AttractionId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<int>("Id")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<double>("Latitude")
@@ -436,14 +437,10 @@ namespace ItineraryPlannerApp.Migrations
             modelBuilder.Entity("ItineraryPlannerApp.Models.TransitAccess", b =>
                 {
                     b.HasOne("ItineraryPlannerApp.Models.Attraction", "Attraction")
-                        .WithMany()
+                        .WithMany("CloseStations")
                         .HasForeignKey("AttractionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ItineraryPlannerApp.Models.Attraction", null)
-                        .WithMany("CloseStations")
-                        .HasForeignKey("AttractionId1");
 
                     b.Navigation("Attraction");
                 });

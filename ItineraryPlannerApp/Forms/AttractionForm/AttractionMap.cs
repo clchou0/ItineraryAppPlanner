@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ItineraryPlannerApp.Models;
 
-namespace ItineraryPlannerApp.Forms.Attraction
+namespace ItineraryPlannerApp.Forms.AttractionForm
 {
     // Small map of attraction's surrounding
     public partial class AttractionMap : UserControl
