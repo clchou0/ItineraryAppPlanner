@@ -13,6 +13,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
         public AttractionDetailsEditor(ItineraryPlannerService service, UserToggleComponent owner, Attraction attraction, bool isCreate)
         {
             _isCreate = isCreate;
+            Attraction = attraction;
             _service = service;
             _owner = owner;
             _owner.FindForm().Controls.Add(this);

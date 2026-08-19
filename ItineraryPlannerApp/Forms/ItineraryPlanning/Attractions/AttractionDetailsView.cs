@@ -23,8 +23,10 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             PriceLabel.Text = Attraction.EntryPrice;
             tableLayoutPanel1.Controls.Clear();
 
-            const int rowHeight = 24;
-            const int col1X = 0, col2X = 130, col3X = 280; // hand-tuned column starts
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            const int rowHeight = 4;
+            const int col1X = 0, col2X = 30, col3X = 100; // hand-tuned column starts
             int y = 0;
 
             foreach (var stop in Attraction.CloseStations)
@@ -32,7 +34,6 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
                 tableLayoutPanel1.Controls.Add(new Label { Text = stop.Type.ToString(), Location = new Point(col1X, y), AutoSize = true });
                 tableLayoutPanel1.Controls.Add(new Label { Text = stop.StationName, Location = new Point(col2X, y), AutoSize = true });
                 tableLayoutPanel1.Controls.Add(new Label { Text = $"{stop.MinuteWalk} min", Location = new Point(col3X, y), AutoSize = true });
-                y += rowHeight;
             }
         }
 

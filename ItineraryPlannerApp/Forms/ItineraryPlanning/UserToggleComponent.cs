@@ -9,7 +9,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
     {
         private readonly ItineraryPlannerService _service;
         private Dictionary<AppPage, Label> _labels = new Dictionary<AppPage, Label>();
-        private Dictionary<AppPage, UserControl> _pages = new Dictionary<AppPage, UserControl>();
+        private AttractionList _attractionList;
         public City City;
         public Itinerary Itinerary;
         private readonly HomeForm _homeForm;
@@ -21,44 +21,31 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
             City = city;
             _homeForm = homeForm;
 
-            // TODO: Change this to a blank itinerary
             Itinerary = itinerary ?? new Itinerary();
 
             _labels[AppPage.CityMap] = CityMapTag;
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
 
-            _pages[AppPage.AttractionList] = new AttractionList(_service, city, this);
-
-            _pages[AppPage.ItineraryPlanner] = new UserControl
-            {
-                Dock = DockStyle.Fill,
-                BackColor = Color.LightGray
-            };
-            _pages[AppPage.CityMap] = new UserControl
-            {
-                Dock = DockStyle.Fill,
-                BackColor = Color.LightGray
-            };
+            setupAttractions();
+            setupMap();
+            setupItinerary();
 
             TogglePage(AppPage.CityMap);
         }
 
         private void setupMap()
         {
-            _pages[AppPage.CityMap] = new UserControl();
+            
         }
         private void setupAttractions()
         {
-            _pages[AppPage.AttractionList] = new UserControl();
+            _attractionList = new AttractionList(_service, City, this);
         }
         private void setupItinerary()
         {
-            _pages[AppPage.ItineraryPlanner] = new UserControl();
+            
         }
-
-
-
         // MapPage, listPage and itineraryPage
         private void CityMapTag_Click(object sender, EventArgs e)
         {
@@ -84,8 +71,14 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 
 
             _labels[page].BackColor = Color.Gray;
-            // panel1.Controls.Add(new Label { Text = page.ToString() });
-            panel1.Controls.Add(_pages[page]);
+            switch (page)
+            {
+                case AppPage.AttractionList: 
+                    panel1.Controls.Add(_attractionList);
+                    break;
+                default: return;
+            }
+            
         }
 
         private void ReturnButton_Click(object sender, EventArgs e)
@@ -103,7 +96,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
         }
         public void ReloadAttractions()
         {
-            ((AttractionList)_pages[AppPage.AttractionList]).ReloadAttractionList();
+            _attractionList.ReloadAttractionList();
         }
     }
     enum AppPage { CityMap, AttractionList, ItineraryPlanner };

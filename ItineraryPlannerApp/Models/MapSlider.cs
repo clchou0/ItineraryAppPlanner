@@ -15,8 +15,9 @@ namespace ItineraryPlannerApp.Models
         public double? MinY { get; private set; }
         public double? DefX { get; private set; }
         public double? DefY { get; private set; }
-        private bool MaxSet => MaxX != null && MaxY != null;
-        private bool MinSet => MinX != null && MinY != null;
+        public bool MaxSet => MaxX != null && MaxY != null;
+        public bool MinSet => MinX != null && MinY != null;
+        public Action? Changed;
         public MapSlider(double maxX, double maxY, double minX, double minY, double defX, double defY)
         {
             MaxX = maxX;
@@ -45,7 +46,8 @@ namespace ItineraryPlannerApp.Models
             {
                 MinX = x;
                 MinY = y;
-                return true;
+                Changed?.Invoke();
+                return true;    
             }
             return false;
         }
@@ -55,14 +57,18 @@ namespace ItineraryPlannerApp.Models
             {
                 MaxX = x;
                 MaxY = y;
+                Changed?.Invoke();
                 return true;
             }
             return false;
         }
         public void SetDefault(double x, double y)
         {
-            DefX = x;
-            DefY = y;
+            if ((!MaxSet || (x < MaxX && y < MaxY)) && (!MinSet || (x > MinX && y > MinY)))
+            {
+                DefX = x;
+                DefY = y;
+            }
         }
         public MRect PanBoundCreator()
         {
@@ -77,6 +83,11 @@ namespace ItineraryPlannerApp.Models
         public override string ToString()
         {
             return $"Bottom Left: ({MinX}, {MinY})\nTop Right: ({MaxX}, {MaxY})\nDefault: ({DefX}, {DefY})";
+        }
+        public void Reset()
+        {
+            MinX = null; MinY = null; MaxX = null; MaxY = null; DefX = null; DefY = null;
+            Changed?.Invoke();
         }
     }
 }

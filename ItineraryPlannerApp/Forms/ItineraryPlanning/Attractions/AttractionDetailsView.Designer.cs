@@ -37,15 +37,16 @@
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
             panel4 = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
             label4 = new Label();
             panel3 = new Panel();
             HeaderPanel = new Panel();
+            AddToItineraryButton = new Button();
             AreaLabel = new Label();
             NameLabel = new Label();
             CloseButton = new Button();
             flowLayoutPanel3 = new FlowLayoutPanel();
             panel5 = new Panel();
-            tableLayoutPanel1 = new TableLayoutPanel();
             flowLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
@@ -140,6 +141,21 @@
             panel4.Size = new Size(790, 253);
             panel4.TabIndex = 4;
             // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.AutoSize = true;
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 29.3577976F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70.6422043F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 314F));
+            tableLayoutPanel1.Location = new Point(0, 35);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new Size(784, 77);
+            tableLayoutPanel1.TabIndex = 1;
+            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -159,6 +175,7 @@
             // 
             // HeaderPanel
             // 
+            HeaderPanel.Controls.Add(AddToItineraryButton);
             HeaderPanel.Controls.Add(AreaLabel);
             HeaderPanel.Controls.Add(NameLabel);
             HeaderPanel.Controls.Add(CloseButton);
@@ -167,6 +184,15 @@
             HeaderPanel.Name = "HeaderPanel";
             HeaderPanel.Size = new Size(1083, 110);
             HeaderPanel.TabIndex = 0;
+            // 
+            // AddToItineraryButton
+            // 
+            AddToItineraryButton.Location = new Point(927, 60);
+            AddToItineraryButton.Name = "AddToItineraryButton";
+            AddToItineraryButton.Size = new Size(125, 29);
+            AddToItineraryButton.TabIndex = 5;
+            AddToItineraryButton.Text = "Add to Itinerary";
+            AddToItineraryButton.UseVisualStyleBackColor = true;
             // 
             // AreaLabel
             // 
@@ -216,19 +242,6 @@
             panel5.Size = new Size(1083, 629);
             panel5.TabIndex = 0;
             // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Location = new Point(0, 35);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(784, 215);
-            tableLayoutPanel1.TabIndex = 1;
-            // 
             // AttractionDetailsView
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -271,5 +284,6 @@
         private Label NameLabel;
         private Label AreaLabel;
         private TableLayoutPanel tableLayoutPanel1;
+        private Button AddToItineraryButton;
     }
 }

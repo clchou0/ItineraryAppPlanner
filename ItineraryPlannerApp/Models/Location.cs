@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mapsui;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,15 +10,14 @@ namespace ItineraryPlannerApp.Models
         public double Latitude { get; set; } = 0;
         public double Longitude { get; set; } = 0;
 
-        public Location()
-        {
-
-        }
+        public Location() { }
 
         public Location(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
         }
+
+        public MPoint ToMPoint() { return new MPoint(Longitude, Latitude); }
     }
 }

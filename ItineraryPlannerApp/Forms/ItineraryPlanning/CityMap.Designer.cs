@@ -1,4 +1,4 @@
-﻿namespace ItineraryPlannerApp.Forms.AttractionForm
+﻿namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 {
     partial class CityMap
     {
@@ -35,7 +35,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Name = "CityMap";
-            Size = new Size(1011, 528);
+            Size = new Size(1242, 628);
             ResumeLayout(false);
         }
 
