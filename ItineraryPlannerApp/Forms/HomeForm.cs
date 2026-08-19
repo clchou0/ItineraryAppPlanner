@@ -28,6 +28,12 @@ namespace ItineraryPlannerApp.Forms
 
             _mainForm = mainForm;
             _user = user;
+            if (user.Role == UserRole.Admin)
+            {
+                MenuButton.Visible = false;
+                MenuButton.Enabled = false;
+            }
+
             welcomeLabel.Text = $"Welcome, {user.DisplayName}";
             welcomeLabel.Location = new Point(1148 - welcomeLabel.Width, welcomeLabel.Location.Y);
             buildItineraryToolStripMenuItem.Click += buildItineraryToolStripMenuItem_Click;
@@ -67,7 +73,7 @@ namespace ItineraryPlannerApp.Forms
         }
         public void SpawnCityEditor(City? city)
         {
-            var cityEditor = new CityDetailsEditor(_mainForm.Service, this,  city);
+            var cityEditor = new CityDetailsEditor(_mainForm.Service, this, city);
             panel1.Controls.Clear();
             panel1.Controls.Add(cityEditor);
         }

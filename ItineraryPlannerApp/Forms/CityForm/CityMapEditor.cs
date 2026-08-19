@@ -8,6 +8,7 @@ using Mapsui.Tiling.Layers;
 using Mapsui.Widgets;
 using Mapsui.Widgets.InfoWidgets;
 using System.Globalization;
+using ItineraryPlannerApp.Helpers;
 
 namespace ItineraryPlannerApp.Forms.CityForm
 {
@@ -17,20 +18,19 @@ namespace ItineraryPlannerApp.Forms.CityForm
     public partial class CityMapEditor : Form
     {
         // Depends on if this is an EDIT or CREATE screen
-        public MapSlider NewSlider;
+        public MapSlider NewSlider { get { return mapControl1.Slider; } }
         public string CityName;
-        public string NewDescription;
-        private bool topRightLocked = false;
-        private bool bottomLeftLocked = false;
-
         public CityMapEditor(string name, MapSlider slider)
         {
             CityName = name;
-            NewSlider = slider;
-
+            
             InitializeComponent();
             LatTextBox.Cap = 90;
             LngTextBox.Cap = 180;
+            if (slider.MaxSet) LockTopRight.Text = "Unlock Top Right";
+            if (slider.MinSet) LockBottomLeft.Text = "Unlock Bottom Left";
+
+            mapControl1.Initialize(slider, MapMode.CityEdit);
         }
 
         private void CityMapEditor_Load(object sender, EventArgs e)
@@ -39,11 +39,9 @@ namespace ItineraryPlannerApp.Forms.CityForm
         }
         private void LockTopRight_Click(object sender, EventArgs e)
         {
-            if (topRightLocked)
+            if (NewSlider.MaxSet)
             {
-                // Unlock
                 NewSlider.SetTopRight(null, null);
-                mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
                 LockTopRight.Text = "Lock Top Right";
             }
             else
@@ -57,21 +55,18 @@ namespace ItineraryPlannerApp.Forms.CityForm
 
                 var (maxLon, maxLat) = SphericalMercator.ToLonLat(maxX, maxY);
 
-                if (NewSlider.SetTopRight(maxLon, maxLat))
-                    mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
-                else
+                if (!NewSlider.SetTopRight(maxLon, maxLat))
                     MessageBox.Show("Top right setup failed");
-                LockTopRight.Text = "Unlock Top Right";
+                else
+                    LockTopRight.Text = "Unlock Top Right";
             }
-            topRightLocked = !topRightLocked;
         }
         private void LockBottomLeft_Click(object sender, EventArgs e)
         {
-            if (bottomLeftLocked)
+            if (NewSlider.MinSet)
             {
                 // Unlock
                 NewSlider.SetBottomLeft(null, null);
-                mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
                 LockBottomLeft.Text = "Lock Bottom Left";
             }
             else
@@ -84,13 +79,11 @@ namespace ItineraryPlannerApp.Forms.CityForm
                 double minY = viewport.CenterY - halfHeightMap;
 
                 var (minLon, minLat) = SphericalMercator.ToLonLat(minX, minY);
-                if (NewSlider.SetBottomLeft(minLon, minLat))
+                if (!NewSlider.SetBottomLeft(minLon, minLat))
                     mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
                 else
-                    MessageBox.Show("Bottom left setup failed");
-                LockBottomLeft.Text = "Unlock Bottom Left";
+                    LockBottomLeft.Text = "Unlock Bottom Left";
             }
-            topRightLocked = !topRightLocked;
         }
         private void DefaultZoom_Click(object sender, EventArgs e)
         {
@@ -103,20 +96,6 @@ namespace ItineraryPlannerApp.Forms.CityForm
         private void mapControl1_Load(object sender, EventArgs e)
         {
             mapControl1.Dock = DockStyle.None;
-            LoggingWidget.ShowLoggingInMap = ActiveMode.No;
-            var layer = new TileLayer(KnownTileSources.Create(KnownTileSource.OpenStreetMap));
-            mapControl1.Map.Layers.Add(layer);
-
-            // Cap out at furthest zoom
-            mapControl1.Map.Navigator.OverrideZoomBounds = new MMinMax(10, 200);
-            mapControl1.Map.Navigator.OverridePanBounds = NewSlider.PanBoundCreator();
-
-            MPoint center = NewSlider.ZoomPoint() ?? new MPoint(-118.2437, 34.0522);
-            mapControl1.Map.Navigator.CenterOnAndZoomTo(
-                SphericalMercator.FromLonLat(center),
-                mapControl1.Map.Navigator.Resolutions[10]
-            );
-            mapControl1.Map.Navigator.Limiter = new ViewportLimiter();
         }
 
         private void ZoomTo_Click(object sender, EventArgs e)
@@ -129,18 +108,24 @@ namespace ItineraryPlannerApp.Forms.CityForm
 
             if (latOk && lngOk)
             {
-                var point = SphericalMercator.FromLonLat(
-                    float.Parse(LngTextBox.Text, CultureInfo.InvariantCulture),
-                    float.Parse(LatTextBox.Text, CultureInfo.InvariantCulture)
-                ).ToMPoint();
-
-                mapControl1.Map.Navigator.CenterOn(point);
+                var lat = float.Parse(LatTextBox.Text, CultureInfo.InvariantCulture);
+                var lng = float.Parse(LngTextBox.Text, CultureInfo.InvariantCulture);
+                if (NewSlider.InRange(lng, lat)) 
+                {
+                    var point = SphericalMercator.FromLonLat(lng, lat).ToMPoint();
+                    mapControl1.Map.Navigator.CenterOn(point);
+                }
+                else
+                {
+                    MessageBox.Show("Choose a valid point to zoom to or unlock bounds");
+                }
             }
         }
         private void Confirm_Click(object sender, EventArgs e)
         {
             if (!NewSlider.IsValid)
                 MessageBox.Show("Set all necessary fields before confirming");
+            else 
             {
                 DialogResult = DialogResult.OK;
                 Close();
@@ -155,8 +140,21 @@ namespace ItineraryPlannerApp.Forms.CityForm
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Question
             );
-            if (result == DialogResult.OK) NewSlider = new MapSlider();
+            if (result == DialogResult.OK) NewSlider.Reset();
 
+        }
+
+        private void DefaultZoomButton_Click(object sender, EventArgs e)
+        {
+            MPoint? center = NewSlider.ZoomPoint();
+            if (center is null) { MessageBox.Show("Default zoom not set"); }
+            else
+            {
+                mapControl1.Map.Navigator.CenterOnAndZoomTo(
+                    SphericalMercator.FromLonLat(center),
+                    mapControl1.Map.Navigator.Resolutions[10]
+                );
+            }
         }
     }
 }

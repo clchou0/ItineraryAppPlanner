@@ -96,7 +96,7 @@
             EditButton.Name = "EditButton";
             EditButton.Size = new Size(35, 35);
             EditButton.TabIndex = 11;
-            EditButton.Text = "E";
+            EditButton.Text = "🖊️";
             EditButton.UseVisualStyleBackColor = false;
             EditButton.Click += EditButton_Click;
             // 

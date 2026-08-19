@@ -1,14 +1,6 @@
-﻿using BruTile.Wms;
-using ItineraryPlannerApp.Data.Services;
+﻿using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Helpers;
 using ItineraryPlannerApp.Models;
-using ItineraryPlannerApp.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
 namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 {
@@ -35,6 +27,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             DescriptionText.Text = Attraction.ShortDesctiption;
             TransportLabel.Text = $"Access: {Attraction.TransportMethods}";
 
+            pictureBox1.Image = ImageHelper.LoadImage(attraction.ImagePath);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
             if (isAdmin)
             {
                 AddButton.Visible = false;
@@ -43,9 +38,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             else
             {
                 EditButton.Visible = false;
-                DeleteButton.Visible = false;
                 EditButton.Enabled = false;
-                DeleteButton.Enabled = false;
+                AddButton.Visible = true;
+                AddButton.Enabled = true;
             }
 
             _component = component;
@@ -59,26 +54,16 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             editor.Dock = DockStyle.Fill;
 
         }
-
-        private void DeleteButton_Click(object sender, EventArgs e)
-        {
-            if (!IsAdmin) return;
-            
-        }
-
         private void DetailsButton_Click(object sender, EventArgs e)
         {
-            
+            var view = new AttractionDetailsView(_component, Attraction);
+            view.BringToFront();
+            view.Dock = DockStyle.Fill;
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
             AddToItineraryRequested?.Invoke(Attraction);
-        }
-
-        private void TransportLabel_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

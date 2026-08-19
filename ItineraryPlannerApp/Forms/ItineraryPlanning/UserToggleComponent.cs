@@ -1,7 +1,8 @@
-﻿using ItineraryPlannerApp.Models;
-using ItineraryPlannerApp.Models.Itinerary;
+﻿using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions;
-using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Models;
+using ItineraryPlannerApp.Models.Itinerary;
+using System.ComponentModel;
 
 namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 {
@@ -9,11 +10,17 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
     {
         private readonly ItineraryPlannerService _service;
         private Dictionary<AppPage, Label> _labels = new Dictionary<AppPage, Label>();
-        private Dictionary<AppPage, UserControl> _pages = new Dictionary<AppPage, UserControl>();
+       
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<Attraction> AllAttractions { get; set; } = new List<Attraction>();
+        
         public City City;
         public Itinerary Itinerary;
         private readonly User _user;
         private readonly HomeForm _homeForm;
+        private AttractionList _attractionList;
+        private CityMap _cityMap;
 
         public UserToggleComponent(ItineraryPlannerService service, City city, Itinerary? itinerary, HomeForm homeForm, User user)
         {
@@ -23,44 +30,35 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
             _homeForm = homeForm;
             _user = user;
 
-            // TODO: Change this to a blank itinerary
             Itinerary = itinerary ?? new Itinerary();
 
             _labels[AppPage.CityMap] = CityMapTag;
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
 
-            _pages[AppPage.AttractionList] = new AttractionList(_service, city, user, this);
+            ItineraryPlannerTag.Visible = false;
+            ItineraryPlannerTag.Enabled = false;
+            AllAttractions = _service.GetAttractionsByCity(City); 
 
-            _pages[AppPage.ItineraryPlanner] = new UserControl
-            {
-                Dock = DockStyle.Fill,
-                BackColor = Color.LightGray
-            };
-            _pages[AppPage.CityMap] = new UserControl
-            {
-                Dock = DockStyle.Fill,
-                BackColor = Color.LightGray
-            };
+            setupAttractions();
+            setupMap();
+            setupItinerary();
 
             TogglePage(AppPage.CityMap);
         }
 
         private void setupMap()
         {
-            _pages[AppPage.CityMap] = new UserControl();
+            _cityMap = new CityMap(City.Slider, this);
         }
         private void setupAttractions()
         {
-            _pages[AppPage.AttractionList] = new UserControl();
+            _attractionList = new AttractionList(_service, City, _user, this);
         }
         private void setupItinerary()
         {
-            _pages[AppPage.ItineraryPlanner] = new UserControl();
+            
         }
-
-
-
         // MapPage, listPage and itineraryPage
         private void CityMapTag_Click(object sender, EventArgs e)
         {
@@ -86,8 +84,17 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 
 
             _labels[page].BackColor = Color.Gray;
-            // panel1.Controls.Add(new Label { Text = page.ToString() });
-            panel1.Controls.Add(_pages[page]);
+            switch (page)
+            {
+                case AppPage.AttractionList: 
+                    panel1.Controls.Add(_attractionList);
+                    break;
+                case AppPage.CityMap:
+                    panel1.Controls.Add(_cityMap);
+                    break;
+                default: return;
+            }
+            
         }
 
         private void ReturnButton_Click(object sender, EventArgs e)
@@ -105,7 +112,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
         }
         public void ReloadAttractions()
         {
-            ((AttractionList)_pages[AppPage.AttractionList]).ReloadAttractionList();
+            AllAttractions = _service.GetAttractionsByCity(City);
+            _attractionList.ReloadAttractionList();
         }
     }
     enum AppPage { CityMap, AttractionList, ItineraryPlanner };

@@ -36,20 +36,18 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var editor = new AttractionDetailsEditor(_service, _component, new Attraction { City = City }, true);
+            var editor = new AttractionDetailsEditor(_service, _component, new Attraction { City = City }, _user.Role == UserRole.Admin);
             editor.BringToFront();
             editor.Dock = DockStyle.Fill;
         }
         public void ReloadAttractionList()
         {
             flowLayoutPanel2.Controls.Clear();
-            _allAttractions = _service.GetAttractionsByCity(City);
-
-            foreach (var attraction in _allAttractions)
+            
+            foreach (var attraction in _component.AllAttractions)
             {
-                var row = new AttractionRow(_service, attraction, true, _component);
+                var row = new AttractionRow(_service, attraction, _user.Role == UserRole.Admin, _component);
                 row.AddToItineraryRequested += AddAttractionToItinerary;
-
                 flowLayoutPanel2.Controls.Add(row);
             }
         }

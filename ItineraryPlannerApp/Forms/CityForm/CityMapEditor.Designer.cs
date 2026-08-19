@@ -1,4 +1,5 @@
-﻿namespace ItineraryPlannerApp.Forms.CityForm
+﻿using ItineraryPlannerApp.Helpers;
+namespace ItineraryPlannerApp.Forms.CityForm
 {
     partial class CityMapEditor
     {
@@ -29,7 +30,7 @@
         private void InitializeComponent()
         {
             DefaultZoom = new Button();
-            mapControl1 = new Mapsui.UI.WindowsForms.MapControl();
+            mapControl1 = new SliderMapControl();
             LockTopRight = new Button();
             LockBottomLeft = new Button();
             LatLabel = new Label();
@@ -41,13 +42,14 @@
             LngTextBox = new CoordinateTextBox();
             TitleLabel = new Label();
             ResetButton = new Button();
+            DefaultZoomButton = new Button();
             SuspendLayout();
             // 
             // DefaultZoom
             // 
-            DefaultZoom.Location = new Point(1082, 356);
+            DefaultZoom.Location = new Point(1108, 341);
             DefaultZoom.Name = "DefaultZoom";
-            DefaultZoom.Size = new Size(111, 51);
+            DefaultZoom.Size = new Size(110, 50);
             DefaultZoom.TabIndex = 2;
             DefaultZoom.Text = "Set Current as Default Zoom";
             DefaultZoom.UseVisualStyleBackColor = true;
@@ -60,15 +62,15 @@
             mapControl1.Dock = DockStyle.Fill;
             mapControl1.Location = new Point(0, 0);
             mapControl1.Name = "mapControl1";
-            mapControl1.Size = new Size(1206, 712);
+            mapControl1.Size = new Size(1242, 628);
             mapControl1.TabIndex = 3;
             mapControl1.Load += mapControl1_Load;
             // 
             // LockTopRight
             // 
-            LockTopRight.Location = new Point(1083, 245);
+            LockTopRight.Location = new Point(1108, 229);
             LockTopRight.Name = "LockTopRight";
-            LockTopRight.Size = new Size(111, 50);
+            LockTopRight.Size = new Size(110, 50);
             LockTopRight.TabIndex = 5;
             LockTopRight.Text = "Lock Top Right";
             LockTopRight.UseVisualStyleBackColor = true;
@@ -76,9 +78,9 @@
             // 
             // LockBottomLeft
             // 
-            LockBottomLeft.Location = new Point(1082, 301);
+            LockBottomLeft.Location = new Point(1108, 285);
             LockBottomLeft.Name = "LockBottomLeft";
-            LockBottomLeft.Size = new Size(111, 49);
+            LockBottomLeft.Size = new Size(110, 50);
             LockBottomLeft.TabIndex = 7;
             LockBottomLeft.Text = "Lock Bottom Left";
             LockBottomLeft.UseVisualStyleBackColor = true;
@@ -122,9 +124,9 @@
             // 
             // Confirm
             // 
-            Confirm.Location = new Point(1082, 413);
+            Confirm.Location = new Point(1108, 453);
             Confirm.Name = "Confirm";
-            Confirm.Size = new Size(111, 40);
+            Confirm.Size = new Size(110, 30);
             Confirm.TabIndex = 13;
             Confirm.Text = "Confirm";
             Confirm.UseVisualStyleBackColor = true;
@@ -155,19 +157,29 @@
             // 
             // ResetButton
             // 
-            ResetButton.Location = new Point(1083, 210);
+            ResetButton.Location = new Point(1108, 193);
             ResetButton.Name = "ResetButton";
-            ResetButton.Size = new Size(110, 29);
+            ResetButton.Size = new Size(110, 30);
             ResetButton.TabIndex = 15;
             ResetButton.Text = "Reset";
             ResetButton.UseVisualStyleBackColor = true;
             ResetButton.Click += ResetButton_Click;
             // 
+            // DefaultZoomButton
+            // 
+            DefaultZoomButton.Location = new Point(1108, 397);
+            DefaultZoomButton.Name = "DefaultZoomButton";
+            DefaultZoomButton.Size = new Size(110, 50);
+            DefaultZoomButton.TabIndex = 16;
+            DefaultZoomButton.Text = "Zoom to Default";
+            DefaultZoomButton.UseVisualStyleBackColor = true;
+            DefaultZoomButton.Click += DefaultZoomButton_Click;
+            // 
             // CityMapEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1206, 712);
+            Controls.Add(DefaultZoomButton);
             Controls.Add(ResetButton);
             Controls.Add(TitleLabel);
             Controls.Add(LockBottomLeft);
@@ -181,6 +193,7 @@
             Controls.Add(LngTextBox);
             Controls.Add(mapControl1);
             Name = "CityMapEditor";
+            Size = new Size(1242, 628);
             Load += CityMapEditor_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -188,7 +201,7 @@
 
         #endregion
         private Button DefaultZoom;
-        private Mapsui.UI.WindowsForms.MapControl mapControl1;
+        private SliderMapControl mapControl1;
         private Button LockTopRight;
         private Button LockBottomLeft;
         private CoordinateTextBox LatTextBox;
@@ -200,5 +213,6 @@
         private Button Confirm;
         private Label TitleLabel;
         private Button ResetButton;
+        private Button DefaultZoomButton;
     }
 }
