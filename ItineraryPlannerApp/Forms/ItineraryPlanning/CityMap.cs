@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ItineraryPlannerApp.Helpers;
+using ItineraryPlannerApp.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +12,19 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 {
     public partial class CityMap : UserControl
     {
-        public CityMap()
+        private MapSlider _slider;
+        private readonly UserToggleComponent _component;
+        public CityMap(MapSlider slider, UserToggleComponent component)
         {
             InitializeComponent();
+            _slider = slider;
+            _component = component;
+            sliderMapControl1.Initialize(_slider, MapMode.CityView);
+            ReloadAttractionList();
+        }
+        public void ReloadAttractionList()
+        {
+            sliderMapControl1.LoadAttractionPins(_component.AllAttractions, true);
         }
     }
 }

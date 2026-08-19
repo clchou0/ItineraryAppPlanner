@@ -28,17 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            sliderMapControl1 = new ItineraryPlannerApp.Helpers.SliderMapControl();
             SuspendLayout();
+            // 
+            // sliderMapControl1
+            // 
+            sliderMapControl1.AutoSize = true;
+            sliderMapControl1.BackColor = Color.White;
+            sliderMapControl1.Dock = DockStyle.Fill;
+            sliderMapControl1.Location = new Point(0, 0);
+            sliderMapControl1.Name = "sliderMapControl1";
+            sliderMapControl1.Size = new Size(1242, 628);
+            sliderMapControl1.TabIndex = 0;
             // 
             // CityMap
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(sliderMapControl1);
             Name = "CityMap";
             Size = new Size(1242, 628);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Helpers.SliderMapControl sliderMapControl1;
     }
 }

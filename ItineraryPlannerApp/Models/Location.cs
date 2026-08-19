@@ -1,4 +1,5 @@
 ﻿using Mapsui;
+using Mapsui.Projections;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +19,10 @@ namespace ItineraryPlannerApp.Models
             Longitude = longitude;
         }
 
-        public MPoint ToMPoint() { return new MPoint(Longitude, Latitude); }
+        public MPoint LatLngMPoint()
+        {
+            var (x, y) = SphericalMercator.FromLonLat(Longitude, Latitude);
+            return new MPoint(x, y);
+        }
     }
 }

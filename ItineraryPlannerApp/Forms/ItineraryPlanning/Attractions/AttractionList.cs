@@ -40,9 +40,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
         public void ReloadAttractionList()
         {
             flowLayoutPanel2.Controls.Clear();
-            _allAttractions = _service.GetAttractionsByCity(City);
-
-            foreach (var attraction in _allAttractions)
+            
+            foreach (var attraction in _component.AllAttractions)
             {
                 flowLayoutPanel2.Controls.Add(new AttractionRow(_service, attraction, true, _component));
             }

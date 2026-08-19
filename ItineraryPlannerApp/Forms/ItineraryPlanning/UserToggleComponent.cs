@@ -1,7 +1,8 @@
-﻿using ItineraryPlannerApp.Models;
-using ItineraryPlannerApp.Models.Itinerary;
+﻿using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions;
-using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Models;
+using ItineraryPlannerApp.Models.Itinerary;
+using System.ComponentModel;
 
 namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 {
@@ -9,10 +10,17 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
     {
         private readonly ItineraryPlannerService _service;
         private Dictionary<AppPage, Label> _labels = new Dictionary<AppPage, Label>();
-        private AttractionList _attractionList;
+       
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<Attraction> AllAttractions { get; set; } = new List<Attraction>();
+
+        
         public City City;
         public Itinerary Itinerary;
         private readonly HomeForm _homeForm;
+        private AttractionList _attractionList;
+        private CityMap _cityMap;
 
         public UserToggleComponent(ItineraryPlannerService service, City city, Itinerary? itinerary, HomeForm homeForm)
         {
@@ -26,6 +34,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
             _labels[AppPage.CityMap] = CityMapTag;
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
+            AllAttractions = _service.GetAttractionsByCity(City); 
 
             setupAttractions();
             setupMap();
@@ -36,7 +45,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
 
         private void setupMap()
         {
-            
+            _cityMap = new CityMap(City.Slider, this);
         }
         private void setupAttractions()
         {
@@ -76,6 +85,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
                 case AppPage.AttractionList: 
                     panel1.Controls.Add(_attractionList);
                     break;
+                case AppPage.CityMap:
+                    panel1.Controls.Add(_cityMap);
+                    break;
                 default: return;
             }
             
@@ -96,6 +108,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
         }
         public void ReloadAttractions()
         {
+            AllAttractions = _service.GetAttractionsByCity(City);
             _attractionList.ReloadAttractionList();
         }
     }

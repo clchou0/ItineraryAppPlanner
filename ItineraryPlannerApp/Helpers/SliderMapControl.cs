@@ -1,13 +1,14 @@
 ﻿using BruTile.Predefined;
 using ItineraryPlannerApp.Models;
 using Mapsui;
+using Mapsui.Layers;
 using Mapsui.Limiting;
 using Mapsui.Projections;
 using Mapsui.Tiling.Layers;
-using Mapsui.UI;
 using Mapsui.UI.WindowsForms;
 using Mapsui.Widgets;
 using Mapsui.Widgets.InfoWidgets;
+using System.Windows;
 
 namespace ItineraryPlannerApp.Helpers
 {
@@ -16,13 +17,17 @@ namespace ItineraryPlannerApp.Helpers
         public MapSlider Slider = new MapSlider();
         static Dictionary<MapMode, ZoomConfig> config = new()
         {
-            [MapMode.CityView] = new ZoomConfig(2, 200),
-            [MapMode.CityEdit] = new ZoomConfig(10, 200),
-            [MapMode.AttractionView] = new ZoomConfig(2, 2),
-            [MapMode.AttractionEdit] = new ZoomConfig(2, 100),
+            [MapMode.CityView] = new ZoomConfig(2, 200, 10),
+            [MapMode.CityEdit] = new ZoomConfig(10, 200, 10),
+            [MapMode.AttractionView] = new ZoomConfig(2, 2, 16),
+            [MapMode.AttractionEdit] = new ZoomConfig(2, 100, 14),
         };
+        private MemoryLayer? AttractionLayer;
 
-        public SliderMapControl() { }
+        public SliderMapControl(): base()
+        {
+            InitializeComponent();
+        }
         public void Initialize(MapSlider slider, MapMode mode)
         {
             Slider = slider;
@@ -36,47 +41,70 @@ namespace ItineraryPlannerApp.Helpers
             Map.Navigator.OverrideZoomBounds = new MMinMax(config[mode].MinZoom, config[mode].MaxZoom);
             Map.Navigator.CenterOnAndZoomTo(
                 SphericalMercator.FromLonLat(center),
-                Map.Navigator.Resolutions[2]
+                 Map.Navigator.Resolutions[config[mode].resIndex]
             );
-
             setPanBounds();
             Slider.Changed += setPanBounds;
             Map.Navigator.Limiter = new ViewportLimiter();
+
+            addLines();
         }
-        public SliderMapControl(MapMode mode, Location location)
+        public SliderMapControl(MapMode mode, Location location) : base()
         {
             if (mode == MapMode.AttractionView)
             {
-                var centerPoint = SphericalMercator.FromLonLat(location.ToMPoint());
+                var centerPoint = location.LatLngMPoint();
+                Map.Navigator.OverrideZoomBounds = new MMinMax(config[mode].MinZoom, config[mode].MaxZoom);
                 Map.Navigator.CenterOnAndZoomTo(
                     SphericalMercator.FromLonLat(centerPoint),
                     Map.Navigator.Resolutions[Map.Navigator.Resolutions.Count - 1]
                 );
-                Map.Navigator.OverrideZoomBounds = new MMinMax(config[mode].MinZoom, config[mode].MaxZoom);
                 // Not allowed to move
                 Map.Navigator.OverridePanBounds = new MRect(centerPoint.X, centerPoint.Y, centerPoint.X, centerPoint.Y);
             }
+            addLines();
+        }
+        private void addLines()
+        {
+            var vLine = new Panel { BackColor = Color.Black, Width = 1, Height = Height, Left = Width / 2, Top = 0 };
+            var hLine = new Panel { BackColor = Color.Black, Height = 1, Width = Width, Left = 0, Top = Height / 2 };
+            Controls.Add(vLine);
+            Controls.Add(hLine);
+            vLine.BringToFront();
+            hLine.BringToFront();
         }
         private void setPanBounds()
         {
-            MessageBox.Show("PANBOUNDSSET");
             this.Map.Navigator.OverridePanBounds = Slider.PanBoundCreator();
         }
 
         private void InitializeComponent()
         {
-            SuspendLayout();
-            // 
-            // SliderMapControl
-            // 
-            Name = "SliderMapControl";
-            Size = new Size(1474, 763);
-            ResumeLayout(false);
 
+        }
+        public void LoadAttractionPins(List<Attraction> attractions, bool activate)
+        {
+            if (AttractionLayer is not null) Map.Layers.Remove(AttractionLayer);
+
+            List<PointFeature> pins = new List<PointFeature>();
+            foreach (Attraction a in attractions) 
+            {
+                var pin = new PointFeature(a.Location.LatLngMPoint());
+                pin.Styles.Add(new Mapsui.Styles.SymbolStyle
+                {
+                    SymbolScale = 0.8,
+                    Fill = new Mapsui.Styles.Brush(Mapsui.Styles.Color.Blue),
+                    SymbolType = Mapsui.Styles.SymbolType.Ellipse,
+                    Outline = new Mapsui.Styles.Pen(Mapsui.Styles.Color.White, 1)
+                });
+                pins.Add(pin);
+            }
+            AttractionLayer = new MemoryLayer { Features = pins };
+            Map.Layers.Add(AttractionLayer!);
         }
     }
     public enum MapMode { CityView, CityEdit, AttractionView, AttractionEdit };
-    public readonly record struct ZoomConfig(double MinZoom, double MaxZoom);
+    public readonly record struct ZoomConfig(double MinZoom, double MaxZoom, int resIndex);
 
 
 }
