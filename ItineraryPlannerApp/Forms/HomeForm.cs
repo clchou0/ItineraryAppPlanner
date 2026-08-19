@@ -80,6 +80,7 @@ namespace ItineraryPlannerApp.Forms
         public void SpawnCityShowcase()
         {
             panel1.Controls.Clear();
+            _cityShowcase.loadCities("");
             panel1.Controls.Add(_cityShowcase);
         }
         public void OpenItineraryCreator(City city, Itinerary? itinerary)

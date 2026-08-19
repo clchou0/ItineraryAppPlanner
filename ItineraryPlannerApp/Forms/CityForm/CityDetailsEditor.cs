@@ -9,8 +9,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
         private readonly ItineraryPlannerService _service;
         private readonly HomeForm _homeForm;
         private City? City;
-        private string name, description, country, imgPath = "";
-        private MapSlider mapSlider;
+        private bool isEdit; 
 
         public CityDetailsEditor(ItineraryPlannerService service, HomeForm homeForm, City? city)
         {
@@ -18,58 +17,60 @@ namespace ItineraryPlannerApp.Forms.CityForm
             _homeForm = homeForm;
             City = city;
             InitializeComponent();
+
+            isEdit = City is not null;
             if (City is not null)
             {
                 CityNameBox.Text = City.CityName;
                 DescriptionBox.Text = City.Description;
                 CountryBox.Text = City.Country;
-                mapSlider = City.Slider;
-                imgPath = City.ImagePath;
+                // imgPath = City.ImagePath;
             }
-            if (City is null || City.Slider is null) mapSlider = new MapSlider();
+            else City = new City();
+            if (City.Slider is null) City.Slider = new MapSlider();
         }
 
         private void CityDetailsEditor_Load(object sender, EventArgs e)
         {
             // Is this creating a new city or saving the changes
-            SaveButton.Text = (City is null) ? "Create" : "Save";
+            SaveButton.Text = (isEdit) ? "Save" : "Create";
         }
 
         private void CityNameBox_TextChanged(object sender, EventArgs e)
         {
-            name = CityNameBox.Text;
+            City.CityName = CityNameBox.Text;
         }
 
         private void DescriptionBox_TextChanged_1(object sender, EventArgs e)
         {
-            description = DescriptionBox.Text;
+            City.Description = DescriptionBox.Text;
         }
 
         private void CountryBox_TextChanged(object sender, EventArgs e)
         {
-            country = CountryBox.Text;
+            City.Country = CountryBox.Text;
         }
 
         private void ChangeMapButton_Click(object sender, EventArgs e)
         {
-            using var mapEditor = new CityMapEditor(name, mapSlider);
+            using var mapEditor = new CityMapEditor(City.CityName, City.Slider);
 
             if (mapEditor.ShowDialog() == DialogResult.OK)
             {
-                mapSlider = mapEditor.NewSlider;
+                City.Slider = mapEditor.NewSlider;
             }
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
             string error = "";
-            if (string.IsNullOrWhiteSpace(country)
-                || string.IsNullOrWhiteSpace(name)
-                || string.IsNullOrWhiteSpace(description))
+            if (string.IsNullOrWhiteSpace(City.Country)
+                || string.IsNullOrWhiteSpace(City.CityName)
+                || string.IsNullOrWhiteSpace(City.Description))
             {
                 error = error + "Please fill in all fields\n";
             }
-            if (!mapSlider.IsValid)
+            if (!City.Slider.IsValid)
             {
                 error += "Please set up the map\n";
             }
@@ -77,50 +78,27 @@ namespace ItineraryPlannerApp.Forms.CityForm
             if (error == "")
             {
                 bool result;
-                if (City is null)
+                if (isEdit)
                 {
-                    var newCity = new City
-                    {
-                        CityName = name,
-                        Description = description,
-                        Country = country,
-                        ImagePath = "",
-                        Slider = mapSlider
-                    };
-
-                    result = _service.AddCity(newCity);
-                    // Create success!!
-                    if (result)
-                    {
-                        MessageBox.Show($"{name} has been created!");
-                        _homeForm.SpawnCityShowcase();
-                    }
-                    else
-                    {
-                        MessageBox.Show($"There is already a city created with name {name}");
-                    }
-
-                }
-                else
-                {
-                    var updated = new City
-                    {
-                        Id = City.Id,
-                        CityName = name,
-                        Description = description,
-                        Country = country,
-                        Slider = mapSlider,
-                        ImagePath = imgPath
-                    };
-
                     result = _service.UpdateCity(City);
                     if (result)
                     {
-                        MessageBox.Show($"{name} has been edited!");
+                        MessageBox.Show($"{City.CityName} has been edited!");
                         _homeForm.SpawnCityShowcase();
                     }
                     else
-                        MessageBox.Show($"There is already a city created with name {name}");
+                        MessageBox.Show($"There is already a city created with name {City.CityName}");
+                }
+                else
+                {
+                    result = _service.AddCity(City);
+                    if (result)
+                    {
+                        MessageBox.Show($"{City.CityName} has been edited!");
+                        _homeForm.SpawnCityShowcase();
+                    }
+                    else
+                        MessageBox.Show($"There is already a city created with name {City.CityName}");
                 }
             }
             else
@@ -132,7 +110,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
         private void CancelButton_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
-                $"Your changes to {name} will not be saved..",
+                $"Your changes to {City.CityName} will not be saved..",
                 "Confirm",
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Question
