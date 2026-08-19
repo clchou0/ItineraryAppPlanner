@@ -21,13 +21,15 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
         private readonly HomeForm _homeForm;
         private AttractionList _attractionList;
         private CityMap _cityMap;
+        private readonly bool _isAdmin;
 
-        public UserToggleComponent(ItineraryPlannerService service, City city, Itinerary? itinerary, HomeForm homeForm)
+        public UserToggleComponent(ItineraryPlannerService service, City city, bool isAdmin, Itinerary? itinerary, HomeForm homeForm)
         {
             InitializeComponent();
             _service = service;
             City = city;
             _homeForm = homeForm;
+            _isAdmin = isAdmin;
 
             Itinerary = itinerary ?? new Itinerary();
 
@@ -49,7 +51,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
         }
         private void setupAttractions()
         {
-            _attractionList = new AttractionList(_service, City, this);
+            _attractionList = new AttractionList(_service, City, _isAdmin, this);
         }
         private void setupItinerary()
         {

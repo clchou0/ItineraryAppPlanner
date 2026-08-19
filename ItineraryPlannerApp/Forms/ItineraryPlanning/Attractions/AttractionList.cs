@@ -13,10 +13,11 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
     public partial class AttractionList : UserControl
     {
         public City City;
+        private readonly bool _isAdmin;
         private readonly ItineraryPlannerService _service;
         private List<Attraction> _allAttractions;
         private readonly UserToggleComponent _component;
-        public AttractionList(ItineraryPlannerService service, City city, UserToggleComponent component)
+        public AttractionList(ItineraryPlannerService service, City city, bool isAdmin, UserToggleComponent component)
         {
             _service = service;
             City = city;
@@ -33,7 +34,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var editor = new AttractionDetailsEditor(_service, _component, new Attraction { City = City }, true);
+            var editor = new AttractionDetailsEditor(_service, _component, new Attraction { City = City }, _isAdmin);
             editor.BringToFront();
             editor.Dock = DockStyle.Fill;
         }
@@ -43,7 +44,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             
             foreach (var attraction in _component.AllAttractions)
             {
-                flowLayoutPanel2.Controls.Add(new AttractionRow(_service, attraction, true, _component));
+                flowLayoutPanel2.Controls.Add(new AttractionRow(_service, attraction, _isAdmin, _component));
             }
         }
     }

@@ -31,6 +31,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             {
                 EditButton.Visible = false;
                 EditButton.Enabled = false;
+                AddButton.Visible = true;
+                AddButton.Enabled = true;
             }
 
             _component = component;

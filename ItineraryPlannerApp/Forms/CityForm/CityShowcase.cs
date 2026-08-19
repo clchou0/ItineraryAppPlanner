@@ -28,7 +28,11 @@ namespace ItineraryPlannerApp.Forms.CityForm
             InitializeComponent();
             _cities = _service.GetAllCities();
             loadCities("");
-            // if (!isAdmin) AddOrItButton.Text = "Past Itineraries"
+            if (!isAdmin)
+            {
+                AddOrItButton.Visible = false;
+                AddOrItButton.Enabled = false;
+            }
         }
 
         private void loadCities(string filter)

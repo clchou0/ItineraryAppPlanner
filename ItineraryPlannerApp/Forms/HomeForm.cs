@@ -34,7 +34,6 @@ namespace ItineraryPlannerApp.Forms
             itineraryHistoryToolStripMenuItem.Click += itineraryHistoryToolStripMenuItem_Click;
 
             _itineraryPlannerLauncher = new ItineraryPlannerLauncher(mainForm.Service);
-
             welcomeLabel.Text = $"Welcome, {user.DisplayName}";
         }
 
@@ -68,7 +67,7 @@ namespace ItineraryPlannerApp.Forms
         }
         public void SpawnCityEditor(City? city)
         {
-            var cityEditor = new CityDetailsEditor(_mainForm.Service, this,  city);
+            var cityEditor = new CityDetailsEditor(_mainForm.Service, this, city);
             panel1.Controls.Clear();
             panel1.Controls.Add(cityEditor);
         }
@@ -80,7 +79,7 @@ namespace ItineraryPlannerApp.Forms
         public void OpenItineraryCreator(City city, Itinerary? itinerary)
         {
             panel1.Controls.Clear();
-            panel1.Controls.Add(new UserToggleComponent(_mainForm.Service, city, itinerary, this));
+            panel1.Controls.Add(new UserToggleComponent(_mainForm.Service, city, _user.Role == UserRole.Admin, itinerary, this));
         }
     }
 }
