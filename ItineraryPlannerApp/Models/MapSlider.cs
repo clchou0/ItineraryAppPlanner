@@ -42,7 +42,7 @@ namespace ItineraryPlannerApp.Models
         }
         public bool SetBottomLeft(double? x, double? y)
         {
-            if (!MaxSet || (x < MaxX && y < MaxY))
+            if ((x is null && y is null) || !MaxSet || (x < MaxX && y < MaxY))
             {
                 MinX = x;
                 MinY = y;
@@ -53,7 +53,7 @@ namespace ItineraryPlannerApp.Models
         }
         public bool SetTopRight(double? x, double? y)
         {
-            if (!MinSet || (x > MinX && y > MinY))
+            if ((x is null && y is null) || !MinSet || (x > MinX && y > MinY))
             {
                 MaxX = x;
                 MaxY = y;
