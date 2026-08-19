@@ -19,6 +19,15 @@ namespace Planner.WPF
         public string Route { get; set; } = "";
         public string FromStation { get; set; } = "";
         public string ToStation { get; set; } = "";
+        public List<TransportSegmentItem> Segments { get; set; } = new();
 
+    }
+
+    public class TransportSegmentItem
+    {
+        public string Method { get; set; } = "";
+        public string Route { get; set; } = "";
+        public string FromStation { get; set; } = "";
+        public string ToStation { get; set; } = "";
     }
 }

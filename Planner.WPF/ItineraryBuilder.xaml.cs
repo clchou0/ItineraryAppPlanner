@@ -22,12 +22,26 @@ namespace Planner.WPF
         private int _cityId;
         private int? _currentItineraryId;
         private readonly Func<ItineraryEditData, int> _saveItinerary;
+        private readonly Action<int> _completeItinerary;
         private readonly Action<int> _deleteItinerary;
+
+        private ObservableCollection<TransportSegmentItem> _transportSegments = new();
+        private ItineraryBlockItem? _editingTransport;
+
+        private ItineraryBlockItem? _editingBlock;
+        private bool _unsaved = false;
+
         public ObservableCollection<ItineraryList> Itineraries { get; set; }
         public ObservableCollection<ItineraryBlockItem> Blocks { get; set; } = new();
         public List<string> Cities { get; set; }
         public List<TransitRouteItem> TransitRoutes { get; set; }
-        public ItineraryBuilder(int userId, List<ItineraryList> itineraries, List<string> cities, List<TransitRouteItem> routes, Func<ItineraryEditData, int> saveItinerary, Action<int> deleteItinerary)
+        public ItineraryBuilder(
+            int userId, List<ItineraryList> itineraries, 
+            List<string> cities, 
+            List<TransitRouteItem> routes, 
+            Func<ItineraryEditData, int> saveItinerary, 
+            Action<int> completeItinerary, 
+            Action<int> deleteItinerary)
         {
             InitializeComponent();
 
@@ -39,7 +53,10 @@ namespace Planner.WPF
 
             TransitRoutes = routes;
 
+            SegmentList.ItemsSource = _transportSegments;
+
             _saveItinerary = saveItinerary;
+            _completeItinerary = completeItinerary;
             _deleteItinerary = deleteItinerary;
 
             DataContext = this;
@@ -129,6 +146,7 @@ namespace Planner.WPF
 
             Blocks.Remove(block);
             UpdateTotalCost();
+            _unsaved = true;
         }
 
         private void UpdateEmptyState()
@@ -168,53 +186,54 @@ namespace Planner.WPF
             ShowListView();
         }
 
-
-        private void AddAttraction_Click(object sender, RoutedEventArgs e)
+        private void AddSegment_Click(object sender, RoutedEventArgs e)
         {
-            // will be added.
-            var block = new ItineraryBlockItem
+            if (cbTrasportMode.SelectedItem is not ComboBoxItem modeItem)
             {
-                
-            };
-            Blocks.Add(block);
+                MessageBox.Show("Please select a transport mode.");
+                return;
+            }
 
-            SortBlocks();
-            UpdateTotalCost();
-        }
+            string method = modeItem.Content.ToString() ?? "";
+            string route = txtRoute.Text.Trim();
+            string from = txtFrom.Text.Trim();
+            string to = txtTo.Text.Trim();
 
-        private void Route_SelectionChanged(object sender, RoutedEventArgs e)
+            if(string.IsNullOrWhiteSpace(from) || string.IsNullOrWhiteSpace(to))
+            {
+                MessageBox.Show("Please enter From and To Station.");
+                return;
+            }
+
+            _transportSegments.Add(new TransportSegmentItem
+            {
+                Method = method,
+                Route = route,
+                FromStation = from,
+                ToStation = to
+            });
+
+            cbTrasportMode.SelectedIndex = -1;
+
+            txtRoute.Clear();
+            txtFrom.Clear();
+            txtTo.Clear();
+        } 
+
+        private void DeleteSegment_Click(Object sender, RoutedEventArgs e)
         {
-            if (cbRoute.SelectedItem is not TransitRouteItem route) return;
+            if (sender is not Button button) return;
 
-            var stops = route.Stops.OrderBy(s => s.StopOrder).ToList();
+            if (button.Tag is not TransportSegmentItem segment) return;
 
-            cbFromStop.ItemsSource = stops;
-            cbToStop.ItemsSource = stops;
+            _transportSegments.Remove(segment);
         }
 
         private void SaveTransport_Click(object sender, RoutedEventArgs e)
         {
-            if (cbRoute.SelectedItem is not TransitRouteItem route)
+            if (_transportSegments.Count == 0)
             {
-                MessageBox.Show("Please select a route.");
-                return;
-            }
-
-            if (cbFromStop.SelectedItem is not TransitStopItem from)
-            {
-                MessageBox.Show("Please select a starting stop.");
-                return;
-            }
-
-            if (cbToStop.SelectedItem is not TransitStopItem to)
-            {
-                MessageBox.Show("Please select a destination.");
-                return;
-            }
-
-            if (from.Id == to.Id)
-            {
-                MessageBox.Show("From and To cannot be the same.");
+                MessageBox.Show("No trasport added.");
                 return;
             }
 
@@ -227,39 +246,50 @@ namespace Planner.WPF
             if (!TimeSpan.TryParse(
                 txtTransportTime.Text, out var time))
             {
-                MessageBox.Show("Enter a time such as 10:30.");
+                MessageBox.Show("Enter a time with a valid format.\nExample: 10:30.");
+                return;
             }
 
             DateTime startTime = dpTransportDate.SelectedDate.Value.Date.Add(time);
 
-            var block = new ItineraryBlockItem
+            if (_editingTransport == null)
             {
-                Id = 0,
-                Type = "Transport",
+                var block = new ItineraryBlockItem
+                {
+                    Id = 0,
+                    Type = "Transport",
+                    Title = "Transport",
+                    StartTime = startTime,
+                    Duration = 0,
+                    Cost = 3.00m,
+                    Segments = _transportSegments.ToList()
 
-                TransportMethod = route.Type,
-                Route = route.RouteName,
-                FromStation = from.StopName,
-                ToStation = to.StopName,
+                };
 
-                Title = $"{route.RouteName} {route.Type}",
+                UpdateTransportDescription(block);
+                Blocks.Add(block);
+                MessageBox.Show("Transport added.");
 
-                Description = $"{from.StopName} -> {to.StopName}",
-
-                StartTime = startTime,
-
-                Duration = 0,
-                Cost = 3.00m
-            };
-
-            Blocks.Add(block);
-            MessageBox.Show("Transport added.");
+            } else
+            {
+                _editingTransport.StartTime = startTime;
+                _editingTransport.Segments = _transportSegments.ToList();
+                UpdateTransportDescription(_editingTransport);
+                MessageBox.Show("Transport edited.");
+            }
 
             SortBlocksByTime();
             UpdateTotalCost();
+            _unsaved = true;
 
             AddTransportView.Visibility = Visibility.Collapsed;
             ItineraryEditView.Visibility = Visibility.Visible;
+        }
+
+        private void UpdateTransportDescription(ItineraryBlockItem block)
+        {
+            block.Description = string.Join(" | ", block.Segments.Select(
+                s => $"{s.Method}: " + $"{s.FromStation} -> {s.ToStation}"));
         }
 
         private void SortBlocksByTime()
@@ -282,31 +312,19 @@ namespace Planner.WPF
                 return;
             }
 
+            _editingTransport = null;
+            _transportSegments.Clear();
+
             dpTransportDate.DisplayDateStart = dpArriveDate.SelectedDate.Value;
             dpTransportDate.DisplayDateEnd = dpLeaveDate.SelectedDate.Value;
+            dpTransportDate.SelectedDate = dpArriveDate.SelectedDate.Value;
 
-            if (cbCity.SelectedItem == null && _currentItineraryId == null)
-            {
-                MessageBox.Show("City not found.");
-                return;
-            }
-            string cityName;
+            txtTransportTime.Text = "10:00";
 
-            if (_currentItineraryId == null)
-            {
-                cityName = cbCity.SelectedItem?.ToString() ?? "";
-            }
-            else
-            {
-                var existing = Itineraries.FirstOrDefault(i => i.Id == _currentItineraryId);
-
-                if (existing == null) return;
-
-                cityName = existing.CityName;
-            }
-
-            var routes = TransitRoutes.Where(r => r.CityName == cityName).ToList();
-            cbRoute.ItemsSource = routes;
+            cbTrasportMode.SelectedIndex = -1;
+            txtRoute.Clear();
+            txtFrom.Clear();
+            txtTo.Clear();
               
             ItineraryEditView.Visibility = Visibility.Collapsed;
             AddTransportView.Visibility = Visibility.Visible;
@@ -314,6 +332,14 @@ namespace Planner.WPF
 
         private void BackToEdit_Click(Object sender, RoutedEventArgs e)
         {
+            _editingTransport = null;
+            _transportSegments = null;
+            cbTrasportMode.SelectedIndex = -1;
+
+            txtRoute.Clear();
+            txtFrom.Clear();
+            txtTo.Clear();
+
             ItineraryEditView.Visibility = Visibility.Visible;
             AddTransportView.Visibility = Visibility.Collapsed;
         }
@@ -375,6 +401,19 @@ namespace Planner.WPF
                 MessageBox.Show("Leave date cannot be before arrive date.");
                 return;
             }
+
+            DateTime newArriveDate = dpArriveDate.SelectedDate.Value.Date;
+            DateTime newLeaveDate = dpLeaveDate.SelectedDate.Value.Date;
+
+            var invalidBlock = Blocks.FirstOrDefault
+                (b => b.StartTime.Date < newArriveDate|| b.StartTime.Date > newLeaveDate);
+
+            if (invalidBlock != null)
+            {
+                MessageBox.Show("The itinerary dates cannot be changed because there is scheduled outside the itinerary period.");
+                return;
+            }
+
                 var data = new ItineraryEditData
             {
                 ItineraryId = _currentItineraryId,
@@ -406,6 +445,8 @@ namespace Planner.WPF
                     Blocks = data.Blocks
                 };
                 Itineraries.Add(newItem);
+
+                _unsaved = false;
             }
 
             else
@@ -428,6 +469,8 @@ namespace Planner.WPF
                         Blocks = data.Blocks
                     };
                     Itineraries[index] = updatedItem;
+
+                    _unsaved = false;
                 }
             }
 
@@ -437,5 +480,105 @@ namespace Planner.WPF
             ShowListView();
         }
 
+        private void DateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _unsaved = true;
+        }
+
+        private void EditBlock_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button button) return;
+
+            if (button.DataContext is not ItineraryBlockItem block) return;
+
+            if (block.Type != "Attraction") return;
+
+            _editingBlock = block;
+
+            txtEditBlockTitle.Text = block.Title;
+            dpEditBlockDate.SelectedDate = block.StartTime.Date;
+            txtEditBlockTime.Text = block.StartTime.ToString("HH:mm");
+
+            // only allow to pick dates during itinerary
+            dpEditBlockDate.DisplayDateStart = dpArriveDate.SelectedDate;
+            dpEditBlockDate.DisplayDateEnd = dpLeaveDate.SelectedDate;
+
+            ItineraryEditView.Visibility = Visibility.Collapsed;
+            EditBlockView.Visibility = Visibility.Visible;
+        }
+
+        private void SaveEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (_editingBlock == null) return;
+
+            if (dpEditBlockDate.SelectedDate == null)
+            {
+                MessageBox.Show("Please select a date."); return;
+            }
+
+            if (!TimeSpan.TryParse(txtEditBlockTime.Text, out TimeSpan time))
+            {
+                MessageBox.Show("Invalid input. \n Example: 10:10");
+                return;
+            }
+
+            DateTime selectedDate = dpEditBlockDate.SelectedDate.Value.Date;
+
+            DateTime newStartTime = selectedDate + time;
+
+            if ((dpArriveDate.SelectedDate != null && newStartTime.Date < dpArriveDate.SelectedDate.Value.Date)
+                || dpLeaveDate.SelectedDate != null && newStartTime.Date > dpLeaveDate.SelectedDate.Value.Date)
+            {
+                MessageBox.Show("The attraction schedule should be during itinerary."); return;
+            }
+
+            _editingBlock.StartTime = newStartTime;
+            SortBlocks();
+
+            _editingBlock = null;
+
+            BackToEditView();
+        }
+
+        private void CancelEdit_Click(Object sender,  RoutedEventArgs e)
+        {
+            _editingBlock = null;
+            BackToEditView();
+        }
+
+        private void BackToEditView()
+        {
+            EditBlockView.Visibility = Visibility.Collapsed;
+            ItineraryEditView.Visibility = Visibility.Visible;
+        }
+
+        private void CompleteButton_Click(object sender, EventArgs e)
+        {
+            if (_currentItineraryId == null || _unsaved == true)
+            {
+                MessageBox.Show("Please save the itinerary before completing it.");
+                return;
+            }
+
+            var result = MessageBox.Show("Complete this itinerary plan?", "Move to My Itineraries", MessageBoxButton.YesNo);
+
+            if (result != MessageBoxResult.Yes) return;
+
+            _completeItinerary(_currentItineraryId.Value);
+
+            var item = Itineraries.FirstOrDefault(i => i.Id == _currentItineraryId.Value);
+
+            if (item != null)
+            {
+                Itineraries.Remove(item);
+            }
+
+            MessageBox.Show("Now you can find this plan in My Itineraries.");
+
+            _currentItineraryId = null;
+
+            UpdateEmptyState();
+            ShowListView();
+        }
     }
 }

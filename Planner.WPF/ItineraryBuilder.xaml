@@ -130,17 +130,16 @@
 
                         <StackPanel Margin="0,0,0,15">
                             <TextBlock Text="Arrive Date: " FontWeight="SemiBold" Margin="0,0,0,5"/>
-                            <DatePicker x:Name="dpArriveDate" Width="180" Height="35"/>
+                            <DatePicker x:Name="dpArriveDate" SelectedDateChanged="DateChanged" Width="180" Height="35"/>
                         </StackPanel>
 
                         <StackPanel Margin="0,0,0,15">
                             <TextBlock Text="Leave Date: " FontWeight="SemiBold" Margin="0,0,0,5"/>
-                            <DatePicker x:Name="dpLeaveDate" Width="180" Height="35"/>
+                            <DatePicker x:Name="dpLeaveDate" SelectedDateChanged="DateChanged" Width="180" Height="35"/>
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,20">
-                        <Button x:Name="AddAttraction" Content="+ Add Attraction" Width="150" Height="40" Margin="0,0,10,0" Click="AddAttraction_Click"/>
                         <Button x:Name="AddTransport" Content="+ Add Transport" Width="150" Height="40" Click="AddTransport_Click"/>
                     </StackPanel>
                     
@@ -163,6 +162,18 @@
                                         </StackPanel>
 
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                            <Button Content="Edit" Tag="{Binding}" Width="60" Height="30" Margin="5" Click="EditBlock_Click">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Type}" Value="Attraction">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
                                             <Button Content="Delete" Tag="{Binding}" Width="60" Height="30" Margin="5" Click="DeleteBlock_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -173,10 +184,13 @@
 
                     <Grid Grid.Row="4" Margin="0,0,0,20">
                         <TextBlock x:Name="txtTotalCost" Text="Total Entry Cost: $0.00" VerticalAlignment="Center"/>
-                        <Button Content="Save Itinerary" Width="150" Height="40" HorizontalAlignment="Center" Click="SaveItinerary_Click"/>
-                    </Grid>
 
-                    
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Button Content="Save Itinerary" Width="150" Height="40" Click="SaveItinerary_Click"/>
+                            <Button Content="Complete Itinerary Plan" Width="150" Height="40" Margin="5" Click="CompleteButton_Click"/>
+                        </StackPanel>
+                    </Grid>            
                 </Grid>
             </ScrollViewer>
 
@@ -195,23 +209,112 @@
                                 BorderThickness="0" 
                                 Click="BackToEdit_Click"/>
 
-                        <TextBlock Text="Add Transport" FontSize="18" FontWeight="Bold" Margin="0,20,0,20"/>
-                        <TextBlock Text="Route"/>
-                        <ComboBox x:Name="cbRoute" Width="300" HorizontalAlignment="Left" DisplayMemberPath="RouteName" SelectionChanged="Route_SelectionChanged"/>
-                        <TextBlock Text="From" Margin="0,15,0,0"/>
-                        <ComboBox x:Name="cbFromStop" Width="300" HorizontalAlignment="Left" DisplayMemberPath="StopName"/>
-                        <TextBlock Text="To" Margin="0,15,0,0"/>
-                        <ComboBox x:Name="cbToStop" Width="300" HorizontalAlignment="Left" DisplayMemberPath="StopName"/>
-                        <TextBlock Text="Date" Margin="0,15,0,0"/>
+                        <TextBlock x:Name="txtTransportTitle" Text="Add Transport" FontSize="18" 
+                                   FontWeight="Bold" Margin="0,20,0,20"/>
+
+                        <TextBlock Text="Date"/>
                         <DatePicker x:Name="dpTransportDate" Width="180" HorizontalAlignment="Left"/>
                         <TextBlock Text="Departure Time" Margin="0,15,0,0"/>
                         <TextBox x:Name="txtTransportTime" Width="120" HorizontalAlignment="Left" Text="10:00"/>
 
+                        <TextBlock Text="Add Transport Segment" FontWeight="SemiBold" Margin="0,0,0,15"/>
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="260"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Mode"/>
+                            <ComboBox x:Name="cbTrasportMode" Grid.Column="1" Width="200">
+                                <ComboBoxItem Content="Train"/>
+                                <ComboBoxItem Content="LightRail"/>
+                                <ComboBoxItem Content="Bus"/>
+                                <ComboBoxItem Content="Metro"/>
+                                <ComboBoxItem Content="Ferry"/>
+                                <ComboBoxItem Content="Car"/>
+                                <ComboBoxItem Content="Cab"/>
+                                <ComboBoxItem Content="Walk"/>
+                            </ComboBox>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="260"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Route" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtRoute" Grid.Column="1" Width="200"/>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="260"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="From" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtFrom" Grid.Column="1" Width="200"/>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="260"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="To" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtTo" Grid.Column="1" Width="200"/>
+                        </Grid>
+
+                        <Button Content="+ Add Segment" Width="140" Height="30" HorizontalAlignment="Left" Click="AddSegment_Click"/>
+                        <ItemsControl x:Name="SegmentList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="LightGray" BorderThickness="1" Margin="0.5" Padding="10">
+                                        <Grid Margin="0,0,0,15">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                <TextBlock Text="{Binding Method}" FontWeight="Bold"/>
+                                                <TextBlock Text=" "/>
+                                                <TextBlock Text="{Binding Route}" Foreground="Gray"/>
+                                                <TextBlock>
+                                                    <Run Text="{Binding FromStation}"/>
+                                                    <Run Text=" -> " />
+                                                    <Run Text="{Binding ToStation}"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <Button Grid.Column="1" Content="Delete" Margin="15,0,0,0" Width="70" Height="30" Tag="{Binding}" Click="DeleteSegment_Click"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                         <Button Content="Add Transport"
                                 Width="150" Height="40" Margin="0,25,0,0"
                                 HorizontalAlignment="Center" Click="SaveTransport_Click"/>
                     </StackPanel>
                 </ScrollViewer>
+            </Grid>
+
+            <Grid x:Name="EditBlockView" Visibility="Collapsed">
+                <StackPanel Width="400" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Edit Attraction" FontWeight="Bold" Margin="0,0,0,20"/>
+                    <TextBlock Text="Attraction" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="txtEditBlockTitle" Margin="0,5,0,20"/>
+                    <TextBlock Text="Date" FontWeight="SemiBold"/>
+                    <DatePicker x:Name="dpEditBlockDate" Margin="0,5,0,15"/>
+                    <TextBlock Text="Time" FontWeight="SemiBold"/>
+                    <TextBox x:Name="txtEditBlockTime" Margin="0,5,0,20"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Cancel" Click="CancelEdit_Click" Margin="0,0,10,0"/>
+                        <Button Content="Save" Click="SaveEdit_Click"/>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

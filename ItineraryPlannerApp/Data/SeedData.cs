@@ -18,7 +18,7 @@ namespace ItineraryPlannerApp.Data
                         {
                             Email = "jihye.lee-2@student.uts.edu.au",
                             DisplayName = "Jihye",
-                            PasswordHash = PasswordService.HashPassword("1234"),
+                            PasswordHash = PasswordService.HashPassword("123456"),
                             Role = UserRole.User
                         },
                         new User
@@ -88,7 +88,7 @@ namespace ItineraryPlannerApp.Data
                         {
                             AttractionName = "Sydney Opera House",
                             ImagePath = "images/attractions/sydney_opera_house.jpg",
-
+                            
                             Location = new Location
                             {
                                 Latitude = -33.8568,

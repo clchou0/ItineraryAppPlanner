@@ -41,6 +41,7 @@ namespace ItineraryPlannerApp.Forms
             }
 
             Hide();
+
             _mainForm.ShowPage(new HomeForm(_mainForm, user));
             Show();
             passwordTxt.Clear();

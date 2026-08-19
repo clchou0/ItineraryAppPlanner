@@ -9,6 +9,10 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
         private readonly ItineraryPlannerService _service;
         public bool IsAdmin;
         private readonly UserToggleComponent _component;
+
+        // private readonly Attraction _attraction;
+        public event Action<Attraction>? AddToItineraryRequested;
+
         public AttractionRow(ItineraryPlannerService service, Attraction attraction, bool isAdmin, UserToggleComponent component)
         {
             _service = service;
@@ -55,7 +59,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-
+            AddToItineraryRequested?.Invoke(Attraction);
         }
     }
 }

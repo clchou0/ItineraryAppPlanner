@@ -31,7 +31,8 @@ namespace ItineraryPlannerApp.Data.Repositories
             var itineraryIds = itineraries.Select(i => i.Id).ToList();
 
             _context.TransportBlocks.Include(t => t.Notes).Where(t => itineraryIds.Contains(t.ItineraryId)).Load();
-
+            _context.VisitBlocks.Include(v => v.Attraction).Where(v => itineraryIds.Contains(v.ItineraryId)).Load();
+            
             return itineraries;
         }
         public List<Itinerary> GetDraftById(int id)

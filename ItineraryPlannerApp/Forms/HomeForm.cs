@@ -17,7 +17,7 @@ namespace ItineraryPlannerApp.Forms
     {
         private readonly MainForm _mainForm;
         private readonly User _user;
-        private readonly ItineraryPlannerLauncher _itineraryPlannerLauncher;
+        private readonly ItineraryPlannerLauncher _launcher;
         private CityShowcase _cityShowcase;
 
         public HomeForm(MainForm mainForm, User user)
@@ -31,9 +31,10 @@ namespace ItineraryPlannerApp.Forms
             welcomeLabel.Text = $"Welcome, {user.DisplayName}";
             welcomeLabel.Location = new Point(1148 - welcomeLabel.Width, welcomeLabel.Location.Y);
             buildItineraryToolStripMenuItem.Click += buildItineraryToolStripMenuItem_Click;
-            itineraryHistoryToolStripMenuItem.Click += itineraryHistoryToolStripMenuItem_Click;
+            myItinerariesToolStripMenuItem.Click += myItinerariesToolStripMenuItem_Click;
 
-            _itineraryPlannerLauncher = new ItineraryPlannerLauncher(mainForm.Service);
+            _launcher = new ItineraryPlannerLauncher(mainForm.Service, mainForm.EmailService, mainForm.PdfService);
+
             welcomeLabel.Text = $"Welcome, {user.DisplayName}";
         }
 
@@ -57,13 +58,12 @@ namespace ItineraryPlannerApp.Forms
 
         private void buildItineraryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _itineraryPlannerLauncher.SpawnItineraryPlanner(_user);
+            _launcher.SpawnItineraryPlanner(_user);
         }
 
-        private void itineraryHistoryToolStripMenuItem_Click(Object sender, EventArgs e)
+        private void myItinerariesToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            var window = new ItineraryHistory();
-            window.Show();
+            _launcher.SpawnMyItineraries(_user);
         }
         public void SpawnCityEditor(City? city)
         {

@@ -1,39 +1,33 @@
 ﻿using ItineraryPlannerApp.Data.Services;
 using ItineraryPlannerApp.Models;
 using ItineraryPlannerApp.Models.Itinerary;
+using Microsoft.VisualBasic.ApplicationServices;
 using Planner.WPF;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using User = ItineraryPlannerApp.Models.User;
 
 namespace ItineraryPlannerApp.Forms.ItineraryForm
 {
     public class ItineraryPlannerLauncher
     {
         private readonly ItineraryPlannerService _service;
+        private readonly EmailService _emailService;
+        private readonly PdfService _pdfService;
 
-        public ItineraryPlannerLauncher(ItineraryPlannerService service)
+        public ItineraryPlannerLauncher(ItineraryPlannerService service, EmailService emailService, PdfService pdfService)
         {
             _service = service;
+            _emailService = emailService;
+            _pdfService = pdfService;
         }
 
         public void SpawnItineraryPlanner(User user)
         {
-            var dbItineraries = _service.GetItinerariesByUserId(user.Id);
+            var dbItineraries = _service.GetItinerariesByUserId(user.Id).Where(i => i.Status == ItineraryStatus.Draft);
 
-            var itineraries = dbItineraries.Select(i => new ItineraryList
-            {
-                Id = i.Id,
-                UserId = i.UserId,
-                CityName = i.City.CityName,
-                ArriveDate = i.ArriveDate,
-                LeaveDate = i.LeaveDate,
-                TotalPrice = i.TotalEntryPrice,
-
-                Blocks = i.ItineraryBlocks.Select(b => ConvertBlock(i.Id, b))
-                .OrderBy(b => b.StartTime).ToList()
-
-            }).ToList();
+            var itineraries = ConvertItineraries(dbItineraries);
 
             var cities = _service.GetAllCities().Select(c => c.CityName).ToList();
 
@@ -53,7 +47,20 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                     }).ToList()
                 }).ToList();
 
-            var window = new ItineraryBuilder(user.Id, itineraries, cities, routes, SaveItinerary, id => DeleteItinerary(id, user.Id));
+            var window = new ItineraryBuilder(user.Id, itineraries, cities, routes, 
+                SaveItinerary, id => CompleteItinerary(id, user.Id), id => DeleteItinerary(id, user.Id));
+
+            window.ShowDialog();
+        }
+
+        public void SpawnMyItineraries(User user)
+        {
+            var completed = _service.GetCompletedItineraries(user.Id);
+
+            var completedItems = ConvertItineraries(completed);
+            
+            var window = new myItineraries(completedItems, id => DraftItinerary(id, user.Id), 
+                id => DeleteItinerary(id, user.Id), id => ExportItineraryPdf(id, user));
 
             window.ShowDialog();
         }
@@ -62,7 +69,13 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
         {
             if (block is TransportBlock transport)
             {
-                var note = transport.Notes.FirstOrDefault();
+                var segments = transport.Notes.Select(note => new TransportSegmentItem
+                {
+                    Method = note.Method.ToString(),
+                    Route = note.Route,
+                    FromStation =note.FromStation,
+                    ToStation = note.ToStation
+                }).ToList();
 
                 return new ItineraryBlockItem
                 {
@@ -70,17 +83,14 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                     ItineraryId = itineraryId,
 
                     Type = "Transport",
-
-                    TransportMethod = note?.Method.ToString() ?? "",
-                    Route = note?.Route ?? "",
-                    FromStation = note?.FromStation ?? "",
-                    ToStation = note?.ToStation ?? "",
-                    Title = $"{note?.Route} {note?.Method}",
-                    Description = $"{note?.FromStation} -> {note?.ToStation}",
+                    Title = "Transport",
+                    Description = string.Join(
+                        " | ", segments.Select(s => $"{s.Method}: {s.FromStation} -> {s.ToStation}")),
                     StartTime = block.StartTime,
                     Duration = transport.TotalDuration,
 
-                    Cost = 3.00m
+                    Cost = 3.00m,
+                    Segments = segments
                 };
             }
 
@@ -94,10 +104,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                     Type = "Attraction",
 
                     AttractionId = visit.AttractionId,
-                    Title = "Attraction",
+                    Title = visit.Attraction?.AttractionName ?? "Attraction",
                     Description = visit.Note ?? "",
-                    StartTime = block.StartTime,
-                    Cost = 0
+                    StartTime = block.StartTime
                 };
             }
 
@@ -107,6 +116,22 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                 ItineraryId = itineraryId,
                 StartTime = block.StartTime
             };
+        }
+
+        private List<ItineraryList> ConvertItineraries(IEnumerable<Itinerary> dbitineraries)
+        {
+            return dbitineraries.Select(i => new ItineraryList
+            {
+                Id = i.Id,
+                UserId = i.UserId,
+                CityName = i.City.CityName,
+                ArriveDate = i.ArriveDate,
+                LeaveDate = i.LeaveDate,
+                TotalPrice = i.TotalEntryPrice,
+
+                Blocks = i.ItineraryBlocks.Select(b => ConvertBlock(i.Id, b))
+                    .OrderBy(b => b.StartTime).ToList()
+            }).ToList();
         }
 
         private int SaveItinerary(ItineraryEditData data)
@@ -128,7 +153,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                     CityId = city.Id,
                     ArriveDate = data.ArriveDate,
                     LeaveDate = data.LeaveDate,
-                    TotalEntryPrice = 0
+                    TotalEntryPrice = 0,
+                    Status = ItineraryStatus.Draft
                 };
 
                 foreach (var blockItem in data.Blocks)
@@ -138,8 +164,6 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                 }
 
                 _service.AddItinerary(itinerary);
-
-                MessageBox.Show($"Saved Successfully.\n {itinerary.Id}");
 
                 return itinerary.Id;
             }
@@ -166,13 +190,56 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
 
             foreach (var blockItem in data.Blocks)
             {
-                if (blockItem.Id != 0) continue;
+                if (blockItem.Id == 0)
+                {
+                    AddBlock(existing, blockItem);
+                }
+                else
+                {
+                    UpdateExistingBlock(existing, blockItem);
+                }
 
-                AddBlock(existing, blockItem);
-            }
+
+            } 
             _service.UpdateItinerary(existing);
 
             return existing.Id;
+        }
+
+        private void UpdateExistingBlock(Itinerary itinerary, ItineraryBlockItem blockItem)
+        {
+            var existingBlock = itinerary.ItineraryBlocks.FirstOrDefault(b => b.Id == blockItem.Id);
+
+            if (existingBlock == null) return;
+
+            // ATTRACTION
+            if (existingBlock is VisitBlock visit && blockItem.Type == "Attraction")
+            {
+                visit.StartTime = blockItem.StartTime;
+                return;
+            }
+
+            // TRANSPORT
+            if (existingBlock is TransportBlock transport && blockItem.Type == "Transport")
+            {
+                transport.StartTime = blockItem.StartTime;
+                transport.TotalDuration = blockItem.Duration;
+
+                transport.Notes.Clear();
+
+                foreach (var segment in blockItem.Segments)
+                {
+                    if (!Enum.TryParse<TransportType>(segment.Method, true, out var method)) continue;
+
+                    transport.Notes.Add(new TransportNote
+                    {
+                        Method = method,
+                        Route = segment.Route ?? "",
+                        FromStation = segment.FromStation ?? "",
+                        ToStation = segment.ToStation ?? ""
+                    });
+                }
+            }
         }
 
         private void AddBlock(Itinerary itinerary, ItineraryBlockItem blockItem)
@@ -199,23 +266,54 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                     TotalDuration = blockItem.Duration
                 };
 
-                if (Enum.TryParse<TransportType>(blockItem.TransportMethod, out var transportType))
+                foreach (var segment in blockItem.Segments) 
                 {
+                    if (!Enum.TryParse<TransportType>(segment.Method, true, out var method))
+                    {
+                        MessageBox.Show($"Invalid type. {segment.Method}");
+                        return;
+                    }
                     transportBlock.Notes.Add(new TransportNote
                     {
-                        Method = transportType,
-                        Route = blockItem.Route,
-                        FromStation = blockItem.FromStation,
-                        ToStation = blockItem.ToStation
+                        Method = method,
+                        Route = segment.Route ?? "",
+                        FromStation = segment.FromStation ?? "",
+                        ToStation = segment.ToStation ?? ""
                     });
-                }
+                };
+
                 itinerary.ItineraryBlocks.Add(transportBlock);
+            
             }
         }
 
         private void DeleteItinerary(int itineraryId, int userId)
         {
             _service.DeleteItinerary(itineraryId, userId);
+        }
+
+        private void CompleteItinerary(int itineraryId, int userId)
+        {
+            _service.CompleteItinerary(itineraryId, userId);
+        }
+
+        private bool DraftItinerary(int itineraryId, int userId)
+        {
+            return _service.DraftItinerary(itineraryId, userId);
+        }
+
+        private async Task ExportItineraryPdf(int itineraryId, User user)
+        {
+            var itinerary = _service.GetItineraryById(itineraryId, user.Id);
+
+            if (itinerary == null)
+            {
+                throw new Exception("Itinerary not found.");
+            }
+
+            byte[] pdfBytes = _pdfService.GenerateItineraryPdf(itinerary);
+
+            await _emailService.SendPdfAsync(user.Email, user.DisplayName, itinerary, pdfBytes);
         }
     }
 }
