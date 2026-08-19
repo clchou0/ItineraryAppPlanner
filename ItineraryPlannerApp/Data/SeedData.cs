@@ -87,7 +87,7 @@ namespace ItineraryPlannerApp.Data
                         new Attraction
                         {
                             AttractionName = "Sydney Opera House",
-                            ImagePath = "images/attractions/sydney_opera_house.jpg",
+                            ImagePath = "Data/Images/Attractions/sydney_opera_house.jpg",
                             
                             Location = new Location
                             {
@@ -140,7 +140,7 @@ namespace ItineraryPlannerApp.Data
                         new Attraction
                         {
                             AttractionName = "St Mary's Cathedral",
-                            ImagePath = "images/attractions/st_marys_cathedral.jpg",
+                            ImagePath = "Data/Images/Attractions/st_marys_cathedral.jpg",
 
                             Location = new Location
                             {
@@ -194,7 +194,7 @@ namespace ItineraryPlannerApp.Data
                         new Attraction
                         {
                             AttractionName = "Sydney Fish Market",
-                            ImagePath = "images/attractions/sydney_fish_market.jpg",
+                            ImagePath = "Data/Images/Attractions/sydney_fish_market.jpeg",
 
                             Location = new Location
                             {
@@ -241,7 +241,7 @@ namespace ItineraryPlannerApp.Data
                         new Attraction
                         {
                             AttractionName = "Three Sisters",
-                            ImagePath = "images/attractions/three_sisters.jpg",
+                            ImagePath = "Data/Images/Attractions/three_sisters.jpg",
 
                             Location = new Location
                             {

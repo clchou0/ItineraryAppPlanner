@@ -1,5 +1,6 @@
 ﻿using BruTile.Wms;
 using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Helpers;
 using ItineraryPlannerApp.Models;
 using System.Xml.Linq;
 namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
@@ -40,6 +41,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             NameTextBox.TextChanged += (e, c) => Attraction.AttractionName = NameTextBox.Text;
             AreaTextBox.TextChanged += (e, c) => Attraction.Area = AreaTextBox.Text;
             PriceTextBox.TextChanged += (e, c) => Attraction.EntryPrice = PriceTextBox.Text;
+
+            pictureBox1.Image = ImageHelper.LoadImage(attraction.ImagePath);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
         private void AddStationButton_Click(object sender, EventArgs e)

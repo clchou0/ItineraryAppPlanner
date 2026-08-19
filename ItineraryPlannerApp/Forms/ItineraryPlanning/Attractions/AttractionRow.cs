@@ -1,4 +1,5 @@
 ﻿using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Helpers;
 using ItineraryPlannerApp.Models;
 
 namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
@@ -25,6 +26,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             AreaLabel.Text = $"Area: {Attraction.Area}";
             DescriptionText.Text = Attraction.ShortDesctiption;
             TransportLabel.Text = $"Access: {Attraction.TransportMethods}";
+
+            pictureBox1.Image = ImageHelper.LoadImage(attraction.ImagePath);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
 
             if (isAdmin)
             {

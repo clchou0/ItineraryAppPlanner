@@ -1,4 +1,5 @@
 ﻿using ItineraryPlannerApp.Data.Services;
+using ItineraryPlannerApp.Helpers;
 using ItineraryPlannerApp.Models;
 
 namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
@@ -35,6 +36,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
                 tableLayoutPanel1.Controls.Add(new Label { Text = stop.StationName, Location = new Point(col2X, y), AutoSize = true });
                 tableLayoutPanel1.Controls.Add(new Label { Text = $"{stop.MinuteWalk} min", Location = new Point(col3X, y), AutoSize = true });
             }
+            pictureBox1.Image = ImageHelper.LoadImage(attraction.ImagePath);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
         private void CloseButton_Click(object sender, EventArgs e)

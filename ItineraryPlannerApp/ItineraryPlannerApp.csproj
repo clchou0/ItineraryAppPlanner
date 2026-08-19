@@ -1,74 +1,66 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows7.0</TargetFramework>
-	  <NoWarn>$(NoWarn);NU1701;NU1903</NoWarn>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows7.0</TargetFramework>
+		<NoWarn>$(NoWarn);NU1701;NU1903</NoWarn>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Forms\Attraction\**" />
-    <Compile Remove="Forms\Home\**" />
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Forms\Attraction\**" />
-    <EmbeddedResource Remove="Forms\Home\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Forms\Attraction\**" />
-    <None Remove="Forms\Home\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Forms\Attraction\**" />
+		<Compile Remove="Forms\Home\**" />
+		<Compile Remove="Services\**" />
+		<EmbeddedResource Remove="Forms\Attraction\**" />
+		<EmbeddedResource Remove="Forms\Home\**" />
+		<EmbeddedResource Remove="Services\**" />
+		<None Remove="Forms\Attraction\**" />
+		<None Remove="Forms\Home\**" />
+		<None Remove="Services\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Data\Images\seo-img1.jpg" />
-    <None Remove="Data\Images\sha-img1.jpg" />
-    <None Remove="Data\Images\syd-img1.jpg" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Data\Images\**\*.*" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Data\Images\seo-img1.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\Images\sha-img1.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\Images\syd-img1.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="Data\Images\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
-	<PackageReference Include="Mapsui" Version="5.1.0" />
-	<PackageReference Include="Mapsui.WindowsForms" Version="5.1.0" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
-    <PackageReference Include="QuestPDF" Version="2026.7.3" />
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Mapsui" Version="5.1.0" />
+		<PackageReference Include="Mapsui.WindowsForms" Version="5.1.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
+		<PackageReference Include="QuestPDF" Version="2026.7.3" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Planner.WPF\Planner.WPF.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Planner.WPF\Planner.WPF.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>

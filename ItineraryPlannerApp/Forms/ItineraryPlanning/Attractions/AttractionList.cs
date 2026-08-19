@@ -14,19 +14,11 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
     public partial class AttractionList : UserControl
     {
         public City City;
-<<<<<<< HEAD
-        private readonly bool _isAdmin;
-        private readonly ItineraryPlannerService _service;
-        private List<Attraction> _allAttractions;
-        private readonly UserToggleComponent _component;
-        public AttractionList(ItineraryPlannerService service, City city, bool isAdmin, UserToggleComponent component)
-=======
         private readonly User _user;
         private readonly ItineraryPlannerService _service;
         private List<Attraction> _allAttractions;
         private readonly UserToggleComponent _component;
         public AttractionList(ItineraryPlannerService service, City city, User user, UserToggleComponent component)
->>>>>>> main
         {
             _service = service;
             City = city;
@@ -44,7 +36,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var editor = new AttractionDetailsEditor(_service, _component, new Attraction { City = City }, _isAdmin);
+            var editor = new AttractionDetailsEditor(_service, _component, new Attraction { City = City }, _user.Role == UserRole.Admin);
             editor.BringToFront();
             editor.Dock = DockStyle.Fill;
         }
@@ -54,14 +46,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             
             foreach (var attraction in _component.AllAttractions)
             {
-<<<<<<< HEAD
-                flowLayoutPanel2.Controls.Add(new AttractionRow(_service, attraction, _isAdmin, _component));
-=======
-                var row = new AttractionRow(_service, attraction, true, _component);
+                var row = new AttractionRow(_service, attraction, _user.Role == UserRole.Admin, _component);
                 row.AddToItineraryRequested += AddAttractionToItinerary;
-
                 flowLayoutPanel2.Controls.Add(row);
->>>>>>> main
             }
         }
 

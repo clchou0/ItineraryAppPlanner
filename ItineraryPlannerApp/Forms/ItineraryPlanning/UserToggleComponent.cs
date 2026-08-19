@@ -14,7 +14,6 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<Attraction> AllAttractions { get; set; } = new List<Attraction>();
-
         
         public City City;
         public Itinerary Itinerary;
@@ -36,6 +35,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
             _labels[AppPage.CityMap] = CityMapTag;
             _labels[AppPage.AttractionList] = AttractionListTag;
             _labels[AppPage.ItineraryPlanner] = ItineraryPlannerTag;
+
+            ItineraryPlannerTag.Visible = false;
+            ItineraryPlannerTag.Enabled = false;
             AllAttractions = _service.GetAttractionsByCity(City); 
 
             setupAttractions();
@@ -51,7 +53,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning
         }
         private void setupAttractions()
         {
-            _attractionList = new AttractionList(_service, City, _user.UserRole == UserRole.Admin, this);
+            _attractionList = new AttractionList(_service, City, _user, this);
         }
         private void setupItinerary()
         {

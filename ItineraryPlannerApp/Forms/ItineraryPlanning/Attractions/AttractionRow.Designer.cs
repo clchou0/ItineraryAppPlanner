@@ -41,9 +41,10 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Location = new Point(3, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(172, 172);
+            pictureBox1.Size = new Size(172, 170);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -124,6 +125,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(pictureBox1);
             Controls.Add(TransportLabel);
             Controls.Add(EditButton);
             Controls.Add(AddButton);
@@ -131,7 +133,6 @@
             Controls.Add(DescriptionText);
             Controls.Add(AreaLabel);
             Controls.Add(NameLabel);
-            Controls.Add(pictureBox1);
             Name = "AttractionRow";
             Size = new Size(1162, 173);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
