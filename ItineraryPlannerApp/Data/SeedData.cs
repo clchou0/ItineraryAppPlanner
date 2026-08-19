@@ -88,7 +88,7 @@ namespace ItineraryPlannerApp.Data
                         {
                             AttractionName = "Sydney Opera House",
                             ImagePath = "images/attractions/sydney_opera_house.jpg",
-
+                            
                             Location = new Location
                             {
                                 Latitude = -33.8568,

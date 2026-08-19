@@ -104,7 +104,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                     Type = "Attraction",
 
                     AttractionId = visit.AttractionId,
-                    Title = "Attraction",
+                    Title = visit.Attraction?.AttractionName ?? "Attraction",
                     Description = visit.Note ?? "",
                     StartTime = block.StartTime
                 };
@@ -136,11 +136,6 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
 
         private int SaveItinerary(ItineraryEditData data)
         {
-            var test = data.Blocks.Where(b => b.Type == "Transport").ToList();
-
-            string tt = string.Join("\n", test.Select(t => $"{t.Id}, {t.Segments.Count()}"));
-            MessageBox.Show(string.IsNullOrEmpty(tt) ? "No transport blocks received." : tt);
-
             var city = _service.GetCityByName(data.CityName ?? "");
 
             if (city == null)
@@ -169,8 +164,6 @@ namespace ItineraryPlannerApp.Forms.ItineraryForm
                 }
 
                 _service.AddItinerary(itinerary);
-
-                MessageBox.Show($"Saved Successfully.\n {itinerary.Id}");
 
                 return itinerary.Id;
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -76,7 +77,6 @@ namespace ItineraryPlannerApp.Data.Services
                     }
                 }
 
-
                 column.Item().PaddingTop(10).BorderTop(1).BorderColor(Colors.Yellow.Lighten3);
                                
             });
@@ -125,13 +125,41 @@ namespace ItineraryPlannerApp.Data.Services
         private void ComposeVisitBlock(ColumnDescriptor column, VisitBlock visit)
         {
             string attractionName = visit.Attraction?.AttractionName ?? "Attraction";
+            string description = visit.Note ?? "";
+            string entryPrice = visit.Attraction?.EntryPrice ?? "";
+            string? imagePath = ImagePath(visit.Attraction?.ImagePath);
 
             column.Item().Text(attractionName).FontSize(12).Bold();
+
+            if (imagePath != null && File.Exists(imagePath))
+            {
+                byte[] images = File.ReadAllBytes(imagePath);
+
+                column.Item().PaddingTop(6).Height(140).Image(images).FitArea();
+            }
 
             if (!string.IsNullOrWhiteSpace(visit.Note))
             {
                 column.Item().Text(visit.Note).FontColor(Colors.Grey.Darken1);
             }
+
+            if (!string.IsNullOrWhiteSpace(entryPrice))
+            {
+                column.Item().PaddingTop(6).Text($"Entry Cost: { entryPrice }").FontSize(9);
+            }
+        }
+
+        private string? ImagePath(string? imagePath)
+        {
+            if (string.IsNullOrWhiteSpace(imagePath)) return null;
+            if (Path.IsPathRooted(imagePath)) return File.Exists(imagePath) ? imagePath : null;
+
+            string relativePath = imagePath.Replace("/", Path.DirectorySeparatorChar.ToString())
+                .Replace("\\", Path.DirectorySeparatorChar.ToString());
+
+            string fullPath = Path.Combine(AppContext.BaseDirectory, relativePath);
+
+            return File.Exists(fullPath) ? fullPath : null;
         }
 
         //private decimal CalculateTotal(Itinerary itinerary)

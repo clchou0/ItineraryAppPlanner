@@ -406,7 +406,7 @@ namespace Planner.WPF
             DateTime newLeaveDate = dpLeaveDate.SelectedDate.Value.Date;
 
             var invalidBlock = Blocks.FirstOrDefault
-                (b => b.StartTime.Date < newArriveDate|| b.StartTime > newLeaveDate);
+                (b => b.StartTime.Date < newArriveDate|| b.StartTime.Date > newLeaveDate);
 
             if (invalidBlock != null)
             {
@@ -497,7 +497,7 @@ namespace Planner.WPF
 
             txtEditBlockTitle.Text = block.Title;
             dpEditBlockDate.SelectedDate = block.StartTime.Date;
-            txtEditBlockTime.Text = block.StartTime.ToString("HH.mm");
+            txtEditBlockTime.Text = block.StartTime.ToString("HH:mm");
 
             // only allow to pick dates during itinerary
             dpEditBlockDate.DisplayDateStart = dpArriveDate.SelectedDate;

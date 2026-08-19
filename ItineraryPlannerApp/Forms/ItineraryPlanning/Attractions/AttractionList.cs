@@ -73,7 +73,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
             if (itineraries.Count > 1)
             {
-                MessageBox.Show($"{itineraries.Count} draft itinerary");
+                MessageBox.Show($"{itineraries.Count} draft itinerary. Choose the itinerary you want to add to.");
+                return;
             }
         }
 

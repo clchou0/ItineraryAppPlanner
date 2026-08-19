@@ -61,7 +61,6 @@ namespace Planner.WPF
 
         private void ViewDetails_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Direct to view details page");
             if (sender is not Button button) return;
             if (button.Tag is not int itineraryId)
             {

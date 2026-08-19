@@ -168,6 +168,7 @@
                                                         <Setter Property="Visibility" Value="Collapsed"/>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Type}" Value="Attraction">
+                                                                <Setter Property="Visibility" Value="Visible"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -308,7 +309,7 @@
                     <TextBlock Text="Date" FontWeight="SemiBold"/>
                     <DatePicker x:Name="dpEditBlockDate" Margin="0,5,0,15"/>
                     <TextBlock Text="Time" FontWeight="SemiBold"/>
-                    <TextBlock x:Name="txtEditBlockTime" Margin="0,5,0,20"/>
+                    <TextBox x:Name="txtEditBlockTime" Margin="0,5,0,20"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="Cancel" Click="CancelEdit_Click" Margin="0,0,10,0"/>
                         <Button Content="Save" Click="SaveEdit_Click"/>

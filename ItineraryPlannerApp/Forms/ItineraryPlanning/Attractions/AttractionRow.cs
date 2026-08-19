@@ -37,8 +37,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
             if (isAdmin)
             {
-                //AddButton.Visible = false;
-                //AddButton.Enabled = false;
+                AddButton.Visible = false;
+                AddButton.Enabled = false;
             }
             else
             {
@@ -46,8 +46,6 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
                 DeleteButton.Visible = false;
                 EditButton.Enabled = false;
                 DeleteButton.Enabled = false;
-                AddButton.Visible = false;
-                AddButton.Enabled = false;
             }
 
             _component = component;

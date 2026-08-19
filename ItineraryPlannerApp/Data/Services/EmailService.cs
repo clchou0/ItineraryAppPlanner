@@ -24,6 +24,8 @@ namespace ItineraryPlannerApp.Data.Services
 
             message.Body = $"Your verification code is: {resetCode}\n\nPlease enter to reset your password.";
 
+            message.IsBodyHtml = true;
+
             using var smtp = CreateSmtpClient();
 
             await smtp.SendMailAsync(message);
@@ -31,7 +33,18 @@ namespace ItineraryPlannerApp.Data.Services
 
         public async Task SendPdfAsync(string receiverEmail, string receiverName, Itinerary itinerary, byte[] pdf)
         {
-            string bodyExport = "";
+            string bodyExport = $@"
+            <html>
+            <body style='font-family:Arial, sans-serif; background-color:#f4f4f4; padding:20px;'>
+
+                <div style='background-color:white; padding:25px; border-radius:10px;'>
+                    <h2 style='background-color:#f4c542; font-weight:bold;'> Your Itinerary to {itinerary.City?.CityName} </h2>
+                    <h4 style='font-weight:bold;'> Hi {receiverName}, </h4>
+                    
+                    <p> You can find your travel itinerary as pdf file. It in now ready, kindly find the attached document. </p>
+                </div>
+            </body>
+            ";
 
             using var message = new MailMessage();
 
