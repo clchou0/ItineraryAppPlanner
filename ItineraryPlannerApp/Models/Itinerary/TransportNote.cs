@@ -8,11 +8,11 @@ namespace ItineraryPlannerApp.Models.Itinerary
     {
         public int Id { get; set; }
         public TransportType Method { get; set; }
-        public string Route { get; set; }
-        public string FromStation { get; set; }
-        public string ToStation { get; set; }
+        public string Route { get; set; } = string.Empty;
+        public string FromStation { get; set; } = string.Empty;
+        public string ToStation { get; set; } = string.Empty;
 
-        public TransportBlock Block { get; set; }
+        public TransportBlock Block { get; set; } = new TransportBlock();
         public int BlockId { get; set; }
     }
 }

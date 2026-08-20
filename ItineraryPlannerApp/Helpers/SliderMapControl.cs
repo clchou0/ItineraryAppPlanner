@@ -8,7 +8,7 @@ using Mapsui.Tiling.Layers;
 using Mapsui.UI.WindowsForms;
 using Mapsui.Widgets;
 using Mapsui.Widgets.InfoWidgets;
-using System.Windows;
+using System.Windows.Forms;
 
 namespace ItineraryPlannerApp.Helpers
 {
@@ -24,24 +24,23 @@ namespace ItineraryPlannerApp.Helpers
         };
         private MemoryLayer? AttractionLayer;
 
-        public SliderMapControl(): base()
+        public SliderMapControl() : base()
         {
             InitializeComponent();
+            LoggingWidget.ShowLoggingInMap = ActiveMode.No;
+            var layer = new TileLayer(KnownTileSources.Create(KnownTileSource.OpenStreetMap));
+            Map.Layers.Add(layer);
         }
         public void Initialize(MapSlider slider, MapMode mode)
         {
             Slider = slider;
-            LoggingWidget.ShowLoggingInMap = ActiveMode.No;
-            var layer = new TileLayer(KnownTileSources.Create(KnownTileSource.OpenStreetMap));
-            Map.Layers.Add(layer);
-
             // Given zoom / defaut zoom / whatever
             MPoint center = Slider.ZoomPoint() ?? new MPoint(-118.2437, 34.0522);
 
             Map.Navigator.OverrideZoomBounds = new MMinMax(config[mode].MinZoom, config[mode].MaxZoom);
             Map.Navigator.CenterOnAndZoomTo(
                 SphericalMercator.FromLonLat(center),
-                 Map.Navigator.Resolutions[config[mode].resIndex]
+                Map.Navigator.Resolutions[config[mode].resIndex]
             );
             setPanBounds();
             Slider.Changed += setPanBounds;
@@ -49,20 +48,19 @@ namespace ItineraryPlannerApp.Helpers
 
             addLines();
         }
-        public SliderMapControl(MapMode mode, Location location) : base()
+        public void Initialize(MapMode mode, Location location)
         {
             if (mode == MapMode.AttractionView)
             {
                 var centerPoint = location.LatLngMPoint();
-                Map.Navigator.OverrideZoomBounds = new MMinMax(config[mode].MinZoom, config[mode].MaxZoom);
+                Map.Navigator.OverrideZoomBounds = new MMinMax(Map.Navigator.Resolutions[14], Map.Navigator.Resolutions[14]);
                 Map.Navigator.CenterOnAndZoomTo(
-                    SphericalMercator.FromLonLat(centerPoint),
-                    Map.Navigator.Resolutions[Map.Navigator.Resolutions.Count - 1]
+                    centerPoint,
+                    Map.Navigator.Resolutions[14]
                 );
                 // Not allowed to move
-                Map.Navigator.OverridePanBounds = new MRect(centerPoint.X, centerPoint.Y, centerPoint.X, centerPoint.Y);
+                Map.Navigator.OverridePanBounds = new MRect(centerPoint.X - 0.01, centerPoint.Y - 0.01, centerPoint.X + 0.01, centerPoint.Y + 0.01);
             }
-            addLines();
         }
         private void addLines()
         {
@@ -80,6 +78,13 @@ namespace ItineraryPlannerApp.Helpers
 
         private void InitializeComponent()
         {
+            SuspendLayout();
+            // 
+            // SliderMapControl
+            // 
+            Name = "SliderMapControl";
+            Size = new System.Drawing.Size(1271, 794);
+            ResumeLayout(false);
 
         }
         public void LoadAttractionPins(List<Attraction> attractions, bool activate)
@@ -87,7 +92,7 @@ namespace ItineraryPlannerApp.Helpers
             if (AttractionLayer is not null) Map.Layers.Remove(AttractionLayer);
 
             List<PointFeature> pins = new List<PointFeature>();
-            foreach (Attraction a in attractions) 
+            foreach (Attraction a in attractions)
             {
                 var pin = new PointFeature(a.Location.LatLngMPoint());
                 pin.Styles.Add(new Mapsui.Styles.SymbolStyle

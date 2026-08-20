@@ -10,6 +10,6 @@ namespace ItineraryPlannerApp.Models.Itinerary
         public string StopName { get; set; } = "";
         public int StopOrder { get; set; }
         public int TransitRouteId { get; set; }
-        public TransitRoute TransitRoute { get; set; }
+        public TransitRoute TransitRoute { get; set; } = new TransitRoute();
     }
 }

@@ -29,7 +29,7 @@ namespace ItineraryPlannerApp.Data.Services
         {
             return _userRepository.GetAll().Where(u => u.Email == email).FirstOrDefault();
         }
-        public User GetUserById(int id)
+        public User? GetUserById(int id)
         {
             return _userRepository.GetById(id);
         }

@@ -17,7 +17,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             Attraction = attraction;
             _service = service;
             _owner = owner;
-            _owner.FindForm().Controls.Add(this);
+            _owner.FindForm()!.Controls.Add(this);
             this.BringToFront();
 
             InitializeComponent();
@@ -69,7 +69,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
             if (result == DialogResult.OK)
             {
-                _owner.FindForm().Controls.Remove(this);
+                _owner.FindForm()!.Controls.Remove(this);
             }
 
         }
@@ -101,7 +101,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
                 string mode = _isCreate ? "create" : "edited";
                 MessageBox.Show($"{Attraction.AttractionName} has been {mode}");
-                _owner.FindForm().Controls.Remove(this);
+                _owner.FindForm()!.Controls.Remove(this);
                 _owner.ReloadAttractions();
             }
             else

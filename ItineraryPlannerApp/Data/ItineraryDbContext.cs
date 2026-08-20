@@ -55,15 +55,6 @@ namespace ItineraryPlannerApp.Data
             modelBuilder.Entity<Attraction>()
                 .OwnsOne(a => a.Location);
 
-            modelBuilder.Entity<AttractionLabel>()
-                .HasKey(l => new { l.AttractionId, l.Category });
-
-            modelBuilder.Entity<AttractionLabel>()
-                .HasOne(l => l.Attraction)
-                .WithMany()
-                .HasForeignKey(l => l.AttractionId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<TransitAccess>()
                 .HasOne(a => a.Attraction)
                 .WithMany(a => a.CloseStations)

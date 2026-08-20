@@ -16,7 +16,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
         public City City;
         private readonly User _user;
         private readonly ItineraryPlannerService _service;
-        private List<Attraction> _allAttractions;
+        // private List<Attraction> _allAttractions;
         private readonly UserToggleComponent _component;
         public AttractionList(ItineraryPlannerService service, City city, User user, UserToggleComponent component)
         {
@@ -24,26 +24,32 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             City = city;
             _user = user;
             _component = component;
-            
+
             InitializeComponent();
             ReloadAttractionList();
+
+            if (user.Role != UserRole.Admin)
+            {
+                AddButton.Visible = false;
+                AddButton.Enabled = false;
+            }
         }
 
         private void AttractionList_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var editor = new AttractionDetailsEditor(_service, _component, new Attraction { City = City }, _user.Role == UserRole.Admin);
+            var editor = new AttractionDetailsEditor(_service, _component, new Attraction(City), _user.Role == UserRole.Admin);
             editor.BringToFront();
             editor.Dock = DockStyle.Fill;
         }
         public void ReloadAttractionList()
         {
             flowLayoutPanel2.Controls.Clear();
-            
+
             foreach (var attraction in _component.AllAttractions)
             {
                 var row = new AttractionRow(_service, attraction, _user.Role == UserRole.Admin, _component);
@@ -55,9 +61,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
         private void AddAttractionToItinerary(Attraction attraction)
         {
             var itineraries = _service.GetItinerariesByUserId(_user.Id)
-                .Where(i => i.Status== ItineraryStatus.Draft && i.CityId == attraction.City.Id).ToList();
+                .Where(i => i.Status == ItineraryStatus.Draft && i.CityId == attraction.City.Id).ToList();
 
-            if (itineraries.Count == 0) 
+            if (itineraries.Count == 0)
             {
                 MessageBox.Show("No draft itineraries saved.\n Would you like to make make a new Itinerary first?");
                 return;

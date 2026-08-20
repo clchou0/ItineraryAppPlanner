@@ -10,7 +10,7 @@ namespace ItineraryPlannerApp.Models.Itinerary
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
-        public Itinerary Itinerary { get; set; }
+        public Itinerary Itinerary { get; set; } = new Itinerary();
         public int ItineraryId { get; set; }
     }
 }

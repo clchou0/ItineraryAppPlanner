@@ -35,7 +35,7 @@ namespace ItineraryPlannerApp.Forms.CityForm
             }
         }
 
-        private void loadCities(string filter)
+        public void loadCities(string filter)
         {
             var cities = _cities;
             filter = filter.Trim().ToLower();

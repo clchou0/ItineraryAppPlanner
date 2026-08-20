@@ -11,7 +11,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             _editor = editor;
             InitializeComponent();
             var visibleTypes = Enum.GetValues<TransportType>()
-                .Where(t => t != TransportType.Car && t != TransportType.Cab);
+                .Where(t => t != TransportType.Car && t != TransportType.Cab && t != TransportType.Walk);
             TypeComboBox.DataSource = visibleTypes.ToList();
             TypeComboBox.Format += (s, e) =>
             {
@@ -22,7 +22,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
                     TransportType.Ferry => "Ferry",
                     TransportType.Metro => "Metro",
                     TransportType.Bus => "Bus",
-                    TransportType.LightRail => "Light Rail"
+                    TransportType.LightRail => "Light Rail",
+                    _ => ""
                 };
             };
             TypeComboBox.SelectedItem = access.Type;
