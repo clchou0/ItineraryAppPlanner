@@ -2,11 +2,15 @@ Github link: https://github.com/clchou0/ItineraryAppPlanner.git
 
 # Travel Itinerary Planner
 A travel planning application developed in C# and .NET.
+
 The application allows user to browse attractions, visualised map API, create and manage travel itineraries, and send the completed itinerary by email with generated PDF files.
 The admin user can add attractions and transports.
+
 ---
-This project was developed as part of the UTS subject 31927 Application Development with .NET.
+  This project was developed as part of the UTS subject 31927 Application Development with .NET.
+  
 ---
+
 ## Features
 ### User Authentication
 Users can:
