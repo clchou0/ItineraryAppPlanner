@@ -47,12 +47,14 @@
             CloseButton = new Button();
             flowLayoutPanel3 = new FlowLayoutPanel();
             panel5 = new Panel();
+            sliderMapControl1 = new ItineraryPlannerApp.Helpers.SliderMapControl();
             flowLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
             panel4.SuspendLayout();
+            panel3.SuspendLayout();
             HeaderPanel.SuspendLayout();
             flowLayoutPanel3.SuspendLayout();
             panel5.SuspendLayout();
@@ -169,6 +171,7 @@
             // 
             // panel3
             // 
+            panel3.Controls.Add(sliderMapControl1);
             panel3.Location = new Point(6, 12);
             panel3.Name = "panel3";
             panel3.Size = new Size(250, 250);
@@ -243,6 +246,16 @@
             panel5.Size = new Size(1083, 629);
             panel5.TabIndex = 0;
             // 
+            // sliderMapControl1
+            // 
+            sliderMapControl1.AutoSize = true;
+            sliderMapControl1.BackColor = Color.White;
+            sliderMapControl1.Dock = DockStyle.Fill;
+            sliderMapControl1.Location = new Point(0, 0);
+            sliderMapControl1.Name = "sliderMapControl1";
+            sliderMapControl1.Size = new Size(250, 250);
+            sliderMapControl1.TabIndex = 0;
+            // 
             // AttractionDetailsView
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -260,6 +273,8 @@
             panel2.PerformLayout();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             HeaderPanel.ResumeLayout(false);
             flowLayoutPanel3.ResumeLayout(false);
             panel5.ResumeLayout(false);
@@ -286,5 +301,6 @@
         private Label AreaLabel;
         private TableLayoutPanel tableLayoutPanel1;
         private Button AddToItineraryButton;
+        private Helpers.SliderMapControl sliderMapControl1;
     }
 }

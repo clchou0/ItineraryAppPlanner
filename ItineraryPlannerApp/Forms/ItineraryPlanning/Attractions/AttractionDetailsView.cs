@@ -38,6 +38,9 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
             }
             pictureBox1.Image = ImageHelper.LoadImage(attraction.ImagePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
+            sliderMapControl1.Initialize(MapMode.AttractionView, Attraction.Location);
+            sliderMapControl1.LoadAttractionPins(new List<Attraction> { Attraction }, false);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
