@@ -13,10 +13,10 @@ namespace ItineraryPlannerApp.Models.Itinerary
         public double TotalEntryPrice { get; set; } = 0;
         public ItineraryStatus Status { get; set; } = ItineraryStatus.Draft;
 
-        public City City {  get; set; }
+        public City City { get; set; } = new City();
         public int CityId {  get; set; }
 
-        public User User;
+        public User User = new User();
         public int UserId { get; set; }
     }
 }

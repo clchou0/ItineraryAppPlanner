@@ -56,7 +56,7 @@ namespace ItineraryPlannerApp.Helpers
                 Map.Navigator.OverrideZoomBounds = new MMinMax(Map.Navigator.Resolutions[14], Map.Navigator.Resolutions[14]);
                 Map.Navigator.CenterOnAndZoomTo(
                     centerPoint,
-                    Map.Navigator.Resolutions[15]
+                    Map.Navigator.Resolutions[14]
                 );
                 // Not allowed to move
                 Map.Navigator.OverridePanBounds = new MRect(centerPoint.X - 0.01, centerPoint.Y - 0.01, centerPoint.X + 0.01, centerPoint.Y + 0.01);

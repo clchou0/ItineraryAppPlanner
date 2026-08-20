@@ -7,6 +7,7 @@ using ItineraryPlannerApp;
 using Planner.WPF;
 using ItineraryPlannerApp.Forms.ItineraryForm;
 using ItineraryPlannerApp.Forms.ItineraryPlanning;
+using OpenTK.Graphics.OpenGL;
 
 namespace ItineraryPlannerApp.Forms
 {
@@ -42,10 +43,14 @@ namespace ItineraryPlannerApp.Forms
             _launcher = new ItineraryPlannerLauncher(mainForm.Service, mainForm.EmailService, mainForm.PdfService);
 
             welcomeLabel.Text = $"Welcome, {user.DisplayName}";
+
+            _cityShowcase = new CityShowcase(this, _mainForm.Service, _user.Role == UserRole.Admin);
+            panel1.Controls.Clear(); // clear out anything previously shown
+            panel1.Controls.Add(_cityShowcase);
         }
 
         // default load: 
-        private void HomeFormLoad(object sender, EventArgs e)
+        private void HomeFormLoad(object? sender, EventArgs e)
         {
             _cityShowcase = new CityShowcase(this, _mainForm.Service, _user.Role == UserRole.Admin);
             panel1.Controls.Clear(); // clear out anything previously shown
@@ -62,12 +67,12 @@ namespace ItineraryPlannerApp.Forms
             contextMenuStrip1.Show(MenuButton, new Point(0, MenuButton.Height));
         }
 
-        private void buildItineraryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void buildItineraryToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             _launcher.SpawnItineraryPlanner(_user);
         }
 
-        private void myItinerariesToolStripMenuItem_Click(Object sender, EventArgs e)
+        private void myItinerariesToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             _launcher.SpawnMyItineraries(_user);
         }

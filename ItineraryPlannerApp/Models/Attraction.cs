@@ -17,9 +17,11 @@ namespace ItineraryPlannerApp.Models
         public AttractionCategory Category { get; set; } = AttractionCategory.ThemePark;
         public List<TransitAccess> CloseStations { get; set; } = new List<TransitAccess>();
 
-        public City City { get; set; }
+        public City City { get; set; } = new City();
         public int CityId { get; set; }
 
+        public Attraction() { }
+        public Attraction(City city) { City = city; }
         public string TransportMethods
         {
             get

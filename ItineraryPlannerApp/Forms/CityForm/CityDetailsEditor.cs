@@ -8,10 +8,10 @@ namespace ItineraryPlannerApp.Forms.CityForm
     {
         private readonly ItineraryPlannerService _service;
         private readonly HomeForm _homeForm;
-        private City? City;
+        private City City = new City();
         private bool isEdit; 
 
-        public CityDetailsEditor(ItineraryPlannerService service, HomeForm homeForm, City? city)
+        public CityDetailsEditor(ItineraryPlannerService service, HomeForm homeForm, City city)
         {
             _service = service;
             _homeForm = homeForm;
@@ -26,7 +26,6 @@ namespace ItineraryPlannerApp.Forms.CityForm
                 CountryBox.Text = City.Country;
                 // imgPath = City.ImagePath;
             }
-            else City = new City();
             if (City.Slider is null) City.Slider = new MapSlider();
         }
 

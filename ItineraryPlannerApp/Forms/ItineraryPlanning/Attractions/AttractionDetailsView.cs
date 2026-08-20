@@ -6,14 +6,13 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 {
     public partial class AttractionDetailsView : UserControl
     {
-        private readonly ItineraryPlannerService _service;
         private readonly UserToggleComponent _owner;
         public Attraction Attraction;
         public AttractionDetailsView(UserToggleComponent owner, Attraction attraction)
         {
             _owner = owner;
             Attraction = attraction;
-            _owner.FindForm().Controls.Add(this);
+            _owner.FindForm()!.Controls.Add(this);
             this.BringToFront();
 
             InitializeComponent();
@@ -26,7 +25,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            const int rowHeight = 4;
+            
             const int col1X = 0, col2X = 30, col3X = 100; // hand-tuned column starts
             int y = 0;
 
@@ -45,7 +44,7 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-           _owner.FindForm().Controls.Remove(this);
+           _owner.FindForm()!.Controls.Remove(this);
         }
     }
 }

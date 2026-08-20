@@ -22,7 +22,8 @@ namespace ItineraryPlannerApp.Forms.ItineraryPlanning.Attractions
                     TransportType.Ferry => "Ferry",
                     TransportType.Metro => "Metro",
                     TransportType.Bus => "Bus",
-                    TransportType.LightRail => "Light Rail"
+                    TransportType.LightRail => "Light Rail",
+                    _ => ""
                 };
             };
             TypeComboBox.SelectedItem = access.Type;
